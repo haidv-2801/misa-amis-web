@@ -1,0 +1,257 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* sidebar root*/
+:root {
+  /* màu */
+  --color-sidebar-text: #fff;
+  --color-sidebar-background: #393a3d;
+  --color-sidebar-border-left: #393a3d;
+  --color-sidebar-item-hover: #616164;
+  /* cỡ */
+  --size-sidebar-font: 13px;
+  --size-sidebar-width: 178px;
+  --size-sidebar-width-collappsed: 52px;
+}
+
+/* size */
+:root {
+  --color-great: #2ca01c;
+  --color-main-background: #f4f5f8;
+
+  --size-font-heading: 24px;
+  --size-font-title: 20px;
+  --size-font-title2: 15px;
+  --size-font-common: 13px;
+  --size-font-heading: 24px;
+  --size-font-hint: 11px;
+  --size-gutter: 24px;
+  --size-column: 84px;
+  --size-header: 48px;
+
+  --z-index-low: 0;
+  --z-index-mid: 1000;
+  --z-index-high: 2000;
+  --z-index-veryhight: 3001;
+}
+
+/* Font của website */
+@font-face {
+  font-family: "NotosanRegular";
+  src: url(../../font/notosans-regular.2cb88a13.woff2);
+}
+
+@font-face {
+  font-family: "NotosanBold";
+  src: url(../../font/notosans-bold.3ede5aff.woff2);
+}
+
+@font-face {
+  font-family: "NotosanItalic";
+  src: url(../../font/notosans-italic.1c1aaac9.woff2);
+}
+
+@font-face {
+  font-family: "NotosanSemibold";
+  src: url(../../font/notosans-semibold.df3e6dc4.woff2);
+}
+
+.mid-z-index {
+  --z-index-mid: 3001 !important;
+}
+
+/* color */
+:root {
+  --color-common: #111;
+  --color-label-bodycontent: #454545;
+  --color-hint: #bbbbbb;
+}
+
+/* variables-text */
+
+#overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  z-index: var(--z-index-mid);
+}
+
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.dropdown__row--selected {
+  background-color: var(--color-great) !important;
+  color: white !important;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.notValidControl {
+  border: 1px solid red !important;
+}
+
+/* loader css */
+#loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 19999;
+  text-align: center;
+}
+
+#loading-image {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 200000;
+}
+
+.hide {
+  display: none;
+}
+
+/* style thanh scroll */
+/* ::-webkit-scrollbar {
+  width: 5px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bbbbbb;
+  border-radius: 10px;
+} */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b8bcc3;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* font size,style */
+body,
+html {
+  color: #111;
+  font-size: 13px;
+  font-weight: 400;
+  font-family: NotosanRegular, Open Sans local;
+}
+
+/* page css
+/* input */
+/* search  */
+.focus {
+  outline-color: var(--color-great);
+}
+
+/* button */
+button.btn {
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-green {
+  background-color: var(--color-great);
+  color: #fff;
+}
+
+.btn-green:hover {
+  background-color: rgb(50, 182, 32);
+}
+
+.btn-green:active {
+  background-color: rgb(41, 151, 25);
+}
+
+/* transition */
+/* slide */
+.slide-leave-active,
+.slide-enter-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+/* dxdatebox */
+.dx-state-focused {
+  border: 1px solid var(--color-great) !important;
+}
+
+.dx-calendar-selected-date {
+  background-color: var(--color-great) !important;
+}
+
+.dx-calendar-navigator
+  .dx-calendar-caption-button.dx-button
+  .dx-button-content {
+  color: var(--color-great) !important;
+}
+
+.dx-calendar-cell.dx-calendar-selected-date.dx-calendar-contoured-date,
+.dx-calendar-cell.dx-calendar-selected-date.dx-calendar-today.dx-calendar-contoured-date {
+  -webkit-box-shadow: inset 0 0 0 1px #bebebe,
+    inset 0 0 0 1000px var(--color-great) !important;
+  box-shadow: inset 0 0 0 1px #bebebe, inset 0 0 0 1000px var(--color-great) !important;
+}
+
+.dx-button .dx-icon {
+  color: var(--color-great) !important;
+}
+
+.resizable-component {
+  display: block;
+  width: 500px;
+  height: 500px;
+  background-color: red;
+}
