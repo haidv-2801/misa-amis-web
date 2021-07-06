@@ -1,137 +1,14 @@
 <template>
   <div id="pagination" class="main__pagination">
     <div class="pagi__left">
-      Hiển thị
-      <b>{{ fromNumber }}-{{ toNumber }}/{{ pagination.totalRecord }}</b> nhân
-      viên
-    </div>
-    <div class="pagi__mid">
-      <div 
-      :class="{'disable': pagination.pageNumber == 1}"
-      @click="firstPage()" 
-      class="btn-page-control">
-        <svg
-          tabindex="13"
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-chevrons-left"
-        >
-          <title>Trang đầu</title>
-          <polyline points="11 17 6 12 11 7"></polyline>
-          <polyline points="18 17 13 12 18 7"></polyline>
-        </svg>
-      </div>
-      <div 
-      @click="prePage()" 
-      :class="{'disable':  pagination.pageNumber == 1}"
-      class="btn-page-control">
-        <svg
-          tabindex="14"
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-chevron-left"
-        >
-          <title>Trang trước</title>
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </div>
-      <button
-        v-for="(item, index) in listPages"
-        :key="index"
-        :class="{ active: pagination.pageNumber == item }"
-        tabindex="15"
-        class="btn btn-number"
-        @click="btnClick(item)"
-      >
-        <span>{{ item }}</span>
-      </button>
-      <div 
-      :class="{'disable':  pagination.pageNumber == pagination.totalPage}"
-      @click="nextPage()" class="btn-page-control">
-        <svg
-          tabindex="19"
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-chevron-right"
-        >
-          <title>Trang sau</title>
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </div>
-      <div 
-      :class="{'disable': pagination.pageNumber == pagination.totalPage}"
-      @click="lastPage()" class="btn-page-control">
-        <svg
-          tabindex="20"
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-chevrons-right"
-        >
-          <title>Trang cuối</title>
-          <polyline points="13 17 18 12 13 7"></polyline>
-          <polyline points="6 17 11 12 6 7"></polyline>
-        </svg>
-      </div>
+      <span class="total-page">
+        Tổng số: <b>1043</b> bản ghi
+      </span>
     </div>
     <div class="pagi__right">
-      <span>
-        <b>{{ pagination.pageSize }}</b> nhân viên/trang
-      </span>
-      <div class="test">
-        <svg
-          width="12"
-          height="12"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-          class="icon__pagenumber"
-          @click="increPagesize()"
-        >
-          <title>Tăng số trang</title>
-          <path
-            d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"
-          />
-        </svg>
-        <svg
-          width="12"
-          height="12"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-          class="icon__pagenumber"
-          @click="descPagesize()"
-        >
-          <title>Giảm số trang</title>
-          <path
-            d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-          />
-        </svg>
+      <div class="page-size"></div>
+      <div class="page-number">
+        Trước 1 2 3 ... 11 Sau
       </div>
     </div>
   </div>
@@ -303,116 +180,29 @@ export default {
 </script>
 
 <style scoped>
-.disable {
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-.test {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.test svg:hover {
-  opacity: 0.7;
-  background-size: #838383;
-}
-/* pagination css */
 .main__pagination {
-  align-items: center;
+  padding-right: 75px;
+  height: 46px;
   display: flex;
-  height: 56px;
+  align-items: center;
   justify-content: space-between;
 }
 
 .pagi__left {
-  flex: 2;
 }
 
-.pagi__mid {
-  align-items: center;
-  display: flex;
-  text-align: center;
-  flex: 1;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.pagi__mid svg {
-  outline: none;
-}
-
-.pagi__mid button {
-  border: 1px solid var(--color-hint);
-  background: white;
-  cursor: pointer;
-  outline: none;
-  text-align: center;
-  margin: 0 5px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50% !important;
-  color: #000000;
-}
-
-.pagi__mid button:focus-visible {
-  background-color: #019160;
-  color: white;
-}
-
-.pagi__mid button:hover {
-  background-color: #e9ebee;
-}
-
-/* các button pre, next, first, last 
-        trong phân trang
-    */
-.btn-page-control:first-child {
-  margin-right: 20px;
-}
-
-.btn-page-control:nth-child(2) {
-  margin-right: 15px;
-}
-
-.btn-page-control:nth-of-type(3) {
-  margin-left: 15px;
-}
-
-.btn-page-control:nth-of-type(4) {
-  margin-left: 20px;
+.total-page {
 }
 
 .pagi__right {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  text-align: right;
-  flex: 2;
-}
-.pagi__right span {
-  margin-right: 10px;
+  justify-content: space-between;
 }
 
-.pagi__right .icon__pagenumber {
-  cursor: pointer;
-  margin: 0 16px 0px 10px;
+.page-size {
 }
 
-.btn-page-control {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  justify-content: center;
-}
-
-.btn-page-control:hover {
-  background-color: #e9ebee;
+.page-number {
 }
 </style>

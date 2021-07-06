@@ -3,6 +3,11 @@
   box-sizing: border-box;
 }
 
+/* header root */
+:root {
+  --size-header-height: 48px;
+}
+
 /* sidebar root*/
 :root {
   /* màu */
@@ -35,6 +40,28 @@
   --z-index-mid: 1000;
   --z-index-high: 2000;
   --z-index-veryhight: 3001;
+}
+
+/* header */
+.region__icon--toggle {
+  background: url("../../img/Sprites.64af8f61.svg") no-repeat;
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.icon-toggle {
+  background-position: -843px -30px;
+}
+
+.icon-toggle-white {
+  background: url("../../img/Sprites.64af8f61.svg") no-repeat;
+  background-position: -312px -32px;
+}
+
+.icon-toggle-active {
+  background-position: -316px -37px;
 }
 
 /* Font của website */
@@ -140,7 +167,7 @@
 }
 
 /* style thanh scroll */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 5px;
   height: 7px;
 }
@@ -148,9 +175,9 @@
 ::-webkit-scrollbar-thumb {
   background-color: #bbbbbb;
   border-radius: 10px;
-} */
+}
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
@@ -161,7 +188,7 @@
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-}
+} */
 
 /* font size,style */
 body,

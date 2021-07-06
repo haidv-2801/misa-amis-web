@@ -1,13 +1,18 @@
 <template>
   <div class="sidebar" :class="{ sidebar_state: isCollapsed }">
+    <!-- toggle logo -->
+    <div
+      @click="changeSidebarState()"
+      v-show="isCollapsed"
+      class="nav__icon--toggle"
+    >
+      <div class="icon icon-toggle-white"></div>
+    </div>
+
     <!--app logo -->
-    <div class="sidebar__logo">
+    <div v-show="!isCollapsed" class="sidebar__logo">
       <!-- logo -->
-      <div
-        title="Thu/Phóng"
-        class="nav__toggle nav__toggle--icon"
-        @click="changeSidebarState()"
-      >
+      <div title="Thu/Phóng" class="nav__toggle nav__iconapp">
         <!-- background here -->
       </div>
       <div class="nav__logo">
@@ -21,23 +26,24 @@
         v-for="(item, index) in data"
         :key="index"
         :class="{
-          'sidebar__row--hover': curHoverItem == index && curSelectedItem != index,
-          'sidebar__row--active': curSelectedItem == index
+          'sidebar__row--hover':
+            curHoverItem == index && curSelectedItem != index,
+          'sidebar__row--active': curSelectedItem == index,
         }"
         @click="evtRowClick(index, $event)"
         @mouseover="evtMouseOver(index)"
         @mouseout="evtMouseOut()"
       >
-        <router-link
-          class="nav__item"
-          :title="item.text"
-          :to="item.link"
-        >
+        <router-link class="nav__item" :title="item.text" :to="item.link">
           <div class="item__icon">
-            <div v-if="curSelectedItem == index" class="icon" :class="item.icon+'-active'"></div>
+            <div
+              v-if="curSelectedItem == index"
+              class="icon"
+              :class="item.icon + '-active'"
+            ></div>
             <div v-else class="icon" :class="item.icon"></div>
           </div>
-          <div>{{ item.text }}</div>
+          <div v-show="!isCollapsed">{{ item.text }}</div>
         </router-link>
       </div>
     </div>
@@ -50,7 +56,6 @@ export default {
   components: {},
   data() {
     return {
-      isCollapsed: false,
       curHoverItem: -1,
       curSelectedItem: -1,
     };
@@ -70,7 +75,7 @@ export default {
      * DVHAI 05/07/2021
      */
     changeSidebarState() {
-      this.isCollapsed = !this.isCollapsed;
+      this.$store.commit("TOGGLE_SIDEBAR");
     },
 
     /**
@@ -99,10 +104,14 @@ export default {
       this.curHoverItem = index;
     },
   },
-  computed: {},
+  computed: {
+    isCollapsed() {
+      return this.$store.state.expandedSidebar;
+    },
+  },
   watch: {
     //tracking router and select
-    $route(to, from) {
+    $route(to) {
       let index = this.data.map((x) => x.link).indexOf(to.path);
       this.curSelectedItem = index;
     },

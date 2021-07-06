@@ -1,6 +1,6 @@
 //import
 import Vue from 'vue'
-import Store from './store'
+import store from './store'
 import Bus from '../EventBus.js'
 import App from './App.vue'
 import axios from 'axios'
@@ -42,7 +42,7 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  Store,
+  store,
   render: h => h(App),
 })
 .$mount('#app')

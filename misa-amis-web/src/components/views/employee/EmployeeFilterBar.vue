@@ -51,12 +51,9 @@
 </template>
 
 <script>
-import DropdownMaster from "../../common/vCombobox/DropdownMaster.vue";
-
 export default {
   name: "FilterBar",
   components: {
-    DropdownMaster,
   },
   data() {
     return {
