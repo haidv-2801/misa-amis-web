@@ -189,9 +189,11 @@ export default {
 }
 
 .pagi__left {
+  display: block;
 }
 
 .total-page {
+display: block;
 }
 
 .pagi__right {
@@ -201,8 +203,10 @@ export default {
 }
 
 .page-size {
+display: block;
 }
 
 .page-number {
+display: block;
 }
 </style>

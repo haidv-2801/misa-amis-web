@@ -26,7 +26,10 @@
             </td>
 
             <!-- Cột chức năng -->
-            <td class="utility align-center" style="z-index: 1;">
+            <td
+              :style="{ 'z-index': data.data.length + 1 }"
+              class="utility align-center"
+            >
               Chức năng
             </td>
           </tr>
@@ -83,6 +86,11 @@
 
             <!-- Chức năng -->
             <td
+              :style="{
+                'z-index': utilityFlow
+                  ? data.data.length + index
+                  : data.data.length - index,
+              }"
               :class="{
                 active: multiSelectList.includes(index),
                 hover: itemHover == index,
@@ -93,15 +101,26 @@
                 <span>Sửa</span>
               </div>
               <div class="u-option-wrap">
-                <div class="utility-icon">
+                <div
+                  :class="{ 'utility-icon-active': selectedOption == index }"
+                  @click="selectOption(index, $event)"
+                  class="utility-icon"
+                >
                   <div class="icon icon-16 icon-arrowdown-blue"></div>
                 </div>
                 <!-- utility options -->
-                <div class="u-options">
-                  <div class="u-option-item">Nhân bản</div>
-                  <div class="u-option-item">Xóa</div>
-                  <div class="u-option-item">Ngừng sử dụng</div>
-                </div>
+                <transition name="slide-fade">
+                  <div
+                    tabindex="0"
+                    v-if="selectedOption == index"
+                    class="u-options"
+                    :style="[utilityFlow ? { top: uOptionsHeight } : {}]"
+                  >
+                    <div class="u-option-item">Nhân bản</div>
+                    <div class="u-option-item">Xóa</div>
+                    <div class="u-option-item">Ngừng sử dụng</div>
+                  </div>
+                </transition>
               </div>
             </td>
           </tr>
@@ -153,12 +172,60 @@ export default {
 
       //Vị trí index được hover
       itemHover: -1,
+
+      //Lưu vị trí của dropdown chức năng của từng dòng
+      selectedOption: -1,
+
+      //Đánh dấu xem dropdown có tràn không
+      utilityFlow: false,
+
+      //Chiều cao của dropdown
+      uOptionsHeight: "20px",
     };
   },
   created() {
     this.data = this.gridData;
   },
   methods: {
+    /**
+     * Lưu vị trí dòng của chức năng được chọn dùng để show dropdown chức năng
+     * DVHAI 06/07/2021
+     */
+    selectOption(index, event) {
+      if (this.selectedOption == index) {
+        this.selectedOption = -1;
+      } else {
+        this.selectedOption = index;
+        this.utilityFlow = false;
+        this.handleOverlowUtility(event);
+      }
+    },
+
+    /**
+     * Sử lí tràn dropdown chức năng, nếu tràn thì dropup
+     * DVHAI 05/07/2021
+     */
+    handleOverlowUtility(event) {
+      // điểm check tràn
+      var bottomCheckPoint = document
+        .getElementById("pagination")
+        .getBoundingClientRect().top;
+
+      var parent = event.target.closest(".u-option-wrap");
+      setTimeout(() => {
+        var childrenBounding = parent
+            .querySelector(".u-options")
+            .getBoundingClientRect(),
+          childHeight = childrenBounding.height,
+          childTop = childrenBounding.top,
+          bottom = childTop + childHeight;
+        if (bottom >= bottomCheckPoint) {
+          this.uOptionsHeight = -(childHeight + 7) + "px";
+          this.utilityFlow = true;
+        } 
+      }, 0.2);
+    },
+
     /**
      * Thực hiện chọn dòng trong bảng
      * DVHAI 05/07/2021
@@ -300,7 +367,6 @@ export default {
 
 table tbody td {
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
   max-width: 250px;
   height: 47px;
@@ -312,6 +378,7 @@ table tbody td {
 table tbody td:not(td.tickbox-40, td.utility) {
   cursor: default;
   min-width: 125px;
+  overflow: hidden;
 }
 
 table tbody td:last-child:not(td.utility) {
@@ -324,10 +391,6 @@ table {
   width: 100%;
   border-spacing: 0;
   /* border-collapse: collapse; */
-}
-
-table tr {
-  /* border-bottom: 1px solid #c7c7c7; */
 }
 
 table tbody tr {
@@ -382,7 +445,11 @@ th.utility {
   justify-content: center;
 }
 
-.utility-text span:active {
+.utility-text:active span {
+  border: 1px solid rgb(0, 117, 192);
+}
+
+.utility-icon-active {
   border: 1px solid rgb(0, 117, 192);
 }
 
@@ -403,7 +470,7 @@ tbody td.utility {
   align-items: center;
 }
 
-.utility:not(thead td) {
+.utility:not(thead td) .utility-text {
   color: rgb(0, 117, 192);
   font-family: NotosanSemibold;
   font-weight: 600;
@@ -418,41 +485,12 @@ tbody td.utility {
   background-position: -1224px -361px;
 }
 
-.icon-18 {
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  min-height: 18px;
-}
-
-.icon-16 {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  min-height: 16px;
-}
-
 .icon-arrowdown-blue {
-  background-position: -896px -359px;
-}
-
-.tickbox-40 {
-  position: sticky;
-  position: -webkit-sticky;
-  left: 0;
-  width: 40px;
-  z-index: 0;
+  background-position: -896px -360px;
 }
 
 .tickbox-background {
   background-color: #fff;
-}
-
-.tick-box {
-  background-color: #fff;
-  cursor: pointer;
-  border-radius: 2px;
-  border: 1px solid rgb(175, 175, 175);
 }
 
 /* utility */
@@ -462,24 +500,29 @@ tbody td.utility {
 }
 
 .u-options {
+  background-color: #fff;
   position: absolute;
   padding: 2px 1px;
   border-radius: 2px;
   border: 1px solid #babec5;
-  width: 104px;
-  left: -64px;
-  top: 20px;
-  /* display: none; */
+  max-width: 120px;
+  left: -80px;
+  top: var(--size-top);
+  /* top: 20px; */
 }
 
 .u-option-item {
+  text-overflow: ellipsis;
   padding: 5px 10px;
   white-space: nowrap;
   transition: all 0.2s ease;
-  z-index: 1000;
   text-align: left;
   width: 100%;
-  min-width: 100px;
   font-weight: 400 !important;
+}
+
+.u-option-item:hover {
+  background-color: #e8e9ec;
+  color: #08bf1e;
 }
 </style>

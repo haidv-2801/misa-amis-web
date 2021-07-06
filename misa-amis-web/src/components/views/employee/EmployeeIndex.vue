@@ -51,11 +51,9 @@ import EmployeeDetail from "./EmployeeDetail.vue";
 import EmployeeToolBar from "./EmployeeToolBar.vue";
 import EmployeeFilterBar from "./EmployeeFilterBar.vue";
 import Grid from "../../common/Grid.vue";
-import Paging from "../../common/Paging.vue";
 import DialogConfirmDel from "../../common/vdialog/DialogConfirmDel.vue";
 import DialogConfirmStopTyping from "../../common/vdialog/DialogConfirmStopTyping.vue";
 import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
-import VueResizable from "vue-resizable";
 import employee from "../../../store/employeeData";
 
 export default {
@@ -65,10 +63,8 @@ export default {
     EmployeeToolBar,
     EmployeeFilterBar,
     Grid,
-    Paging,
     DialogConfirmDel,
     DialogConfirmStopTyping,
-    VueResizable,
   },
   data() {
     return {
@@ -313,6 +309,7 @@ export default {
 
         await EmployeeAPI.delete(id)
           .then((response) => {
+            console.log(response)
             this.$bus.emit("openToast", {
               type: "toast--success",
               text: "Xóa thành công Nhân Viên",
@@ -343,5 +340,6 @@ export default {
 </script>
 
 <style scoped>
+
 @import url("../../../assets/css/common/main.css");
 </style>

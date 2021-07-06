@@ -14,8 +14,7 @@
       :placeholder="'dd/MM/yyyy'"
       :useMaskBehavior="true"
       :min="'01/01/1900'"
-      :height="40"
-      :showClearButton="true"
+      :height="32"
       :onFocusIn="focus"
       :onFocusOut="blur"
       v-model="cloneModel"
@@ -37,10 +36,10 @@
       @focus="focus"
       @blur="blur"
       v-model="cloneModel"
-      v-money="money"
       v-mask="data.mask"
       :masked="false"
     />
+
     <!-- no money mask -->
     <input
       v-else
@@ -122,7 +121,7 @@ export default {
   methods: {
     /**
      * Raise error when hover
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     raiseErrorMsg() {
       if(!this.validation.isValid) {
@@ -132,7 +131,7 @@ export default {
 
      /**
      * Hide error when lost hover
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     hideErrorMsg() {
       this.tooltipScale = 0;
@@ -140,7 +139,7 @@ export default {
 
     /**
      * Chang unique state refered by parent component
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     changeUniqueState(isUnique) {
       this.isUniqueValue = isUnique;
@@ -148,7 +147,7 @@ export default {
 
     /**
      * Focus input
-     * DVHAI 14/06/2021
+    * DVHAI 06/07/2021
      */
     focus() {
       this.tooltipScale = 0;
@@ -159,7 +158,7 @@ export default {
 
     /**
      * Blur input
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     blur() {
       //validate custom
@@ -172,7 +171,7 @@ export default {
 
     /**
      * Validate unique
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     validateUnique(key, value) {
       this.$emit("checkUnique", key, value);
@@ -180,7 +179,7 @@ export default {
 
     /**
      * Validate custom
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     validate() {
       for (const x of this.data.validation) {
@@ -205,7 +204,7 @@ export default {
 
     /**
      * Set validate error
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     setValidateError(isValid, errorMsg) {
       this.validation.isValid = isValid;
@@ -217,7 +216,7 @@ export default {
   watch: {
     /**
      * Change model value outside
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     cloneModel() {
       //if is money convert to number format
@@ -232,7 +231,7 @@ export default {
 
     /**
      * Clone new data
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     model() {
       this.cloneModel = JSON.parse(JSON.stringify(this.model));
@@ -240,7 +239,7 @@ export default {
 
     /**
      * Tracking unique value, if false raise error
-     * DVHAI 14/06/2021
+     * DVHAI 06/07/2021
      */
     isUniqueValue: function(val) {
       let errMsg = "'" + this.data.labelText + " đã tồn tại" + "'";
@@ -255,27 +254,15 @@ export default {
 
 input {
   width: 100%;
-  border: 1px solid #bbbbbb;
-  border-radius: 5px;
-  color: #000000;
-  height: 40px;
-  padding-left: 16px;
-  padding-right: 16px;
+  border: 1px solid #babec5;
+  border-radius: 2px;
+  height: 32px;
+  padding: 6px 10px;
+  outline: none;
 }
 
 .color-red {
   color: red;
 }
 
-.row__item label {
-  margin-bottom: 4px;
-  font-family: GoogleMedium;
-  font-size: 13px;
-  display: block;
-}
-
-.row__item {
-  flex: 1;
-  margin-right: 10px;
-}
 </style>

@@ -1,213 +1,211 @@
 <template>
   <transition name="slide">
-    <VueResizable v-if="isOpen">
-    <div class="form__add ui-draggable">
-      <div class="form__head ui-draggable-handle">
+    <div v-if="isOpen" class="popup__form">
+      <div class="form__head">
         <div class="head__left">
-          <h2>THÔNG TIN NHÂN VIÊN</h2>
+          <div class="head__title">Thông tin nhân viên</div>
+          <div class="checkbox-option">
+            <div class="tick-box icon-18 icon-src"></div>
+            <span class="checkbox-text">Là khách hàng</span>
+          </div>
+          <div class="checkbox-option">
+            <div class="tick-box icon-18 icon-src"></div>
+            <span class="checkbox-text">Là nhà cung cấp</span>
+          </div>
         </div>
+
         <div class="head__right">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="currentColor"
-            class="bi bi-x"
-            viewBox="0 0 16 16"
-            @click="openDialogConfirmStoptyping()"
-          >
-            <path
-              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-            ></path>
-          </svg>
+          <div class="icon-src icon-24 icon-help mg-r-6-px"></div>
+          <div @click="closeForm()" class="icon-src icon-24 icon-close"></div>
         </div>
       </div>
-      <div class="form__main">
-        <div class="main__left">
-          <div class="img__field"></div>
-          <div class="img__required">
-            (Vui lòng chọn ảnh có định <br />
-            dạng <br />.jpg .jpeg .png .gif)
+      <div class="form__body">
+        <div class="body__top">
+          <div class="body__topleft">
+            <div class="body-row">
+              <InputLabel
+                class="mg-r-6-px"
+                MustValidate="true"
+                @changeValueInput="changeValueInput"
+                @checkUnique="checkUnique"
+                :model="employeeModel.EmployeeCode"
+                :data="employeeCodeInput"
+                :ref="employeeCodeInput.inputId"
+                :styleObject="{ width: '151px' }"
+              />
+
+              <InputLabel
+                MustValidate="true"
+                @changeValueInput="changeValueInput"
+                :model="employeeModel.FullName"
+                :data="employeeNameInput"
+                :styleObject="{ width: '236px' }"
+              />
+            </div>
+            <div class="body-row">
+              <div class="row__item">
+                <label for="">Giới tính</label>
+                <DropdownMaster
+                  @changeValueInput="changeValueInput"
+                  :data="dropdownGender"
+                  :model="employeeModel.Gender"
+                />
+              </div>
+            </div>
+
+            <div class="body-row">
+              <div class="row__item">
+                <InputLabel
+                  MustValidate="true"
+                  @changeValueInput="changeValueInput"
+                  :model="employeeModel.EmployeePosition"
+                  :data="employeePositionInput"
+                  :styleObject="{ width: '392px' }"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="body__topright">
+            <div class="body-row">
+              <InputLabel
+                MustValidate="true"
+                @changeValueInput="changeValueInput"
+                :model="employeeModel.DateOfBirth"
+                :data="dateOfBirthInput"
+              />
+            </div>
+
+            <div class="body-row">
+              <InputLabel
+                MustValidate="true"
+                @changeValueInput="changeValueInput"
+                :model="employeeModel.IdentityNumber"
+                :data="identityNumberInput"
+                :styleObject="{ width: '245px' }"
+              />
+            </div>
+
+            <div class="body-row">
+              <InputLabel
+                MustValidate="true"
+                @changeValueInput="changeValueInput"
+                :model="employeeModel.IdentityPlace"
+                :data="identityPlaceInput"
+                :styleObject="{ width: '418px' }"
+              />
+            </div>
           </div>
         </div>
-        <div ref="formGroup" class="main__right">
-          <div class="form__group">
-            <div class="form__title">
-              A. THÔNG TIN CHUNG
-            </div>
-            <div class="title__solid--blue"></div>
-            <div class="form__content">
-              <div class="form__row">
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  @checkUnique="checkUnique"
-                  :model="employeeModel.EmployeeCode"
-                  :data="employeeCodeInput"
-                  :ref="employeeCodeInput.inputId"
-                />
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.FullName"
-                  :data="employeeNameInput"
-                />
-              </div>
-              <div class="form__row">
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.DateOfBirth"
-                  :data="dateOfBirthInput"
-                />
-                <div class="row__item">
-                  <label for="">Giới tính</label>
-                  <div class="dropdown__gender dropdown__key left__item">
-                    <DropdownMaster
-                      @changeValueInput="changeValueInput"
-                      :data="dropdownGender"
-                      :model="employeeModel.Gender"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="form__row">
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  @checkUnique="checkUnique"
-                  :model="employeeModel.IdentityNumber"
-                  :data="identityNumberInput"
-                  :ref="identityNumberInput.inputId"
-                />
-                <InputLabel
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.IdentityDate"
-                  :data="identityDateInput"
-                />
-              </div>
-              <div class="form__row">
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.IdentityPlace"
-                  :data="identityPlaceInput"
-                />
-
-                <div class="row__item"></div>
-              </div>
-              <div class="form__row">
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.Email"
-                  :data="emailInput"
-                />
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.PhoneNumber"
-                  :data="phoneNumberInput"
-                />
-              </div>
-            </div>
+        <div class="body__bottom">
+          <div class="body-row">
+            <InputLabel
+              class="input-address"
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              @checkUnique="checkUnique"
+              :model="employeeModel.Address"
+              :data="addressInput"
+              :ref="addressInput.inputId"
+              :styleObject="{ width: '100%' }"
+            />
           </div>
-          <div class="form__group">
-            <div class="form__title">
-              B. THÔNG TIN CÔNG VIỆC
-            </div>
-            <div class="title__solid--blue"></div>
-            <div class="form__content">
-              <div class="form__row">
-                <div class="row__item">
-                  <label for="">Vịtrí</label>
-                  <DropdownMaster
-                    @changeValueInput="changeValueInput"
-                    :model="employeeModel.PositionName"
-                    :data="dropdownPosition"
-                  />
-                </div>
-                <div class="row__item">
-                  <label for="">Phòng ban</label>
-                  <DropdownMaster
-                    @changeValueInput="changeValueInput"
-                    :data="dropdownDepartment"
-                    :model="employeeModel.DepartmentName"
-                  />
-                </div>
-              </div>
-              <div class="form__row">
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.PersonalTaxCode"
-                  :data="taxCodeInput"
-                />
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.Salary"
-                  :data="salaryInput"
-                />
-              </div>
-              <div class="form__row">
-                <InputLabel
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.JoinDate"
-                  :data="joinDateInput"
-                />
-                <div class="row__item">
-                  <label for="">Tình trạng công việc</label>
-                  <DropdownMaster
-                    @changeValueInput="changeValueInput"
-                    :data="dropdownWorkStatus"
-                    :model="employeeModel.WorkStatus"
-                  />
-                </div>
-              </div>
-            </div>
+          <div class="body-row">
+            <InputLabel
+              class="mg-r-6-px"
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              @checkUnique="checkUnique"
+              :model="employeeModel.PhoneNumber"
+              :data="phoneNumberInput"
+              :ref="phoneNumberInput.inputId"
+              :styleObject="{ width: '197px' }"
+            />
+
+            <InputLabel
+              class="mg-r-6-px"
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              @checkUnique="checkUnique"
+              :model="employeeModel.TelephoneNumber"
+              :data="telephoneNumberInput"
+              :ref="telephoneNumberInput.inputId"
+              :styleObject="{ width: '197px' }"
+            />
+
+            <InputLabel
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              @checkUnique="checkUnique"
+              :model="employeeModel.Email"
+              :data="emailInput"
+              :ref="emailInput.inputId"
+              :styleObject="{ width: '197px' }"
+            />
+          </div>
+
+          <div class="body-row">
+            <InputLabel
+              class="mg-r-6-px"
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              @checkUnique="checkUnique"
+              :model="employeeModel.BankAccountNumber"
+              :data="bankAccountNumberInput"
+              :ref="bankAccountNumberInput.inputId"
+              :styleObject="{ width: '197px' }"
+            />
+
+            <InputLabel
+              class="mg-r-6-px"
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              @checkUnique="checkUnique"
+              :model="employeeModel.BankName"
+              :data="bankNameInput"
+              :ref="bankNameInput.inputId"
+              :styleObject="{ width: '197px' }"
+            />
+
+            <InputLabel
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              @checkUnique="checkUnique"
+              :model="employeeModel.BankBranchName"
+              :data="bankBranchNameInput"
+              :ref="bankBranchNameInput.inputId"
+              :styleObject="{ width: '197px' }"
+            />
           </div>
         </div>
       </div>
       <div class="form__bottom">
-        <button
-          class="btn-default btn-cancel"
-          @click="openDialogConfirmStoptyping()"
-        >
-          Hủy
-        </button>
-        <button @click="save()" class="btn-default btn-green">
-          <svg
-            width="16"
-            height="16"
-            aria-hidden="true"
-            focusable="false"
-            data-prefix="far"
-            data-icon="save"
-            class="btn-icon-left svg-inline--fa fa-save fa-w-14"
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
+        <div class="group__button--left">
+          <button
+            @click="closeForm()"
+            class="btn bgcolor-fff btn-cancel btn-size-default btn-border-default btn-h-36"
           >
-            <path
-              fill="currentColor"
-              d="M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM272 80v80H144V80h128zm122 352H54a6 6 0 0 1-6-6V86a6 6 0 0 1 6-6h42v104c0 13.255 10.745 24 24 24h176c13.255 0 24-10.745 24-24V83.882l78.243 78.243a6 6 0 0 1 1.757 4.243V426a6 6 0 0 1-6 6zM224 232c-48.523 0-88 39.477-88 88s39.477 88 88 88 88-39.477 88-88-39.477-88-88-88zm0 128c-22.056 0-40-17.944-40-40s17.944-40 40-40 40 17.944 40 40-17.944 40-40 40z"
-            ></path>
-          </svg>
-          <span>Lưu</span>
-        </button>
+            Hủy
+          </button>
+        </div>
+        <div class="group__button--rigth">
+          <button
+            class="btn bgcolor-fff btn-size-default btn-border-default btn-h-36 btn-save"
+          >
+            Cất
+          </button>
+          <button class="btn btn-save-add btn-h-36 btn-green">
+            Cất và thêm
+          </button>
+        </div>
       </div>
     </div>
-    </VueResizable>
   </transition>
-
 </template>
 
 <script>
 import InputLabel from "../../common/InputLabel.vue";
 import DropdownMaster from "../../common/vCombobox/DropdownMaster.vue";
 import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
-import VueResizable from 'vue-resizable'
 function initState() {
   return {
     isOpen: false,
@@ -237,22 +235,22 @@ function initState() {
 
     dropdownPosition: {
       data: {
-        inputId: "PositionName",
-        placeHolder: "Chọn/Nhập vị trí",
+        inputId: "EmployeePosition",
+        placeHolder: "",
         items: ["Giám đốc", "Fresher Web", "DepOops", "BA"],
         // dataType: "Enum",
         // enumName: "Gender",
       },
       style: {
-        width: "100%",
-        height: "40px",
+        width: "392px",
+        height: "32",
       },
     },
 
     dropdownWorkStatus: {
       data: {
         inputId: "WorkStatus",
-        placeHolder: "Chọn/Nhập tình trạng",
+        placeHolder: "",
         items: ["Đang làm việc", "Đang thử việc", "Đã nghỉ việc"],
         // dataType: "Enum",
         // enumName: "Gender",
@@ -266,21 +264,21 @@ function initState() {
     dropdownGender: {
       data: {
         inputId: "Gender",
-        placeHolder: "Chọn/Nhập giới tính",
+        placeHolder: "",
         items: ["Nữ", "Nam", "Khác"],
         dataType: "Enum",
         enumName: "Gender",
       },
       style: {
-        width: "100%",
-        height: "40px",
+        width: "392px",
+        height: "32px",
       },
     },
 
     //input
     employeeCodeInput: {
       inputId: "EmployeeCode",
-      labelText: "Mã nhân viên",
+      labelText: "Mã",
       isRequired: true,
       inputType: "text",
       validation: ["required", "minLength:3"],
@@ -289,11 +287,20 @@ function initState() {
     },
 
     employeeNameInput: {
-      inputId: "Fullname",
-      labelText: "Họ và tên",
+      inputId: "EmployeeName",
+      labelText: "Tên",
       isRequired: true,
       inputType: "text",
       validation: ["required"],
+      mask: "",
+    },
+
+    addressInput: {
+      inputId: "Address",
+      labelText: "Địa chỉ",
+      isRequired: false,
+      inputType: "text",
+      validation: [],
       mask: "",
     },
 
@@ -308,10 +315,10 @@ function initState() {
 
     identityNumberInput: {
       inputId: "IdentityNumber",
-      labelText: "Số CMTND/ Căn cước",
-      isRequired: true,
-      inputType: "number",
-      validation: ["required", "maxLength:12", "minLength:10"],
+      labelText: "Số CMND",
+      isRequired: false,
+      inputType: "text",
+      validation: [],
       mask: "",
     },
 
@@ -332,47 +339,66 @@ function initState() {
       mask: "",
     },
 
+    employeePositionInput: {
+      inputId: "EmployeePosition",
+      labelText: "Chức danh",
+      isRequired: false,
+      inputType: "text",
+      validation: [],
+      mask: "",
+    },
+
     emailInput: {
       inputId: "Email",
       labelText: "Email",
-      isRequired: true,
+      isRequired: false,
       inputType: "text",
-      validation: ["required", "email"],
+      validation: [],
       mask: "",
       dataType: "Email",
     },
 
     phoneNumberInput: {
       inputId: "PhoneNumber",
-      labelText: "Số điện thoại",
-      isRequired: true,
-      inputType: "text",
-      validation: ["required"],
-      mask: ['(###) ###-####'],
-    },
-
-    taxCodeInput: {
-      inputId: "PersonalTaxCode",
-      labelText: "Mã số thuế cá nhân",
+      labelText: "DT di động",
+      isRequired: false,
       inputType: "text",
       validation: [],
       mask: "",
     },
 
-    salaryInput: {
-      inputId: "Salary",
-      labelText: "Mức lương cơ bản",
+    telephoneNumberInput: {
+      inputId: "TelephoneNumber",
+      labelText: "DT cố định",
+      isRequired: false,
       inputType: "text",
       validation: [],
       mask: "",
-      dataType: "money",
     },
 
-    joinDateInput: {
-      inputId: "JoinDate",
-      labelText: "Ngày gia nhập công ty",
-      inputType: "date",
-      dataType: "Date",
+    bankAccountNumberInput: {
+      inputId: "BankAccountNumber",
+      labelText: "Tài khoản ngân hàng",
+      isRequired: false,
+      inputType: "text",
+      validation: [],
+      mask: "",
+    },
+
+    bankNameInput: {
+      inputId: "BankName",
+      labelText: "Tên ngân hàng",
+      isRequired: false,
+      inputType: "text",
+      validation: [],
+      mask: "",
+    },
+
+    bankBranchNameInput: {
+      inputId: "BankBranchName",
+      labelText: "Chi nhánh",
+      isRequired: false,
+      inputType: "text",
       validation: [],
       mask: "",
     },
@@ -388,7 +414,6 @@ export default {
   components: {
     InputLabel,
     DropdownMaster,
-    VueResizable
   },
   props: {},
   data() {
@@ -430,7 +455,6 @@ export default {
      */
     closeForm() {
       this.isOpen = false;
-
       this.invokeOverlay();
     },
 
@@ -526,6 +550,7 @@ export default {
         if (this.formMode == null) {
           EmployeeAPI.insert(this.employeeModel)
             .then((response) => {
+              console.log(response);
               this.refreshGrid();
               this.$bus.emit("openToast", {
                 type: "toast--success",
@@ -543,6 +568,7 @@ export default {
           //is formedit
           EmployeeAPI.update(this.employeeModel.EmployeeId, this.employeeModel)
             .then((response) => {
+              console.log(response);
               this.refreshGrid();
               this.$bus.emit("openToast", {
                 type: "toast--success",
@@ -607,6 +633,7 @@ export default {
           }
         })
         .catch((error) => {
+          console.log(error);
           isUnique = true;
         });
 
