@@ -188,7 +188,7 @@ export default {
 
 /* filter css */
 .main__filter {
-  padding: 16px 16px 10px 16px;
+  padding: 16px 21px 10px 16px;
   height: 72px;
   display: flex;
   justify-content: space-between;
@@ -207,7 +207,7 @@ export default {
 }
 
 .filter__right input {
-  border: 1px solid var(--color-hint);
+  border: 1px solid #babec5;
   outline: none;
   padding-left: 0.85em;
   padding-right: 2.75rem;

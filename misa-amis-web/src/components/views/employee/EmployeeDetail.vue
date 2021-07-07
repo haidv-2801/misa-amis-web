@@ -31,67 +31,88 @@
                 :model="employeeModel.EmployeeCode"
                 :data="employeeCodeInput"
                 :ref="employeeCodeInput.inputId"
-                :styleObject="{ width: '151px' }"
+                :styleObject="{ width: '155px' }"
               />
 
               <InputLabel
+                class="flex-1"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
                 :model="employeeModel.FullName"
                 :data="employeeNameInput"
-                :styleObject="{ width: '236px' }"
+                :styleObject="{}"
               />
             </div>
+
             <div class="body-row">
-              <div class="row__item">
-                <label for="">Giới tính</label>
+              <div class="row__item flex-1">
+                <label for="">Đơn vị <span class="color-red">*</span> </label>
                 <DropdownMaster
                   @changeValueInput="changeValueInput"
-                  :data="dropdownGender"
-                  :model="employeeModel.Gender"
+                  :data="dropdownDepartment"
+                  :model="employeeModel.DepartmentId"
                 />
               </div>
             </div>
 
             <div class="body-row">
-              <div class="row__item">
-                <InputLabel
-                  MustValidate="true"
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.EmployeePosition"
-                  :data="employeePositionInput"
-                  :styleObject="{ width: '392px' }"
-                />
-              </div>
+              <InputLabel
+                class="flex-1"
+                MustValidate="true"
+                @changeValueInput="changeValueInput"
+                :model="employeeModel.EmployeePosition"
+                :data="employeePositionInput"
+                :styleObject="{ width: '100%' }"
+              />
             </div>
           </div>
           <div class="body__topright">
             <div class="body-row">
               <InputLabel
+                class="mg-r-6-px"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
                 :model="employeeModel.DateOfBirth"
                 :data="dateOfBirthInput"
               />
+
+              <!-- Giới tính -->
+              <div class="row__item flex-1 padding-left-10">
+                <label for="">Giới tính</label>
+                <RadioButtonMaster
+                  MustValidate="true"
+                  @changeValueInput="changeValueInput"
+                  :model="employeeModel.Gender"
+                  :data="radioButtonGender"
+                />
+              </div>
+              <!-- end -->
             </div>
 
             <div class="body-row">
               <InputLabel
+                class="flex-1 mg-r-6-px"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
                 :model="employeeModel.IdentityNumber"
                 :data="identityNumberInput"
-                :styleObject="{ width: '245px' }"
+              />
+
+              <InputLabel
+                MustValidate="true"
+                @changeValueInput="changeValueInput"
+                :model="employeeModel.IdentityDate"
+                :data="identityDateInput"
               />
             </div>
 
             <div class="body-row">
               <InputLabel
+                class="flex-1"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
                 :model="employeeModel.IdentityPlace"
                 :data="identityPlaceInput"
-                :styleObject="{ width: '418px' }"
               />
             </div>
           </div>
@@ -99,7 +120,7 @@
         <div class="body__bottom">
           <div class="body-row">
             <InputLabel
-              class="input-address"
+              class="width-100pt"
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
@@ -177,6 +198,7 @@
             />
           </div>
         </div>
+        <div class="separate"></div>
       </div>
       <div class="form__bottom">
         <div class="group__button--left">
@@ -203,23 +225,20 @@
 </template>
 
 <script>
-import InputLabel from "../../common/InputLabel.vue";
-import DropdownMaster from "../../common/vCombobox/DropdownMaster.vue";
+import InputLabel from "../../common/vinput/InputLabel.vue";
+import DropdownMaster from "../../common/vcombobox/DropdownMaster.vue";
 import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
+import RadioButtonMaster from "../../common/vradiobutton/RadioButtonMaster.vue";
 function initState() {
   return {
+    //trạng thái của form
     isOpen: false,
-
-    styleDropdown: {
-      width: "100%",
-      height: "36px !important",
-    },
 
     // data form
     dropdownDepartment: {
       data: {
-        inputId: "DepartmentName",
-        placeHolder: "Chọn/Nhập phòng ban",
+        inputId: "DepartmentId",
+        placeHolder: "",
         items: [
           "Phòng nhân sự",
           "Phòng kế toán",
@@ -229,7 +248,7 @@ function initState() {
       },
       style: {
         width: "100%",
-        height: "40px",
+        height: "32px",
       },
     },
 
@@ -242,7 +261,7 @@ function initState() {
         // enumName: "Gender",
       },
       style: {
-        width: "392px",
+        width: "100%",
         height: "32",
       },
     },
@@ -261,7 +280,7 @@ function initState() {
       },
     },
 
-    dropdownGender: {
+    radioButtonGender: {
       data: {
         inputId: "Gender",
         placeHolder: "",
@@ -270,7 +289,7 @@ function initState() {
         enumName: "Gender",
       },
       style: {
-        width: "392px",
+        width: "100%",
         height: "32px",
       },
     },
@@ -309,7 +328,7 @@ function initState() {
       labelText: "Ngày sinh",
       inputType: "date",
       dataType: "Date",
-      validation: ["required"],
+      validation: [],
       mask: "",
     },
 
@@ -414,6 +433,7 @@ export default {
   components: {
     InputLabel,
     DropdownMaster,
+    RadioButtonMaster,
   },
   props: {},
   data() {
@@ -472,13 +492,12 @@ export default {
      */
     async openForm(item) {
       this.resetWindow();
-
       //form mode: null ? add : edit
       if (item != null) {
         this.bindDataForm(item);
         this.formMode = item.EmployeeId;
       } else {
-        this.employeeModel.EmployeeCode = await this.getNewEmployeeCode();
+        // this.employeeModel.EmployeeCode = await this.getNewEmployeeCode();
       }
 
       this.invokeOverlay();
@@ -644,5 +663,11 @@ export default {
 </script>
 
 <style scoped>
+.separate {
+  bottom: -15px;
+  position: relative;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+}
 @import url("../../../assets/css/views/employee/EmployeeDetail.css");
 </style>

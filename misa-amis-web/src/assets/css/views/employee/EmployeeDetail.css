@@ -1,10 +1,10 @@
 .popup__form {
   display: flex;
   flex-direction: column;
-  width: 900px;
+  width: fit-content;
   height: 615px;
   background-color: #fff;
-
+  width: 900px;
   bottom: 0;
   top: 0;
   left: 0;
@@ -71,11 +71,13 @@
 }
 
 .body__topleft {
+  padding-right:13px;
   flex: 1;
   height: 100%;
 }
 
 .body__topright {
+  padding-left:13px;
   flex: 1;
   height: 100%;
 }
@@ -137,7 +139,10 @@
   width: fit-content;
 }
 
-
-.input-address {
+.width-100pt {
   width: 100%;
+}
+
+.color-red {
+  color: red;
 }

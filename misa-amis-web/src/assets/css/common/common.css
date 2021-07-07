@@ -56,6 +56,14 @@
   --size-sidebar-width-collappsed: 52px;
 }
 
+body,
+html {
+  color: #111;
+  font-size: 13px;
+  font-weight: 400;
+  font-family: NotosanRegular, Open Sans local;
+}
+
 /* header */
 .region__icon--toggle {
   background: url("../../img/Sprites.64af8f61.svg") no-repeat;
@@ -118,14 +126,6 @@
   --z-index-mid: 3001 !important;
 }
 
-/* color */
-:root {
-  --color-common: #111;
-  --color-label-bodycontent: #454545;
-  --color-hint: #bbbbbb;
-}
-
-/* variables-text */
 
 #overlay {
   position: fixed;
@@ -138,22 +138,6 @@
   justify-content: center;
   overflow: auto;
   z-index: var(--z-index-mid);
-}
-
-.notransition {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -o-transition: none !important;
-  transition: none !important;
-}
-
-.rotate-180 {
-  transform: rotate(180deg);
-}
-
-.dropdown__row--selected {
-  background-color: var(--color-great) !important;
-  color: white !important;
 }
 
 .d-flex {
@@ -220,13 +204,6 @@
 } */
 
 /* font size,style */
-body,
-html {
-  color: #111;
-  font-size: 13px;
-  font-weight: 400;
-  font-family: NotosanRegular, Open Sans local;
-}
 
 /* page css
 /* input */
@@ -242,6 +219,10 @@ button.btn {
   border-radius: 4px;
   white-space: nowrap;
   cursor: pointer;
+}
+
+.padding-left-10 {
+  padding-left: 10px;
 }
 
 .btn-h-36 {
@@ -333,9 +314,25 @@ button.btn {
   color: var(--color-great) !important;
 }
 
+.dx-datebox-calendar .dx-dropdowneditor-icon {
+  border-radius: 0 !important;
+}
+
+.dx-datebox .dx-texteditor-input {
+  padding: 6px 0px 6px 10px !important;
+}
+
+.dx-widget input, .dx-widget textarea {
+  font-family: NotosanRegular !important;
+}
+
 .resizable-component {
   display: block;
   width: 500px;
   height: 500px;
   background-color: red;
+}
+
+input.dx-texteditor-input::placeholder {
+  font-size: 13px !important;
 }

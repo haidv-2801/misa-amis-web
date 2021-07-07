@@ -88,7 +88,7 @@
             <td
               :style="{
                 'z-index': utilityFlow
-                  ? data.data.length + index
+                  ? index
                   : data.data.length - index,
               }"
               :class="{
@@ -103,15 +103,16 @@
               <div class="u-option-wrap">
                 <div
                   :class="{ 'utility-icon-active': selectedOption == index }"
-                  @click="selectOption(index, $event)"
                   class="utility-icon"
+                  tabindex="0"
+                  @click="selectOption(index, $event)"
+                  @blur="closeDropdown()"
                 >
                   <div class="icon icon-16 icon-arrowdown-blue"></div>
                 </div>
                 <!-- utility options -->
                 <transition name="slide-fade">
                   <div
-                    tabindex="0"
                     v-if="selectedOption == index"
                     class="u-options"
                     :style="[utilityFlow ? { top: uOptionsHeight } : {}]"
@@ -188,6 +189,14 @@ export default {
   },
   methods: {
     /**
+     * Đóng dropdown đang mở
+     * DVHAI 06/07/2021
+     */
+    closeDropdown() {
+      this.selectedOption = -1;
+      utilityFlow = false;
+    },
+    /**
      * Lưu vị trí dòng của chức năng được chọn dùng để show dropdown chức năng
      * DVHAI 06/07/2021
      */
@@ -222,7 +231,7 @@ export default {
         if (bottom >= bottomCheckPoint) {
           this.uOptionsHeight = -(childHeight + 7) + "px";
           this.utilityFlow = true;
-        } 
+        }
       }, 0.2);
     },
 

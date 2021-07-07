@@ -41,7 +41,7 @@ export default {
       this.displayOverlay = !this.displayOverlay;
     });
 
-    //lắng nghe sự kiện bật overlay
+    //lắng nghe sự kiện bật loader
     this.$bus.on("displayLoader", () => {
       this.displayLoader = !this.displayLoader;
     });

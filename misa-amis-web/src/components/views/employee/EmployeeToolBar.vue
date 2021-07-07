@@ -64,6 +64,7 @@ export default {
 }
 
 .btn__add {
+  height: 36px;
   padding: 8px 20px;
   font-weight: 600;
 }

@@ -4,17 +4,18 @@
     :style="{ '--scale': tooltipScale, '--tooltip-message': validation.error }"
   >
     <label :for="data.inputId" v-if="data.isRequired"
-      >{{ data.labelText }}(<span class="color-red">*</span>)</label
+      >{{ data.labelText }}<span class="color-red"> *</span></label
     >
     <label v-else>{{ data.labelText }}</label>
 
     <DxDateBox
       class="focus"
       :displayFormat="'dd/MM/yyyy'"
-      :placeholder="'dd/MM/yyyy'"
+      :placeholder="'DD/MM/YYYY'"
       :useMaskBehavior="true"
       :min="'01/01/1900'"
       :height="32"
+      :width="180"
       :onFocusIn="focus"
       :onFocusOut="blur"
       v-model="cloneModel"
@@ -49,7 +50,6 @@
       :style="styleObject"
       :class="{
         notValidControl: !validation.isValid,
-        'align-right': data.dataType == 'money',
       }"
       :placeholder="data.mask"
       @focus="focus"
@@ -63,8 +63,8 @@
 </template>
 
 <script>
-import validate from "../../scripts/common/validator.js";
-import CommonFn from "../../scripts/common/common.js";
+import validate from "../../../scripts/common/validator.js";
+import CommonFn from "../../../scripts/common/common.js";
 
 // dx datebox
 import "devextreme/dist/css/dx.light.css";
@@ -124,12 +124,12 @@ export default {
      * DVHAI 06/07/2021
      */
     raiseErrorMsg() {
-      if(!this.validation.isValid) {
+      if (!this.validation.isValid) {
         this.tooltipScale = 1;
       }
     },
 
-     /**
+    /**
      * Hide error when lost hover
      * DVHAI 06/07/2021
      */
@@ -147,7 +147,7 @@ export default {
 
     /**
      * Focus input
-    * DVHAI 06/07/2021
+     * DVHAI 06/07/2021
      */
     focus() {
       this.tooltipScale = 0;
@@ -250,7 +250,7 @@ export default {
 </script>
 
 <style scoped>
-@import url("../../assets/css/common/tooltip.css");
+@import url("../../../assets/css/common/tooltip.css");
 
 input {
   width: 100%;
@@ -259,10 +259,6 @@ input {
   height: 32px;
   padding: 6px 10px;
   outline: none;
-}
-
-.color-red {
-  color: red;
 }
 
 </style>
