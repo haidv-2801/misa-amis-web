@@ -25,7 +25,7 @@
 .btn {
   outline: none;
   border: none;
-  font-family: GoogleRegular;
+  font-family: NotosanRegular;
   height: 40px;
   border-radius: 5px;
 }
@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: GoogleBold;
+  font-family: NotosanSemibold;
   font-size: 15px;
   padding: 24px 5px 0px 24px;
 }

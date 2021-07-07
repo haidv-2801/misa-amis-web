@@ -21,10 +21,7 @@
     />
 
     <!-- toolbar -->
-    <EmployeeToolBar
-      @openPopup="openPopup"
-      @openFormEmployeeDetail="openFormEmployeeDetail"
-    />
+    <EmployeeToolBar @openFormEmployeeDetail="openFormEmployeeDetail" />
 
     <div class="body-index">
       <!-- filterbar -->
@@ -41,6 +38,7 @@
         @openFormDetail="openFormEmployeeDetail"
         @changePageSize="changePageSize"
         @changePageNumber="changePageNumber"
+        @openConfirmDelete="openConfirmDelete"
       />
     </div>
   </div>
@@ -54,7 +52,7 @@ import Grid from "../../common/Grid.vue";
 import DialogConfirmDel from "../../common/vdialog/DialogConfirmDel.vue";
 import DialogConfirmStopTyping from "../../common/vdialog/DialogConfirmStopTyping.vue";
 import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
-import employee from "../../../store/employeeData";
+// import employee from "../../../store/employeeData";
 
 export default {
   name: "EmployeeIndex",
@@ -80,67 +78,67 @@ export default {
       gridDataTable: {
         column: [
           {
-            fieldName: "EmployeeCode",
+            fieldName: "employeeCode",
             displayName: "Mã nhân viên",
             dataType: "",
             displayType: "",
           },
           {
-            fieldName: "EmployeeName",
+            fieldName: "employeeName",
             displayName: "Tên nhân viên",
             dataType: "",
             displayType: "",
           },
           {
-            fieldName: "Gender",
+            fieldName: "gender",
             displayName: "Giới tính",
             dataType: "Enum",
             displayType: "Gender",
           },
           {
-            fieldName: "DateOfBirth",
+            fieldName: "dateOfBirth",
             displayName: "Ngày sinh",
-            dataType: "",
+            dataType: "Date",
             displayType: "",
           },
           {
-            fieldName: "IdentityNumber",
+            fieldName: "identityNumber",
             displayName: "Số cmnd",
             dataType: "",
             displayType: "",
           },
           {
-            fieldName: "EmployeePosition",
+            fieldName: "employeePosition",
             displayName: "Chức danh",
             dataType: "",
             displayType: "",
           },
           {
-            fieldName: "DepartmentId",
+            fieldName: "departmentName",
             displayName: "Tên đơn vị",
             dataType: "",
             displayType: "",
           },
           {
-            fieldName: "BankAccountNumber",
+            fieldName: "bankAccountNumber",
             displayName: "Số tài khoản",
             dataType: "",
             displayType: "",
           },
           {
-            fieldName: "BankName",
+            fieldName: "bankName",
             displayName: "Tên ngân hàng",
             dataType: "",
             displayType: "",
           },
           {
-            fieldName: "BankBranchName",
+            fieldName: "bankBranchName",
             displayName: "Chi nhánh tk ngân hàng",
             dataType: "",
             displayType: "",
           },
         ],
-        data: employee.data,
+        data: [],
         pagination: {
           pageSize: 7,
           pageNumber: 1,
@@ -156,18 +154,20 @@ export default {
   },
   created() {
     /**
-     * Get data from server
-     * DVHAI 13/06/2021
+     * Lấy dữ liệu từ sever
+     * DVHAI 07/07/2021
      */
     // this.filterTable();
+
+    this.getDataGrid();
   },
 
   watch: {},
 
   methods: {
     /**
-     * Change page number
-     * DVHAI 21/06/2021
+     * Thay đổi pagenumber
+     * DVHAI 07/07/2021
      */
     changePageNumber(value) {
       this.gridDataTable.pagination.pageNumber = value;
@@ -176,8 +176,8 @@ export default {
     },
 
     /**
-     * Change page size
-     * DVHAI 21/06/2021
+     * Thay đổi pagesize
+     * DVHAI 07/07/2021
      */
     changePageSize(value) {
       this.gridDataTable.pagination.pageSize = value;
@@ -188,51 +188,52 @@ export default {
     },
 
     /**
-     * Reset pagenumber
-     * DVHAI 21/06/2021
+     * Đặt lại pagenumber
+     * DVHAI 07/07/2021
      */
     resetPageNumber(pageNumber) {
       this.gridDataTable.pagination.pageNumber = pageNumber;
     },
 
     /**
-     * Change value filter string
-     * DVHAI 21/06/2021
+     * Thay đổi giá trị lọc
+     * DVHAI 07/07/2021
      */
     changeValueFilterString(value) {
       this.filterString = value;
     },
 
     /**
-     * Config data paging
+     * Cấu hình dữ liệu phân trang
      * DVHAI 21/06/2021
      */
     configDataPaging() {},
 
     /**
-     * Get data from server
+     * Lấy data từ sever
      * DVHAI 13/06/2021
      */
     getDataGrid() {
-      // this.$bus.emit("displayLoader");
-      // EmployeeAPI.getAll()
-      //   .then((response) => {
-      //     this.gridDataTable.data = response.data;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     this.$bus.emit("openToast", {
-      //       type: "toast--error",
-      //       text: "Lỗi. Vui lòng liên hệ MISA",
-      //     });
-      //   })
-      //   .finally(() => {
-      //     this.$bus.emit("displayLoader");
-      //   });
+      this.$bus.emit("displayLoader");
+      EmployeeAPI.getAll()
+        .then((response) => {
+          this.gridDataTable.data = response.data;
+          // console.log(response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$bus.emit("openToast", {
+            type: "toast--error",
+            text: "Lỗi. Vui lòng liên hệ MISA",
+          });
+        })
+        .finally(() => {
+          this.$bus.emit("displayLoader");
+        });
     },
 
     /**
-     * Filter
+     * Lọc
      * DVHAI 21/06/2021
      */
     filterTable() {
@@ -248,7 +249,7 @@ export default {
       //   this.filterString
       // )
       //   .then((response) => {
-      //     this.gridDataTable.data = response.data.Data;
+      //
       //     this.gridDataTable.pagination.totalRecord = response.data.TotalRecord;
       //     this.gridDataTable.pagination.totalPage = response.data.TotalPage;
       //   })
@@ -265,8 +266,8 @@ export default {
     },
 
     /**
-     * Open from employee detail
-     * DVHAI 14/06/2021
+     * Mở form chi tiết
+     * DVHAI 07/07/2021
      */
     openFormEmployeeDetail(item) {
       //invoke openform method
@@ -274,46 +275,50 @@ export default {
     },
 
     /**
-     * Close from employee detail
-     * DVHAI 14/06/2021
+     * Đóng form chi tiết
+     * DVHAI 07/07/2021
      */
     closeFormEmployeeDetail() {
       this.$refs.formEmployeeDetail.closeForm();
     },
 
     /**
-     * Refresh grid
-     * DVHAI 14/06/2021
+     * Làm mới bảng
+     * DVHAI 07/07/2021
      */
     refreshGrid() {
-      this.filterTable();
+      this.getDataGrid();
+      // this.filterTable();
     },
 
     /**
-     * Open confirm popup
-     * DVHAI 14/06/2021
+     * Mở popup xác nhận xóa
+     * DVHAI 07/07/2021
      */
-    openPopup() {
+    openConfirmDelete() {
       this.$refs.confirmDialogDel.openPopup();
     },
 
     /**
-     * Delete selected record
-     * DVHAI 14/06/2021
+     * Xóa bản ghi
+     * DVHAI 07/07/2021
      */
-    async deleteRecord() {
-      let listSelectedRow = await this.$refs.Grid.getSelectedRow();
-
-      for (const item of listSelectedRow) {
-        let id = this.gridDataTable.data[item].EmployeeId;
-
-        await EmployeeAPI.delete(id)
+    deleteRecord() {
+      let entity = this.$store.state.entity;
+      if (entity != null) {
+        let id = entity.employeeId;
+        EmployeeAPI.delete(id)
           .then((response) => {
-            console.log(response)
+            console.log(response);
             this.$bus.emit("openToast", {
               type: "toast--success",
               text: "Xóa thành công Nhân Viên",
             });
+
+            //Gán lại thực thể trong store bằng null
+            this.$store.commit("SET_ENTITY", null);
+
+            this.refreshGrid();
           })
           .catch((error) => {
             console.log(error);
@@ -323,14 +328,11 @@ export default {
             });
           });
       }
-
-      this.refreshGrid();
     },
 
     /**
-     * Open DialogConfirmStoptyping
-     * form employee detail
-     * DVHAI 14/06/2021
+     * Mở form cảnh báo thay đổi dữ liệu
+     * DVHAI 07/07/2021
      */
     openDialogConfirmStoptyping() {
       this.$refs.confirmDialogStop.openPopup();
@@ -340,6 +342,5 @@ export default {
 </script>
 
 <style scoped>
-
 @import url("../../../assets/css/common/main.css");
 </style>

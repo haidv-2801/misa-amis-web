@@ -87,9 +87,7 @@
             <!-- Chức năng -->
             <td
               :style="{
-                'z-index': utilityFlow
-                  ? index
-                  : data.data.length - index,
+                'z-index': utilityFlow ? index : data.data.length - index,
               }"
               :class="{
                 active: multiSelectList.includes(index),
@@ -97,16 +95,16 @@
               }"
               class="utility tickbox-background"
             >
-              <div class="utility-text">
+              <div 
+              @click="openFormDetail(item, Enumeration.FormMode.Edit)"
+              class="utility-text">
                 <span>Sửa</span>
               </div>
-              <div class="u-option-wrap">
+              <div tabindex="0" @blur="closeDropdown()" class="u-option-wrap">
                 <div
                   :class="{ 'utility-icon-active': selectedOption == index }"
                   class="utility-icon"
-                  tabindex="0"
                   @click="selectOption(index, $event)"
-                  @blur="closeDropdown()"
                 >
                   <div class="icon icon-16 icon-arrowdown-blue"></div>
                 </div>
@@ -117,8 +115,12 @@
                     class="u-options"
                     :style="[utilityFlow ? { top: uOptionsHeight } : {}]"
                   >
-                    <div class="u-option-item">Nhân bản</div>
-                    <div class="u-option-item">Xóa</div>
+                    <div 
+                    @click="openFormDetail(item, Enumeration.FormMode.Duplicate)"
+                    class="u-option-item">Nhân bản</div>
+                    <div class="u-option-item" @click="openConfirmDelete(item)">
+                      Xóa
+                    </div>
                     <div class="u-option-item">Ngừng sử dụng</div>
                   </div>
                 </transition>
@@ -184,17 +186,37 @@ export default {
       uOptionsHeight: "20px",
     };
   },
+
   created() {
     this.data = this.gridData;
   },
+  computed: {},
   methods: {
+     /**
+     * Xóa bản ghi
+     * DVHAI 06/07/2021
+     */
+    openFormDetail(item, formMode) {
+      //Thể loại form
+      this.$store.commit("SET_FORMMODE", formMode);
+
+      this.$emit("openFormDetail", item);
+    },
+    /**
+     * Xóa bản ghi
+     * DVHAI 06/07/2021
+     */
+    openConfirmDelete(item) {
+      this.$store.commit("SET_ENTITY", item);
+      this.$emit("openConfirmDelete");
+    },
+
     /**
      * Đóng dropdown đang mở
      * DVHAI 06/07/2021
      */
     closeDropdown() {
       this.selectedOption = -1;
-      utilityFlow = false;
     },
     /**
      * Lưu vị trí dòng của chức năng được chọn dùng để show dropdown chức năng
@@ -202,7 +224,7 @@ export default {
      */
     selectOption(index, event) {
       if (this.selectedOption == index) {
-        this.selectedOption = -1;
+        this.closeDropdown();
       } else {
         this.selectedOption = index;
         this.utilityFlow = false;
@@ -222,6 +244,7 @@ export default {
 
       var parent = event.target.closest(".u-option-wrap");
       setTimeout(() => {
+        parent.focus();
         var childrenBounding = parent
             .querySelector(".u-options")
             .getBoundingClientRect(),
@@ -311,14 +334,6 @@ export default {
     },
 
     /**
-     * Mở form nếu là form sửa thì đẩy dữ liệu lên
-     * DVHAI 05/07/2021
-     */
-    openFormDetail(item) {
-      this.$emit("openFormDetail", item);
-    },
-
-    /**
      * Thay đổi trang hiện tại
      * DVHAI 05/07/2021
      */
@@ -351,6 +366,9 @@ export default {
 </script>
 
 <style scoped>
+.u-options {
+  outline: none;
+}
 .active {
   background-color: #f8f8f8 !important;
 }
@@ -506,6 +524,7 @@ tbody td.utility {
 .u-option-wrap {
   position: relative;
   display: inline-block;
+  outline: none;
 }
 
 .u-options {

@@ -8,7 +8,8 @@ import VueAxios from 'vue-axios'
 import VueMask from 'v-mask'
 import money from 'v-money'
 import router from './router'
-import vueDebounce   from "vue-debounce";
+import vueDebounce from "vue-debounce";
+import Enumeration from "./scripts/common/enumeration"
 
 //use
 
@@ -41,6 +42,7 @@ Vue.use(vueDebounce, {
 Vue.config.productionTip = false
 
 new Vue({
+  Enumeration,
   router,
   store,
   render: h => h(App),

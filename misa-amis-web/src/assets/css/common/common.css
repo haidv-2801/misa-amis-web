@@ -154,11 +154,14 @@ html {
 
 /* loader css */
 #loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   position: fixed;
   opacity: 0.7;
-  background-color: #fff;
+  /* background-color: #fff; */
   z-index: 19999;
   text-align: center;
 }
@@ -205,9 +208,6 @@ html {
 
 /* font size,style */
 
-/* page css
-/* input */
-/* search  */
 .focus:focus-visible {
   border: 1px solid var(--color-great) !important;
 }
@@ -326,11 +326,13 @@ button.btn {
   font-family: NotosanRegular !important;
 }
 
-.resizable-component {
-  display: block;
-  width: 500px;
-  height: 500px;
-  background-color: red;
+.dx-datebox .dx-placeholder {
+  font-size: 13px;
+  font-family: NotosanRegular;
+}
+
+.dx-state-active {
+  border: 1px solid var(--color-great) !important;
 }
 
 input.dx-texteditor-input::placeholder {

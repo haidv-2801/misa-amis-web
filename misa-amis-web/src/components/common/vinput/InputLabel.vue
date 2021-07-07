@@ -93,19 +93,19 @@ export default {
   },
   data() {
     return {
-      //validation state
+      //Trạng thái validate
       validation: {
         isValid: true,
         error: "",
       },
 
-      //(1-show error, 0-hide error)
+      //(1-hiển thị lỗi, 0-ẩn lỗi)
       tooltipScale: 0,
 
-      //clone data model in prop
+      //Sao chép model sang một biến mới
       cloneModel: JSON.parse(JSON.stringify(this.model)),
 
-      //v-money format
+      //Định dạng tiền
       money: {
         decimal: "",
         thousands: ".",
@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     /**
-     * Raise error when hover
+     * Hiển thị lỗi khi hover
      * DVHAI 06/07/2021
      */
     raiseErrorMsg() {
@@ -130,7 +130,7 @@ export default {
     },
 
     /**
-     * Hide error when lost hover
+     * Ẩn lỗi khi mất hover
      * DVHAI 06/07/2021
      */
     hideErrorMsg() {
@@ -138,7 +138,7 @@ export default {
     },
 
     /**
-     * Chang unique state refered by parent component
+     * Thay đổi trạng thái unique ở bên component cha
      * DVHAI 06/07/2021
      */
     changeUniqueState(isUnique) {
@@ -146,7 +146,6 @@ export default {
     },
 
     /**
-     * Focus input
      * DVHAI 06/07/2021
      */
     focus() {
@@ -161,16 +160,16 @@ export default {
      * DVHAI 06/07/2021
      */
     blur() {
-      //validate custom
+      //validate tùy chỉnh
       this.validate();
 
-      //validate unique
+      //validate duy nhất
       if (this.data.isUnique == true)
         this.validateUnique(this.data.inputId, this.cloneModel);
     },
 
     /**
-     * Validate unique
+     * Validate duy nhất
      * DVHAI 06/07/2021
      */
     validateUnique(key, value) {
@@ -178,7 +177,7 @@ export default {
     },
 
     /**
-     * Validate custom
+     * Validate tùy chỉnh
      * DVHAI 06/07/2021
      */
     validate() {
@@ -203,7 +202,7 @@ export default {
     },
 
     /**
-     * Set validate error
+     * Cài đặt lỗi validate
      * DVHAI 06/07/2021
      */
     setValidateError(isValid, errorMsg) {
@@ -215,22 +214,22 @@ export default {
   computed: {},
   watch: {
     /**
-     * Change model value outside
+     * Thay đổi giá trị model thật bên ngoài component
      * DVHAI 06/07/2021
      */
     cloneModel() {
-      //if is money convert to number format
+      //Nếu là tiền thì format
       let moneyNumber = this.cloneModel || "";
 
       if (this.data.dataType == "money")
         moneyNumber = CommonFn.onlyNumber(moneyNumber);
 
-      //change real value in parent component
+      //Thay đổi giá trị model thật bên ngoài component
       this.$emit("changeValueInput", this.data.inputId, moneyNumber);
     },
 
     /**
-     * Clone new data
+     * Sao chép dữ liệu
      * DVHAI 06/07/2021
      */
     model() {

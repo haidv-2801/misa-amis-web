@@ -2,7 +2,7 @@
   <div id="app">
     <!-- loader -->
     <div v-show="displayLoader" id="loading">
-      <div id="loading-image"  alt="Loading..." ></div>
+      <Loader />
     </div>
 
     <!-- overlay -->
@@ -32,6 +32,7 @@ import Sidebar from "./components/layouts/TheSidebar.vue";
 import Header from "./components/layouts/TheHeader.vue";
 import Main from "./components/layouts/TheMain.vue";
 import Toast from "../src/components/common/Toast.vue";
+import Loader from "../src/components/common/Loader"
 
 export default {
   name: "App",
@@ -79,6 +80,7 @@ export default {
     Header,
     Main,
     Toast,
+    Loader
   },
   methods: {},
 };

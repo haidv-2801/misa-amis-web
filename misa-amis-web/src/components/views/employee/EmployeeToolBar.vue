@@ -17,6 +17,7 @@
 </template>
 
 <script scoped>
+import Enumeration from "../../../scripts/common/enumeration";
 export default {
   name: "ToolBar",
   data() {
@@ -24,10 +25,12 @@ export default {
   },
   methods: {
     /**
-     * Open form employee detail
-     * DVHAI 17/06/2021
+     * Mở form chi tiết
+     * DVHAI 07/07/2021
      */
     openFormEmployeeDetail() {
+      //Thể loại form
+      this.$store.commit("SET_FORMMODE", Enumeration.FormMode.Add);
       this.$emit("openFormEmployeeDetail");
     },
 

@@ -28,7 +28,7 @@
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
                 @checkUnique="checkUnique"
-                :model="employeeModel.EmployeeCode"
+                :model="employeeModel.employeeCode"
                 :data="employeeCodeInput"
                 :ref="employeeCodeInput.inputId"
                 :styleObject="{ width: '155px' }"
@@ -38,7 +38,7 @@
                 class="flex-1"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
-                :model="employeeModel.FullName"
+                :model="employeeModel.employeeName"
                 :data="employeeNameInput"
                 :styleObject="{}"
               />
@@ -50,7 +50,7 @@
                 <DropdownMaster
                   @changeValueInput="changeValueInput"
                   :data="dropdownDepartment"
-                  :model="employeeModel.DepartmentId"
+                  :model="employeeModel.departmentId"
                 />
               </div>
             </div>
@@ -60,7 +60,7 @@
                 class="flex-1"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
-                :model="employeeModel.EmployeePosition"
+                :model="employeeModel.employeePosition"
                 :data="employeePositionInput"
                 :styleObject="{ width: '100%' }"
               />
@@ -72,7 +72,7 @@
                 class="mg-r-6-px"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
-                :model="employeeModel.DateOfBirth"
+                :model="employeeModel.dateOfBirth"
                 :data="dateOfBirthInput"
               />
 
@@ -82,7 +82,7 @@
                 <RadioButtonMaster
                   MustValidate="true"
                   @changeValueInput="changeValueInput"
-                  :model="employeeModel.Gender"
+                  :model="employeeModel.gender"
                   :data="radioButtonGender"
                 />
               </div>
@@ -94,14 +94,14 @@
                 class="flex-1 mg-r-6-px"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
-                :model="employeeModel.IdentityNumber"
+                :model="employeeModel.identityNumber"
                 :data="identityNumberInput"
               />
 
               <InputLabel
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
-                :model="employeeModel.IdentityDate"
+                :model="employeeModel.identityDate"
                 :data="identityDateInput"
               />
             </div>
@@ -111,7 +111,7 @@
                 class="flex-1"
                 MustValidate="true"
                 @changeValueInput="changeValueInput"
-                :model="employeeModel.IdentityPlace"
+                :model="employeeModel.identityPlace"
                 :data="identityPlaceInput"
               />
             </div>
@@ -124,7 +124,7 @@
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.Address"
+              :model="employeeModel.address"
               :data="addressInput"
               :ref="addressInput.inputId"
               :styleObject="{ width: '100%' }"
@@ -136,7 +136,7 @@
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.PhoneNumber"
+              :model="employeeModel.phoneNumber"
               :data="phoneNumberInput"
               :ref="phoneNumberInput.inputId"
               :styleObject="{ width: '197px' }"
@@ -147,7 +147,7 @@
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.TelephoneNumber"
+              :model="employeeModel.telephoneNumber"
               :data="telephoneNumberInput"
               :ref="telephoneNumberInput.inputId"
               :styleObject="{ width: '197px' }"
@@ -157,7 +157,7 @@
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.Email"
+              :model="employeeModel.email"
               :data="emailInput"
               :ref="emailInput.inputId"
               :styleObject="{ width: '197px' }"
@@ -170,7 +170,7 @@
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.BankAccountNumber"
+              :model="employeeModel.bankAccountNumber"
               :data="bankAccountNumberInput"
               :ref="bankAccountNumberInput.inputId"
               :styleObject="{ width: '197px' }"
@@ -181,7 +181,7 @@
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.BankName"
+              :model="employeeModel.bankName"
               :data="bankNameInput"
               :ref="bankNameInput.inputId"
               :styleObject="{ width: '197px' }"
@@ -191,7 +191,7 @@
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.BankBranchName"
+              :model="employeeModel.bankBranchName"
               :data="bankBranchNameInput"
               :ref="bankBranchNameInput.inputId"
               :styleObject="{ width: '197px' }"
@@ -229,6 +229,7 @@ import InputLabel from "../../common/vinput/InputLabel.vue";
 import DropdownMaster from "../../common/vcombobox/DropdownMaster.vue";
 import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
 import RadioButtonMaster from "../../common/vradiobutton/RadioButtonMaster.vue";
+import Enumeration from "../../../scripts/common/enumeration";
 function initState() {
   return {
     //trạng thái của form
@@ -237,7 +238,7 @@ function initState() {
     // data form
     dropdownDepartment: {
       data: {
-        inputId: "DepartmentId",
+        inputId: "departmentId",
         placeHolder: "",
         items: [
           "Phòng nhân sự",
@@ -282,7 +283,7 @@ function initState() {
 
     radioButtonGender: {
       data: {
-        inputId: "Gender",
+        inputId: "gender",
         placeHolder: "",
         items: ["Nữ", "Nam", "Khác"],
         dataType: "Enum",
@@ -296,7 +297,7 @@ function initState() {
 
     //input
     employeeCodeInput: {
-      inputId: "EmployeeCode",
+      inputId: "employeeCode",
       labelText: "Mã",
       isRequired: true,
       inputType: "text",
@@ -306,7 +307,7 @@ function initState() {
     },
 
     employeeNameInput: {
-      inputId: "EmployeeName",
+      inputId: "employeeName",
       labelText: "Tên",
       isRequired: true,
       inputType: "text",
@@ -315,7 +316,7 @@ function initState() {
     },
 
     addressInput: {
-      inputId: "Address",
+      inputId: "address",
       labelText: "Địa chỉ",
       isRequired: false,
       inputType: "text",
@@ -324,7 +325,7 @@ function initState() {
     },
 
     dateOfBirthInput: {
-      inputId: "DateOfBirth",
+      inputId: "dateOfBirth",
       labelText: "Ngày sinh",
       inputType: "date",
       dataType: "Date",
@@ -333,7 +334,7 @@ function initState() {
     },
 
     identityNumberInput: {
-      inputId: "IdentityNumber",
+      inputId: "identityNumber",
       labelText: "Số CMND",
       isRequired: false,
       inputType: "text",
@@ -342,7 +343,7 @@ function initState() {
     },
 
     identityDateInput: {
-      inputId: "IdentityDate",
+      inputId: "identityDate",
       labelText: "Ngày cấp",
       inputType: "date",
       dataType: "Date",
@@ -351,7 +352,7 @@ function initState() {
     },
 
     identityPlaceInput: {
-      inputId: "IdentityPlace",
+      inputId: "identityPlace",
       labelText: "Nơi cấp",
       inputType: "text",
       validation: [],
@@ -359,7 +360,7 @@ function initState() {
     },
 
     employeePositionInput: {
-      inputId: "EmployeePosition",
+      inputId: "employeePosition",
       labelText: "Chức danh",
       isRequired: false,
       inputType: "text",
@@ -368,7 +369,7 @@ function initState() {
     },
 
     emailInput: {
-      inputId: "Email",
+      inputId: "email",
       labelText: "Email",
       isRequired: false,
       inputType: "text",
@@ -378,7 +379,7 @@ function initState() {
     },
 
     phoneNumberInput: {
-      inputId: "PhoneNumber",
+      inputId: "phoneNumber",
       labelText: "DT di động",
       isRequired: false,
       inputType: "text",
@@ -387,7 +388,7 @@ function initState() {
     },
 
     telephoneNumberInput: {
-      inputId: "TelephoneNumber",
+      inputId: "pelephoneNumber",
       labelText: "DT cố định",
       isRequired: false,
       inputType: "text",
@@ -396,7 +397,7 @@ function initState() {
     },
 
     bankAccountNumberInput: {
-      inputId: "BankAccountNumber",
+      inputId: "bankAccountNumber",
       labelText: "Tài khoản ngân hàng",
       isRequired: false,
       inputType: "text",
@@ -405,7 +406,7 @@ function initState() {
     },
 
     bankNameInput: {
-      inputId: "BankName",
+      inputId: "bankName",
       labelText: "Tên ngân hàng",
       isRequired: false,
       inputType: "text",
@@ -414,7 +415,7 @@ function initState() {
     },
 
     bankBranchNameInput: {
-      inputId: "BankBranchName",
+      inputId: "bankBranchName",
       labelText: "Chi nhánh",
       isRequired: false,
       inputType: "text",
@@ -423,7 +424,6 @@ function initState() {
     },
 
     employeeModel: {},
-    formMode: null,
     allInputValid: true,
   };
 }
@@ -491,28 +491,33 @@ export default {
      * DVHAI 14/06/2021
      */
     async openForm(item) {
+      let cloneItem = null;
+      if (item) cloneItem = JSON.parse(JSON.stringify(item));
+
       this.resetWindow();
-      //form mode: null ? add : edit
-      if (item != null) {
-        this.bindDataForm(item);
-        this.formMode = item.EmployeeId;
+      if (this.formMode == Enumeration.FormMode.Edit) {
+        this.bindDataForm(cloneItem);
+      } else if (this.formMode == Enumeration.FormMode.Add) {
+        this.employeeModel.employeeCode = await this.getNewEmployeeCode();
+      } else if (this.formMode == Enumeration.FormMode.Duplicate) {
+        await this.bindDataForm(cloneItem);
+        this.employeeModel.employeeCode = await this.getNewEmployeeCode();
       } else {
-        // this.employeeModel.EmployeeCode = await this.getNewEmployeeCode();
+        //
       }
 
-      this.invokeOverlay();
-
       this.isOpen = true;
+      this.invokeOverlay();
     },
 
     /**
-     * Get new employee code
-     * DVHAI 14/06/2021
+     * Lấy mã nhân viên mới
+     * DVHAI 07/07/2021
      */
     async getNewEmployeeCode() {
       let employeeCode = "";
 
-      await EmployeeAPI.getNewEmployeecode()
+      await EmployeeAPI.getNextEmployeeCode()
         .then(function(response) {
           employeeCode = response.data;
         })
@@ -528,17 +533,17 @@ export default {
     },
 
     /**
-     * Bind data to edit form
-     * DVHAI 14/06/2021
+     * Dẩy dữ liệu lên form
+     * DVHAI 07/07/2021
      */
     async bindDataForm(item) {
       //Get record by id
-      this.employeeModel = await this.getEmployeeById(item.EmployeeId);
+      this.employeeModel = await this.getEmployeeById(item.employeeId);
     },
 
     /**
      * Get record by id
-     * DVHAI 14/06/2021
+     * DVHAI 07/07/2021
      */
     async getEmployeeById(id) {
       let emp = null;
@@ -585,7 +590,7 @@ export default {
             });
         } else {
           //is formedit
-          EmployeeAPI.update(this.employeeModel.EmployeeId, this.employeeModel)
+          EmployeeAPI.update(this.employeeModel.employeeId, this.employeeModel)
             .then((response) => {
               console.log(response);
               this.refreshGrid();
@@ -646,7 +651,7 @@ export default {
         .then((response) => {
           if (
             response.status != 204 &&
-            this.employeeModel.EmployeeId != response.data.Data[0].EmployeeId
+            this.employeeModel.employeeId != response.data.Data[0].employeeId
           ) {
             isUnique = false;
           }
@@ -657,6 +662,11 @@ export default {
         });
 
       this.$refs[key].changeUniqueState(isUnique);
+    },
+  },
+  computed: {
+    formMode() {
+      return this.$store.state.formMode;
     },
   },
 };

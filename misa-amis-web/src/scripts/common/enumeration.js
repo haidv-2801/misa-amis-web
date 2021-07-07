@@ -6,6 +6,7 @@ Enumeration.FormMode = {
     Add: 1,
     Edit: 2,
     Delete: 3,
+    Duplicate: 4
 };
 
 //Giới tính

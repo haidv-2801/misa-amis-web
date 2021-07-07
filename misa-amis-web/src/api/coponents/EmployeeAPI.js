@@ -8,17 +8,17 @@ class EmployeeAPI extends BaseAPI {
   }
 
   /**
-   * Get new employee code
-   * DVHAI 21/06/2021
+   * Lấy mã nhân viên mới
+   * DVHAI 07/07/2021
    */
-  getNewEmployeecode() {
-    let urlFull = this.controler + "/NewEmployeeCode";
+  getNextEmployeeCode() {
+    let urlFull = this.controler + "/NextEmployeeCode";
     return BaseAPIConfig.get(urlFull);
   }
 
   /**
-   * Get new employee code
-   * DVHAI 21/06/2021
+   * Lọc
+   * DVHAI 07/07/2021
    */
   filter(pageSize, pageNumber, employeeFilter) {
     let urlFull =
@@ -28,10 +28,9 @@ class EmployeeAPI extends BaseAPI {
   }
 
   /**
-   * Get employee by code
-   * DVHAI 21/06/2021
+   * Lấy mã nhân viên theo mã nhân viên
+   * DVHAI 07/07/2021
    */
-
   getEmployeeBycode(pageSize, pageNumber, id) {
     let urlFull = `${this.controler}/Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&employeeCode=${id}`;
     return BaseAPIConfig.get(urlFull);
