@@ -159,7 +159,7 @@ export default {
       handler: function(value) {
         this.cloneDataSource = JSON.parse(JSON.stringify(value));
 
-       let index = value.data.value.indexOf(this.cloneModel),
+        let index = value.data.value.indexOf(this.cloneModel),
         val = value.data.key[index];
         this.$emit("changeValueInput", value.data.inputId, val);
       },

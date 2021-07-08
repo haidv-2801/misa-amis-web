@@ -456,8 +456,6 @@ export default {
       await this.$bus.emit("displayLoader");
       EmployeeAPI.insert(this.employeeModel)
         .then((response) => {
-          console.log("save");
-          console.log(response);
           this.$bus.emit("displayLoader");
           this.refreshGrid();
           this.$bus.emit("openToast", {
@@ -467,9 +465,9 @@ export default {
 
           this.employeeModel = {};
           this.$store.commit("SET_FORMMODE", Enumeration.FormMode.Add);
+          
           EmployeeAPI.getNextEmployeeCode()
             .then(function(response) {
-              console.log("res");
               this.employeeModel.employeeCode = response;
               console.log(response);
             })
