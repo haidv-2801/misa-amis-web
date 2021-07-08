@@ -36,6 +36,8 @@
       :placeholder="data.mask"
       @focus="focus"
       @blur="blur"
+      @mouseover="raiseErrorMsg()"
+      @mouseleave="hideErrorMsg()"
       v-model="cloneModel"
       v-mask="data.mask"
       :masked="false"
@@ -237,8 +239,8 @@ export default {
     },
 
     /**
-     * Tracking unique value, if false raise error
-     * DVHAI 06/07/2021
+     * Lỗi tồn tại
+     * DVHAI 07/07/2021
      */
     isUniqueValue: function(val) {
       let errMsg = "'" + this.data.labelText + " đã tồn tại" + "'";

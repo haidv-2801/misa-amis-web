@@ -28,6 +28,7 @@
 :root {
   --color-great: #2ca01c;
   --color-main-background: #f4f5f8;
+  --color-border-input: #babec5;
 
   /* dùng cho utility trong row */
   --size-top: 20px;

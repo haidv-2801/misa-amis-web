@@ -1,64 +1,177 @@
 <template>
-  <DxSelectBox
-    class="m-select-box"
-    :placeholder="data.placeHolder"
-    :noDataText="'Không tìm thấy'"
-    :searchEnabled="true"
-    :showClearButton="false"
-    :width="data.style.width"
-    :height="data.style.height"
-    :data-source="data.data.items"
-    v-model="cloneModel"
-  />
+  <div
+    class="tooltip"
+    :style="{ '--scale': tooltipScale, '--tooltip-message': validation.error }"
+    @mouseover="raiseErrorMsg()"
+    @mouseleave="hideErrorMsg()"
+  >
+    <DxSelectBox
+      class="m-select-box focus"
+      :placeholder="cloneDataSource.placeHolder"
+      :noDataText="'Không tìm thấy'"
+      :searchEnabled="true"
+      :showClearButton="false"
+      :width="cloneDataSource.style.width"
+      :height="cloneDataSource.style.height"
+      :data-source="dataSourceItems"
+      :onFocusIn="focus"
+      :onFocusOut="blur"
+      v-model="cloneModel"
+    />
+  </div>
 </template>
 
 <script>
-import DxSelectBox from "devextreme-vue/select-box";
-
+import DxSelectBox from 'devextreme-vue/select-box';
+import validate from '../../../scripts/common/validator.js';
 export default {
-  name: "DropdownMaster",
+  name: 'DropdownMaster',
+  components: {
+    DxSelectBox,
+  },
   props: {
     data: {
       type: Object,
       default: () => {},
     },
     model: {
-      type: Number,
-      default: -1,
+      type: String,
+      default: '',
     },
+  },
+  created() {
+    //Sao chép model sang một biến mới
+    this.cloneModel = JSON.parse(JSON.stringify(this.model));
+    //Sao chép datasource sang một biến mới
+    this.cloneDataSource = JSON.parse(JSON.stringify(this.data));
   },
   data() {
     return {
-      cloneModel: -1,
+      //Sao chép model sang một biến mới
+      cloneModel: JSON.parse(JSON.stringify(this.model)),
+      //Sao chép datasource sang một biến mới
+      cloneDataSource: JSON.parse(JSON.stringify(this.data)),
+
+      //Trạng thái validate
+      validation: {
+        isValid: true,
+        error: '',
+      },
+
+      //(1-hiển thị lỗi, 0-ẩn lỗi)
+      tooltipScale: 0,
     };
   },
-  components: {
-    DxSelectBox,
-  },
-  methods: {},
-  watch: {
+
+  methods: {
     /**
-     *Theo dõi giá trị của bản sao và thay đổi bản gốc bên ngoài component
-     * DVHAI 07/07/2021
+     * Hiển thị lỗi khi hover
+     * DVHAI 06/07/2021
      */
-    cloneModel() {
-      let value = this.data.data.items.indexOf(this.cloneModel);
-      if (value == -1) value = null;
-      this.$emit("changeValueInput", this.data.data.inputId, value);
+    raiseErrorMsg() {
+      if (!this.validation.isValid) {
+        this.tooltipScale = 1;
+      }
     },
 
     /**
-     *Theo dõi model và tạo ra một bản sao mới bên trong này
-     * DVHAI 07/07/2021
+     * Ẩn lỗi khi mất hover
+     * DVHAI 06/07/2021
      */
-    model() {
-      this.cloneModel = this.data.data.items[this.model];
+    hideErrorMsg() {
+      this.tooltipScale = 0;
+    },
+
+    /**
+     * DVHAI 06/07/2021
+     */
+    focus() {
+      this.tooltipScale = 0;
+      this.validation.isValid = true;
+    },
+
+    /**
+     * Blur input
+     * DVHAI 06/07/2021
+     */
+    blur() {
+      //validate tùy chỉnh
+      // this.validate();
+    },
+
+    /**
+     * Validate tùy chỉnh
+     * DVHAI 06/07/2021
+     */
+    validate() {
+      debugger; // eslint-disable-next-line
+      for (const x of this.data.validation) {
+        var cons = x.split(':'),
+          validateResult =
+            cons.length > 1
+              ? validate[cons[0]](this.cloneModel)(cons[1])
+              : validate[x](this.cloneModel);
+
+        let errMsg = '"' + this.data.labelText + ' ' + validateResult.msg + '"';
+
+        //raise error
+        this.setValidateError(validateResult.isValid, errMsg);
+
+        //error fire
+        if (!validateResult.isValid) {
+          this.$bus.emit('allInputValid', validateResult.isValid);
+          break;
+        }
+      }
+    },
+
+    /**
+     * Cài đặt lỗi validate
+     * DVHAI 06/07/2021
+     */
+    setValidateError(isValid, errorMsg) {
+      this.validation.isValid = isValid;
+      this.validation.error = errorMsg;
+    },
+  },
+
+  watch: {
+    // /**
+    //  *Theo dõi giá trị của bản sao và thay đổi bản gốc bên ngoài component
+    //  * DVHAI 07/07/2021
+    //  */
+    // cloneModel() {
+    //   this.$emit('changeValueInput', this.data.data.inputId, value);
+    // },
+    // /**
+    //  *Theo dõi model và tạo ra một bản sao mới bên trong này
+    //  * DVHAI 07/07/2021
+    //  */
+    //  model() {
+    //    this.cloneModel = JSON.parse(JSON.stringify(this.model));
+    //  },
+    data: {
+      deep: true,
+      handler: function(value) {
+        alert('test');
+        this.cloneDataSource = JSON.parse(JSON.stringify(value));
+      },
+    },
+  },
+  computed: {
+    dataSourceItems() {
+      if(this.data.items) {
+        return this.data.items.map((x) => x.value);
+      }else{
+        return ["test"]
+      }
     },
   },
 };
 </script>
 
 <style>
+/* @import url('../../../assets/css/common/tooltip.css'); */
 .m-select-box .dx-texteditor-input {
   padding: 6px 10px;
 }
@@ -89,6 +202,10 @@ export default {
 
 .dx-texteditor.dx-editor-outlined {
   border: 1px solid #babec5;
+}
+
+.m-select-box.dx-texteditor.dx-editor-outlined {
+  border: 1px solid var(--color-border-input);
 }
 
 /* toan */
