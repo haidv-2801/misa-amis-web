@@ -83,7 +83,7 @@ export default {
       default: () => {},
     },
     model: {
-      default: "",
+      default: null,
     },
     styleObject: {
       type: Object,
@@ -91,7 +91,7 @@ export default {
     },
   },
   created() {
-    this.cloneModel = this.model;
+    this.cloneModel = JSON.parse(JSON.stringify(this.model));
   },
   data() {
     return {
@@ -234,8 +234,12 @@ export default {
      * Sao chép dữ liệu
      * DVHAI 06/07/2021
      */
-    model() {
-      this.cloneModel = JSON.parse(JSON.stringify(this.model));
+    model: {
+      deep: true,
+      immediate: true,
+      handler: function(value) {
+        this.cloneModel = JSON.parse(JSON.stringify(value));
+      }
     },
 
     /**

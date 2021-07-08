@@ -13,19 +13,19 @@
       :showClearButton="false"
       :width="cloneDataSource.style.width"
       :height="cloneDataSource.style.height"
-      :data-source="dataSourceItems"
+      :data-source="cloneDataSource.data.value"
+      v-model="cloneModel"
       :onFocusIn="focus"
       :onFocusOut="blur"
-      v-model="cloneModel"
     />
   </div>
 </template>
 
 <script>
-import DxSelectBox from 'devextreme-vue/select-box';
-import validate from '../../../scripts/common/validator.js';
+import DxSelectBox from "devextreme-vue/select-box";
+import validate from "../../../scripts/common/validator.js";
 export default {
-  name: 'DropdownMaster',
+  name: "DropdownMaster",
   components: {
     DxSelectBox,
   },
@@ -36,7 +36,7 @@ export default {
     },
     model: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   created() {
@@ -55,7 +55,7 @@ export default {
       //Trạng thái validate
       validation: {
         isValid: true,
-        error: '',
+        error: "",
       },
 
       //(1-hiển thị lỗi, 0-ẩn lỗi)
@@ -104,22 +104,21 @@ export default {
      * DVHAI 06/07/2021
      */
     validate() {
-      debugger; // eslint-disable-next-line
       for (const x of this.data.validation) {
-        var cons = x.split(':'),
+        var cons = x.split(":"),
           validateResult =
             cons.length > 1
               ? validate[cons[0]](this.cloneModel)(cons[1])
               : validate[x](this.cloneModel);
 
-        let errMsg = '"' + this.data.labelText + ' ' + validateResult.msg + '"';
+        let errMsg = '"' + this.data.labelText + " " + validateResult.msg + '"';
 
         //raise error
         this.setValidateError(validateResult.isValid, errMsg);
 
         //error fire
         if (!validateResult.isValid) {
-          this.$bus.emit('allInputValid', validateResult.isValid);
+          this.$bus.emit("allInputValid", validateResult.isValid);
           break;
         }
       }
@@ -136,37 +135,37 @@ export default {
   },
 
   watch: {
-    // /**
-    //  *Theo dõi giá trị của bản sao và thay đổi bản gốc bên ngoài component
-    //  * DVHAI 07/07/2021
-    //  */
-    // cloneModel() {
-    //   this.$emit('changeValueInput', this.data.data.inputId, value);
-    // },
-    // /**
-    //  *Theo dõi model và tạo ra một bản sao mới bên trong này
-    //  * DVHAI 07/07/2021
-    //  */
-    //  model() {
-    //    this.cloneModel = JSON.parse(JSON.stringify(this.model));
-    //  },
+    /**
+     *Theo dõi giá trị của bản sao và thay đổi bản gốc bên ngoài component
+     * DVHAI 07/07/2021
+     */
+    cloneModel() {
+      let index = this.cloneDataSource.data.value.indexOf(this.cloneModel),
+        value = this.cloneDataSource.data.key[index];
+
+      this.$emit("changeValueInput", this.cloneDataSource.data.inputId, value);
+      // console.log(this.cloneModel, this.cloneDataSource.data.value)
+    },
+    /**
+     *Theo dõi model và tạo ra một bản sao mới bên trong này
+     * DVHAI 07/07/2021
+     */
+    model() {
+      this.cloneModel = JSON.parse(JSON.stringify(this.model));
+    },
+
     data: {
       deep: true,
       handler: function(value) {
-        alert('test');
         this.cloneDataSource = JSON.parse(JSON.stringify(value));
+
+       let index = value.data.value.indexOf(this.cloneModel),
+        val = value.data.key[index];
+        this.$emit("changeValueInput", value.data.inputId, val);
       },
     },
   },
-  computed: {
-    dataSourceItems() {
-      if(this.data.items) {
-        return this.data.items.map((x) => x.value);
-      }else{
-        return ["test"]
-      }
-    },
-  },
+  computed: {},
 };
 </script>
 

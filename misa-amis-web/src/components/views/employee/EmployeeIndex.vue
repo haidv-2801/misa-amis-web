@@ -218,7 +218,7 @@ export default {
       EmployeeAPI.getAll()
         .then((response) => {
           this.gridDataTable.data = response.data;
-          // console.log(response.data)
+          console.log(response.data)
         })
         .catch((error) => {
           console.log(error);
