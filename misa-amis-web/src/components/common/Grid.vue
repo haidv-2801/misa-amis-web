@@ -8,8 +8,8 @@
             <!-- checkbox -->
             <td class="tickbox-40" style="z-index: 1;">
               <div
-                @click="toggleCheckAll(0)"
-                :class="{ 'icon-checkbox-active': checked == 0 }"
+                @click="checkRow(-1)"
+                :class="{ 'icon-checkbox-active': curChecked == -1 }"
                 class="tick-box icon-18 icon"
               ></div>
             </td>
@@ -40,7 +40,7 @@
             v-for="(item, index) in data.data"
             :key="index"
             :class="{
-              active: multiSelectList.includes(index),
+              active: curSelected == index,
               hover: itemHover == index,
             }"
             @click="selectRow(index)"
@@ -49,16 +49,15 @@
             <!-- checkbox -->
             <td
               :class="{
-                active: multiSelectList.includes(index),
+                active: curSelected == index,
                 hover: itemHover == index,
               }"
               class="tickbox-40 tickbox-background"
-              @click="selectRow(index)"
             >
               <div
-                @click="toggleCheckAll(index + 1)"
+                @click="checkRow(index)"
                 :class="{
-                  'icon-checkbox-active': checked == 0 || checked == index + 1,
+                  'icon-checkbox-active': curChecked == -1 || curChecked == index,
                 }"
                 class="tick-box icon-18 icon"
               ></div>
@@ -90,7 +89,7 @@
                 'z-index': utilityFlow ? index : data.data.length - index,
               }"
               :class="{
-                active: multiSelectList.includes(index),
+                active: curSelected == index,
                 hover: itemHover == index,
               }"
               class="utility tickbox-background"
@@ -108,6 +107,7 @@
                 >
                   <div class="icon icon-16 icon-arrowdown-blue"></div>
                 </div>
+
                 <!-- utility options -->
                 <transition name="slide-fade">
                   <div
@@ -170,8 +170,11 @@ export default {
       //Lưu những dòng được chọn
       multiSelectList: [],
 
-      //Vị trí ô checkbox được check (0-checked tất cả)
-      checked: -1,
+      //Lưu vị trí dòng được tích
+      curChecked: null,
+
+      //Lưu vị trí dòng được select
+      curSelected: -1,
 
       //Vị trí index được hover
       itemHover: -1,
@@ -202,13 +205,14 @@ export default {
 
       this.$emit("openFormDetail", item);
     },
+
     /**
      * Xóa bản ghi
      * DVHAI 06/07/2021
      */
     openConfirmDelete(item) {
       this.$store.commit("SET_ENTITY", item);
-      this.$emit("openConfirmDelete");
+      this.$emit("openConfirmDelete", item);
     },
 
     /**
@@ -218,6 +222,7 @@ export default {
     closeDropdown() {
       this.selectedOption = -1;
     },
+
     /**
      * Lưu vị trí dòng của chức năng được chọn dùng để show dropdown chức năng
      * DVHAI 06/07/2021
@@ -258,12 +263,23 @@ export default {
       }, 0.2);
     },
 
+
+    /**
+     * Thực hiện tích ô trong bảng
+     * DVHAI 09/07/2021
+     */
+    checkRow(index) {
+      if(this.curChecked != index)
+          this.curChecked = index;
+          else this.curChecked = null;
+    },
+
     /**
      * Thực hiện chọn dòng trong bảng
      * DVHAI 05/07/2021
      */
     selectRow(index) {
-      this.multiSelectList = [index];
+      this.curSelected = index;
     },
 
     /**
@@ -325,15 +341,6 @@ export default {
     },
 
     /**
-     * Chọn dòng trong bảng
-     * DVHAI 05/07/2021
-     */
-    rowClick(index) {
-      this.multiSelectList = [];
-      this.curRowClicked = index;
-    },
-
-    /**
      * Thay đổi trang hiện tại
      * DVHAI 05/07/2021
      */
@@ -347,18 +354,6 @@ export default {
      */
     changePageSize(value) {
       this.$emit("changePageSize", value);
-    },
-
-    /**
-     *Thực hiện check tất cả các dòng(bỏ check) nếu hàm được gọi
-     * DVHAI 05/07/2021
-     */
-    toggleCheckAll(index) {
-      if (this.checked == index) {
-        this.checked = -1;
-      } else {
-        this.checked = index;
-      }
     },
   },
   watch: {},

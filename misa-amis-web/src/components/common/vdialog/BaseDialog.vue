@@ -1,118 +1,76 @@
 <template>
   <div class="alert">
-    <slot name="icon-close"></slot>
-    <div class="alert__title">
-      <div class="title__text">
-        <!-- slot head -->
-        <slot name="head"></slot>
-      </div>
+    <div class="alert__content">
+      <slot name="content">
+        <div class="content__icon">
+          <slot name="alert__icon"></slot>
+        </div>
+        <div class="content__text">
+          <slot name="alert__text"></slot>
+        </div>
+      </slot>
     </div>
-    <div class="alert__main">
-      <!-- slot main -->
-      <slot name="main"></slot>
-    </div>
-    <div class="alert__bottom">
-      <!-- slot bottom -->
-      <slot name="bottom"></slot>
+    <div class="alert__line"></div>
+    <div class="alert__foot">
+      <slot name="alert__foot">
+      </slot>
     </div>
   </div>
 </template>
 
-<script>
-</script>
+<script></script>
 
 <style scoped>
-.btn {
-  outline: none;
-  border: none;
-  font-family: NotosanRegular;
-  height: 40px;
-  border-radius: 5px;
-}
-
 .alert {
   z-index: 4000;
-  height: fit-content;
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
   margin: auto;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: white;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 16%);
-  border-radius: 6px;
-  border-collapse: separate;
+  transition: all 0.2s;
+  box-shadow: 0 5px 20px 0 rgb(0 0 0 / 10%);
+  background-color: #fff;
+  width: 444px;
+  height: fit-content;
+  border-radius: 3px;
+  padding: 32px 32px;
+  overflow: hidden;
 }
 
-.alert__title {
+.alert__content {
+  width: 100%;
+  height: fit-content;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: NotosanSemibold;
-  font-size: 15px;
-  padding: 24px 5px 0px 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
-.alert__main {
-  font-size: 13px;
+.content__icon {
+  max-width: 48px;
+  height: 100%;
+}
+
+.content__text {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px 24px;
+  padding: 12px 0px 0px 16px;
+  margin-bottom: 32px;
 }
 
-.main__icon svg {
-  width: 20px;
-  height: 20px;
+.alert__line {
+  height: 1px;
+  background-color: #b8bcc3;
+  margin-bottom: 20px;
 }
 
-.main__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #f4f4f4;
-  border-radius: 50%;
+.alert__foot {
+  width: 100%;
+  height: 36px;
 }
 
-.main__text {
-  padding-left: 10px;
-  flex: 1;
-}
-
-.alert__bottom {
-  height: 60px;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 10px 24px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-
-.alert__iconClose {
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 5px;
-}
-
-.alert__iconClose svg {
-  width: 20px;
-  height: 20px;
-  font-weight: 200;
-}
-
-.alert__iconClose:hover {
-  background-color: #f4f4f4;
+.icon-48 {
+  width: 48px;
+  height: 48px;
 }
 </style>

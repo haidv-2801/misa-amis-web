@@ -13,6 +13,7 @@
   margin: auto;
   box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
   z-index: var(--z-index-mid);
+  transition: all .2s;
 }
 
 .icon-src {

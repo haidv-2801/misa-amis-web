@@ -1,24 +1,20 @@
 <template>
   <BaseDialog v-if="isShow">
     <template #alert__icon>
-      <div class="icon-warning icon-48 icon-src"></div>
+      <div class="icon-error icon-48 icon-src"></div>
     </template>
     <template #alert__text>
-      <span>Bạn có thực sự muốn xóa Nhân viên {{ entityCode }} không?</span>
+      <span
+        >{{ propertyValue }} không được để trống</span
+      >
     </template>
     <template #alert__foot>
       <div class="group__button">
         <button
           @click="cancel()"
-          class="btn btn-h-36 btn-size-default btn-border-default bgcolor-fff"
-        >
-          Không
-        </button>
-        <button
-          @click="deleteRecord()"
           class="btn btn-h-36 btn-green btn-save-add"
         >
-          Có
+          Đóng
         </button>
       </div>
     </template>
@@ -29,12 +25,12 @@
 import BaseDialog from './BaseDialog.vue';
 
 export default {
-  name: 'DialogConfirmDel',
+  name: 'DialogError',
   props: {
     data: {
       type: Object,
       default: () => {
-        return { entityName: 'bản ghi' };
+        return { propertyName: 'Mã nhân viên', propertyValue: 'NV-0001' };
       },
     },
   },
@@ -45,9 +41,6 @@ export default {
     return {
       //Trạng thái của popup
       isShow: false,
-
-      //Mã bản ghi
-      entityCode: '',
     };
   },
   methods: {
@@ -56,8 +49,8 @@ export default {
      * DVHAI 07/07/2021
      */
     openPopup(code) {
+      let me = code;
       this.isShow = true;
-      this.entityCode = code;
       this.invokeOverlay();
     },
 
@@ -67,7 +60,6 @@ export default {
      */
     closePopup() {
       this.isShow = false;
-
       this.invokeOverlay();
     },
 
@@ -81,15 +73,6 @@ export default {
     },
 
     /**
-     * Delete record
-     * DVHAI 07/07/2021
-     */
-    deleteRecord() {
-      this.$emit('deleteRecord');
-      this.closePopup();
-    },
-
-    /**
      * Gọi lớp phủ
      * DVHAI 07/07/2021
      */
@@ -98,42 +81,30 @@ export default {
     },
   },
 
-  computed: {},
+  computed: {
+    propertyName() {
+      return this.data.propertyValue;
+    },
+
+    propertyValue() {
+      return this.data.propertyName;
+    },
+  },
 };
 </script>
 
 <style scoped>
+.icon-error {
+    background-position: -24px -954px;
+}
+
 .group__button {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .icon-warning {
   background-position: -592px -456px;
 }
 
-.btn__cancel {
-  color: black !important;
-  background-color: #f4f4f4 !important;
-}
-
-.btn__delete {
-  background-color: #f65454 !important;
-}
-
-.btn__delete:hover {
-  opacity: 0.9;
-}
-
-.btn__delete,
-.btn__cancel {
-  cursor: pointer;
-  margin-left: 10px;
-  width: 100px;
-  text-align: center;
-}
-
-.btn__cancel:hover {
-  background-color: #e9ebee !important;
-}
 </style>

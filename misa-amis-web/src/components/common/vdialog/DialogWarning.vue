@@ -4,21 +4,18 @@
       <div class="icon-warning icon-48 icon-src"></div>
     </template>
     <template #alert__text>
-      <span>Bạn có thực sự muốn xóa Nhân viên {{ entityCode }} không?</span>
+      <span
+        >{{ propertyName }} {{ propertyValue }} đã tồn tại trong hệ thống, vui
+        lòng kiểm tra lại.</span
+      >
     </template>
     <template #alert__foot>
       <div class="group__button">
         <button
           @click="cancel()"
-          class="btn btn-h-36 btn-size-default btn-border-default bgcolor-fff"
-        >
-          Không
-        </button>
-        <button
-          @click="deleteRecord()"
           class="btn btn-h-36 btn-green btn-save-add"
         >
-          Có
+          Đồng ý
         </button>
       </div>
     </template>
@@ -29,12 +26,12 @@
 import BaseDialog from './BaseDialog.vue';
 
 export default {
-  name: 'DialogConfirmDel',
+  name: 'DialogWarning',
   props: {
     data: {
       type: Object,
       default: () => {
-        return { entityName: 'bản ghi' };
+        return { propertyName: 'Mã nhân viên', propertyValue: 'NV-0001' };
       },
     },
   },
@@ -45,9 +42,6 @@ export default {
     return {
       //Trạng thái của popup
       isShow: false,
-
-      //Mã bản ghi
-      entityCode: '',
     };
   },
   methods: {
@@ -57,7 +51,6 @@ export default {
      */
     openPopup(code) {
       this.isShow = true;
-      this.entityCode = code;
       this.invokeOverlay();
     },
 
@@ -67,7 +60,6 @@ export default {
      */
     closePopup() {
       this.isShow = false;
-
       this.invokeOverlay();
     },
 
@@ -81,15 +73,6 @@ export default {
     },
 
     /**
-     * Delete record
-     * DVHAI 07/07/2021
-     */
-    deleteRecord() {
-      this.$emit('deleteRecord');
-      this.closePopup();
-    },
-
-    /**
      * Gọi lớp phủ
      * DVHAI 07/07/2021
      */
@@ -98,14 +81,22 @@ export default {
     },
   },
 
-  computed: {},
+  computed: {
+    propertyName() {
+      return this.data.propertyValue;
+    },
+
+    propertyValue() {
+      return '<' + this.data.propertyName + '>';
+    },
+  },
 };
 </script>
 
 <style scoped>
 .group__button {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .icon-warning {

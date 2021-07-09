@@ -1,239 +1,237 @@
 <template>
-  <transition name="slide">
-    <div ref="formGroup" v-if="isOpen" class="popup__form">
-      <div class="form__head">
-        <div class="head__left">
-          <div class="head__title">Thông tin nhân viên</div>
-          <div class="checkbox-option">
-            <div class="tick-box icon-18 icon-src"></div>
-            <span class="checkbox-text">Là khách hàng</span>
-          </div>
-          <div class="checkbox-option">
-            <div class="tick-box icon-18 icon-src"></div>
-            <span class="checkbox-text">Là nhà cung cấp</span>
-          </div>
+  <div ref="formGroup" v-if="isOpen" class="popup__form">
+    <div class="form__head">
+      <div class="head__left">
+        <div class="head__title">Thông tin nhân viên</div>
+        <div class="checkbox-option">
+          <div class="tick-box icon-18 icon-src"></div>
+          <span class="checkbox-text">Là khách hàng</span>
         </div>
-
-        <div class="head__right">
-          <div class="icon-src icon-24 icon-help mg-r-6-px"></div>
-          <div @click="closeForm()" class="icon-src icon-24 icon-close"></div>
+        <div class="checkbox-option">
+          <div class="tick-box icon-18 icon-src"></div>
+          <span class="checkbox-text">Là nhà cung cấp</span>
         </div>
       </div>
-      <div class="form__body">
-        <div class="body__top">
-          <div class="body__topleft">
-            <div class="body-row">
-              <InputLabel
-                class="mg-r-6-px"
-                MustValidate="true"
-                @changeValueInput="changeValueInput"
-                @checkUnique="checkUnique"
-                :model="employeeModel.employeeCode"
-                :data="employeeCodeInput"
-                :ref="employeeCodeInput.inputId"
-                :styleObject="{ width: '155px' }"
-              />
 
-              <InputLabel
-                class="flex-1"
-                MustValidate="true"
-                @changeValueInput="changeValueInput"
-                :model="employeeModel.employeeName"
-                :data="employeeNameInput"
-                :styleObject="{}"
-              />
-            </div>
-
-            <div class="body-row">
-              <div class="row__item flex-1">
-                <label for="">Đơn vị <span class="color-red">*</span> </label>
-                <DropdownMaster
-                  Mustvalidate="true"
-                  @changeValueInput="changeValueInput"
-                  :data="dropdownDepartment"
-                  :model="employeeModel.departmentName"
-                />
-              </div>
-            </div>
-
-            <div class="body-row">
-              <InputLabel
-                class="flex-1"
-                MustValidate="true"
-                @changeValueInput="changeValueInput"
-                :model="employeeModel.employeePosition"
-                :data="employeePositionInput"
-                :styleObject="{ width: '100%' }"
-              />
-            </div>
-          </div>
-          <div class="body__topright">
-            <div class="body-row">
-              <InputLabel
-                class="mg-r-6-px"
-                @changeValueInput="changeValueInput"
-                :model="employeeModel.dateOfBirth"
-                :data="dateOfBirthInput"
-              />
-
-              <!-- Giới tính -->
-              <div class="row__item flex-1 padding-left-10">
-                <label for="">Giới tính</label>
-                <RadioButtonMaster
-                  @changeValueInput="changeValueInput"
-                  :model="employeeModel.gender"
-                  :data="radioButtonGender"
-                />
-              </div>
-              <!-- end -->
-            </div>
-
-            <div class="body-row">
-              <InputLabel
-                class="flex-1 mg-r-6-px"
-                MustValidate="true"
-                @changeValueInput="changeValueInput"
-                :model="employeeModel.identityNumber"
-                :data="identityNumberInput"
-              />
-
-              <InputLabel
-                MustValidate="true"
-                @changeValueInput="changeValueInput"
-                :model="employeeModel.identityDate"
-                :data="identityDateInput"
-              />
-            </div>
-
-            <div class="body-row">
-              <InputLabel
-                class="flex-1"
-                MustValidate="true"
-                @changeValueInput="changeValueInput"
-                :model="employeeModel.identityPlace"
-                :data="identityPlaceInput"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="body__bottom">
+      <div class="head__right">
+        <div class="icon-src icon-24 icon-help mg-r-6-px"></div>
+        <div @click="closeForm()" class="icon-src icon-24 icon-close"></div>
+      </div>
+    </div>
+    <div class="form__body">
+      <div class="body__top">
+        <div class="body__topleft">
           <div class="body-row">
             <InputLabel
-              class="width-100pt"
+              class="mg-r-6-px"
               MustValidate="true"
               @changeValueInput="changeValueInput"
               @checkUnique="checkUnique"
-              :model="employeeModel.address"
-              :data="addressInput"
-              :ref="addressInput.inputId"
+              :model="employeeModel.employeeCode"
+              :data="employeeCodeInput"
+              :ref="employeeCodeInput.inputId"
+              :styleObject="{ width: '155px' }"
+            />
+
+            <InputLabel
+              class="flex-1"
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              :model="employeeModel.employeeName"
+              :data="employeeNameInput"
+              :styleObject="{}"
+            />
+          </div>
+
+          <div class="body-row">
+            <div class="row__item flex-1">
+              <label for="">Đơn vị <span class="color-red">*</span> </label>
+              <DropdownMaster
+                Mustvalidate="true"
+                @changeValueInput="changeValueInput"
+                :data="dropdownDepartment"
+                :model="employeeModel.departmentName"
+              />
+            </div>
+          </div>
+
+          <div class="body-row">
+            <InputLabel
+              class="flex-1"
+              MustValidate="true"
+              @changeValueInput="changeValueInput"
+              :model="employeeModel.employeePosition"
+              :data="employeePositionInput"
               :styleObject="{ width: '100%' }"
             />
           </div>
+        </div>
+        <div class="body__topright">
           <div class="body-row">
             <InputLabel
               class="mg-r-6-px"
+              @changeValueInput="changeValueInput"
+              :model="employeeModel.dateOfBirth"
+              :data="dateOfBirthInput"
+            />
+
+            <!-- Giới tính -->
+            <div class="row__item flex-1 padding-left-10">
+              <label for="">Giới tính</label>
+              <RadioButtonMaster
+                @changeValueInput="changeValueInput"
+                :model="employeeModel.gender"
+                :data="radioButtonGender"
+              />
+            </div>
+            <!-- end -->
+          </div>
+
+          <div class="body-row">
+            <InputLabel
+              class="flex-1 mg-r-6-px"
               MustValidate="true"
               @changeValueInput="changeValueInput"
-              @checkUnique="checkUnique"
-              :model="employeeModel.phoneNumber"
-              :data="phoneNumberInput"
-              :ref="phoneNumberInput.inputId"
-              :styleObject="{ width: '197px' }"
+              :model="employeeModel.identityNumber"
+              :data="identityNumberInput"
             />
 
             <InputLabel
-              class="mg-r-6-px"
               MustValidate="true"
               @changeValueInput="changeValueInput"
-              @checkUnique="checkUnique"
-              :model="employeeModel.telephoneNumber"
-              :data="telephoneNumberInput"
-              :ref="telephoneNumberInput.inputId"
-              :styleObject="{ width: '197px' }"
-            />
-
-            <InputLabel
-              MustValidate="true"
-              @changeValueInput="changeValueInput"
-              @checkUnique="checkUnique"
-              :model="employeeModel.email"
-              :data="emailInput"
-              :ref="emailInput.inputId"
-              :styleObject="{ width: '197px' }"
+              :model="employeeModel.identityDate"
+              :data="identityDateInput"
             />
           </div>
 
           <div class="body-row">
             <InputLabel
-              class="mg-r-6-px"
+              class="flex-1"
               MustValidate="true"
               @changeValueInput="changeValueInput"
-              @checkUnique="checkUnique"
-              :model="employeeModel.bankAccountNumber"
-              :data="bankAccountNumberInput"
-              :ref="bankAccountNumberInput.inputId"
-              :styleObject="{ width: '197px' }"
-            />
-
-            <InputLabel
-              class="mg-r-6-px"
-              MustValidate="true"
-              @changeValueInput="changeValueInput"
-              @checkUnique="checkUnique"
-              :model="employeeModel.bankName"
-              :data="bankNameInput"
-              :ref="bankNameInput.inputId"
-              :styleObject="{ width: '197px' }"
-            />
-
-            <InputLabel
-              MustValidate="true"
-              @changeValueInput="changeValueInput"
-              @checkUnique="checkUnique"
-              :model="employeeModel.bankBranchName"
-              :data="bankBranchNameInput"
-              :ref="bankBranchNameInput.inputId"
-              :styleObject="{ width: '197px' }"
+              :model="employeeModel.identityPlace"
+              :data="identityPlaceInput"
             />
           </div>
         </div>
-        <div class="separate"></div>
       </div>
-      <div class="form__bottom">
-        <div class="group__button--left">
-          <button
-            @click="closeForm()"
-            class="btn bgcolor-fff btn-cancel btn-size-default btn-border-default btn-h-36"
-          >
-            Hủy
-          </button>
+      <div class="body__bottom">
+        <div class="body-row">
+          <InputLabel
+            class="width-100pt"
+            MustValidate="true"
+            @changeValueInput="changeValueInput"
+            @checkUnique="checkUnique"
+            :model="employeeModel.address"
+            :data="addressInput"
+            :ref="addressInput.inputId"
+            :styleObject="{ width: '100%' }"
+          />
         </div>
-        <div class="group__button--rigth">
-          <button
-            @click="saveAndClose()"
-            class="btn bgcolor-fff btn-size-default btn-border-default btn-h-36 btn-save"
-          >
-            Cất
-          </button>
-          <button
-            @click="saveAndClear()"
-            class="btn btn-save-add btn-h-36 btn-green"
-          >
-            Cất và thêm
-          </button>
+        <div class="body-row">
+          <InputLabel
+            class="mg-r-6-px"
+            MustValidate="true"
+            @changeValueInput="changeValueInput"
+            @checkUnique="checkUnique"
+            :model="employeeModel.phoneNumber"
+            :data="phoneNumberInput"
+            :ref="phoneNumberInput.inputId"
+            :styleObject="{ width: '197px' }"
+          />
+
+          <InputLabel
+            class="mg-r-6-px"
+            MustValidate="true"
+            @changeValueInput="changeValueInput"
+            @checkUnique="checkUnique"
+            :model="employeeModel.telephoneNumber"
+            :data="telephoneNumberInput"
+            :ref="telephoneNumberInput.inputId"
+            :styleObject="{ width: '197px' }"
+          />
+
+          <InputLabel
+            MustValidate="true"
+            @changeValueInput="changeValueInput"
+            @checkUnique="checkUnique"
+            :model="employeeModel.email"
+            :data="emailInput"
+            :ref="emailInput.inputId"
+            :styleObject="{ width: '197px' }"
+          />
         </div>
+
+        <div class="body-row">
+          <InputLabel
+            class="mg-r-6-px"
+            MustValidate="true"
+            @changeValueInput="changeValueInput"
+            @checkUnique="checkUnique"
+            :model="employeeModel.bankAccountNumber"
+            :data="bankAccountNumberInput"
+            :ref="bankAccountNumberInput.inputId"
+            :styleObject="{ width: '197px' }"
+          />
+
+          <InputLabel
+            class="mg-r-6-px"
+            MustValidate="true"
+            @changeValueInput="changeValueInput"
+            @checkUnique="checkUnique"
+            :model="employeeModel.bankName"
+            :data="bankNameInput"
+            :ref="bankNameInput.inputId"
+            :styleObject="{ width: '197px' }"
+          />
+
+          <InputLabel
+            MustValidate="true"
+            @changeValueInput="changeValueInput"
+            @checkUnique="checkUnique"
+            :model="employeeModel.bankBranchName"
+            :data="bankBranchNameInput"
+            :ref="bankBranchNameInput.inputId"
+            :styleObject="{ width: '197px' }"
+          />
+        </div>
+      </div>
+      <div class="separate"></div>
+    </div>
+    <div class="form__bottom">
+      <div class="group__button--left">
+        <button
+          @click="closeForm()"
+          class="btn bgcolor-fff btn-cancel btn-size-default btn-border-default btn-h-36"
+        >
+          Hủy
+        </button>
+      </div>
+      <div class="group__button--rigth">
+        <button
+          @click="saveAndClose()"
+          class="btn bgcolor-fff btn-size-default btn-border-default btn-h-36 btn-save"
+        >
+          Cất
+        </button>
+        <button
+          @click="saveAndClear()"
+          class="btn btn-save-add btn-h-36 btn-green"
+        >
+          Cất và thêm
+        </button>
       </div>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script>
-import InputLabel from "../../common/vinput/InputLabel.vue";
-import DropdownMaster from "../../common/vcombobox/DropdownMaster";
-import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
-import DepartmentAPI from "../../../api/coponents/DepartmentAPI";
-import RadioButtonMaster from "../../common/vradiobutton/RadioButtonMaster.vue";
-import Enumeration from "../../../scripts/common/enumeration";
+import InputLabel from '../../common/vinput/InputLabel.vue';
+import DropdownMaster from '../../common/vcombobox/DropdownMaster';
+import EmployeeAPI from '../../../api/coponents/EmployeeAPI';
+import DepartmentAPI from '../../../api/coponents/DepartmentAPI';
+import RadioButtonMaster from '../../common/vradiobutton/RadioButtonMaster.vue';
+import Enumeration from '../../../scripts/common/enumeration';
 function initState() {
   return {
     departmentDropdownKeyRefresh: 0,
@@ -243,186 +241,186 @@ function initState() {
     // data form
     dropdownDepartment: {
       data: {
-        inputId: "departmentId",
-        placeHolder: "",
+        inputId: 'departmentId',
+        placeHolder: '',
         key: [],
         value: [],
       },
-      validation: ["required"],
+      validation: ['required'],
       style: {
-        width: "100%",
-        height: "32px",
+        width: '100%',
+        height: '32px',
       },
     },
 
     dropdownPosition: {
       data: {
-        inputId: "EmployeePosition",
-        placeHolder: "",
-        items: ["Giám đốc", "Fresher Web", "DepOops", "BA"],
+        inputId: 'EmployeePosition',
+        placeHolder: '',
+        items: ['Giám đốc', 'Fresher Web', 'DepOops', 'BA'],
         // dataType: "Enum",
         // enumName: "Gender",
       },
       style: {
-        width: "100%",
-        height: "32",
+        width: '100%',
+        height: '32',
       },
     },
 
     dropdownWorkStatus: {
       data: {
-        inputId: "WorkStatus",
-        placeHolder: "",
-        items: ["Đang làm việc", "Đang thử việc", "Đã nghỉ việc"],
+        inputId: 'WorkStatus',
+        placeHolder: '',
+        items: ['Đang làm việc', 'Đang thử việc', 'Đã nghỉ việc'],
         // dataType: "Enum",
         // enumName: "Gender",
       },
       style: {
-        width: "100%",
-        height: "40px",
+        width: '100%',
+        height: '40px',
       },
     },
 
     radioButtonGender: {
       data: {
-        inputId: "gender",
-        placeHolder: "",
-        items: ["Nam", "Nữ", "Khác"],
-        dataType: "Enum",
-        enumName: "Gender",
+        inputId: 'gender',
+        placeHolder: '',
+        items: ['Nam', 'Nữ', 'Khác'],
+        dataType: 'Enum',
+        enumName: 'Gender',
       },
       style: {
-        width: "100%",
-        height: "32px",
+        width: '100%',
+        height: '32px',
       },
     },
 
     //input
     employeeCodeInput: {
-      inputId: "employeeCode",
-      labelText: "Mã",
+      inputId: 'employeeCode',
+      labelText: 'Mã',
       isRequired: true,
-      inputType: "text",
-      validation: ["required", "minLength:3"],
-      mask: "",
+      inputType: 'text',
+      validation: ['required', 'minLength:3'],
+      mask: '',
       isUnique: true,
     },
 
     employeeNameInput: {
-      inputId: "employeeName",
-      labelText: "Tên",
+      inputId: 'employeeName',
+      labelText: 'Tên',
       isRequired: true,
-      inputType: "text",
-      validation: ["required"],
-      mask: "",
+      inputType: 'text',
+      validation: ['required'],
+      mask: '',
     },
 
     addressInput: {
-      inputId: "address",
-      labelText: "Địa chỉ",
+      inputId: 'address',
+      labelText: 'Địa chỉ',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     dateOfBirthInput: {
-      inputId: "dateOfBirth",
-      labelText: "Ngày sinh",
-      inputType: "date",
-      dataType: "Date",
+      inputId: 'dateOfBirth',
+      labelText: 'Ngày sinh',
+      inputType: 'date',
+      dataType: 'Date',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     identityNumberInput: {
-      inputId: "identityNumber",
-      labelText: "Số CMND",
+      inputId: 'identityNumber',
+      labelText: 'Số CMND',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     identityDateInput: {
-      inputId: "identityDate",
-      labelText: "Ngày cấp",
-      inputType: "date",
-      dataType: "Date",
+      inputId: 'identityDate',
+      labelText: 'Ngày cấp',
+      inputType: 'date',
+      dataType: 'Date',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     identityPlaceInput: {
-      inputId: "identityPlace",
-      labelText: "Nơi cấp",
-      inputType: "text",
+      inputId: 'identityPlace',
+      labelText: 'Nơi cấp',
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     employeePositionInput: {
-      inputId: "employeePosition",
-      labelText: "Chức danh",
+      inputId: 'employeePosition',
+      labelText: 'Chức danh',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     emailInput: {
-      inputId: "email",
-      labelText: "Email",
+      inputId: 'email',
+      labelText: 'Email',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
-      dataType: "Email",
+      mask: '',
+      dataType: 'Email',
     },
 
     phoneNumberInput: {
-      inputId: "phoneNumber",
-      labelText: "DT di động",
+      inputId: 'phoneNumber',
+      labelText: 'DT di động',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     telephoneNumberInput: {
-      inputId: "pelephoneNumber",
-      labelText: "DT cố định",
+      inputId: 'pelephoneNumber',
+      labelText: 'DT cố định',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     bankAccountNumberInput: {
-      inputId: "bankAccountNumber",
-      labelText: "Tài khoản ngân hàng",
+      inputId: 'bankAccountNumber',
+      labelText: 'Tài khoản ngân hàng',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     bankNameInput: {
-      inputId: "bankName",
-      labelText: "Tên ngân hàng",
+      inputId: 'bankName',
+      labelText: 'Tên ngân hàng',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     bankBranchNameInput: {
-      inputId: "bankBranchName",
-      labelText: "Chi nhánh",
+      inputId: 'bankBranchName',
+      labelText: 'Chi nhánh',
       isRequired: false,
-      inputType: "text",
+      inputType: 'text',
       validation: [],
-      mask: "",
+      mask: '',
     },
 
     employeeModel: {},
@@ -431,7 +429,7 @@ function initState() {
 }
 
 export default {
-  name: "EmployeeDetail",
+  name: 'EmployeeDetail',
   components: {
     InputLabel,
     DropdownMaster,
@@ -443,7 +441,7 @@ export default {
   },
   created() {
     //Lắng nghe sự kiện xem tất cả các trường validate thế nào
-    this.$bus.on("allInputValid", (value) => {
+    this.$bus.on('allInputValid', (value) => {
       this.allInputValid = value;
     });
   },
@@ -453,38 +451,39 @@ export default {
      * DVHAI 08/07/2021
      */
     async saveAndClear() {
-      await this.$bus.emit("displayLoader");
+      await this.$bus.emit('displayLoader');
       EmployeeAPI.insert(this.employeeModel)
         .then((response) => {
-          this.$bus.emit("displayLoader");
+          console.log(response);
+          this.$bus.emit('displayLoader');
           this.refreshGrid();
-          this.$bus.emit("openToast", {
-            type: "toast--success",
-            text: "Thêm nhân viên thành công",
+          this.$bus.emit('openToast', {
+            type: 'toast--success',
+            text: 'Thêm nhân viên thành công',
           });
 
           this.employeeModel = {};
-          this.$store.commit("SET_FORMMODE", Enumeration.FormMode.Add);
-          
+          this.$store.commit('SET_FORMMODE', Enumeration.FormMode.Add);
+
           EmployeeAPI.getNextEmployeeCode()
-            .then(function(response) {
+            .then((response) => {
               this.employeeModel.employeeCode = response;
-              console.log(response);
+              // debugger// eslint-disable-next-line
             })
             .catch((error) => {
               console.log(error);
-              this.$bus.emit("openToast", {
-                type: "toast--info",
-                text: "Không thể tạo mã",
+              this.$bus.emit('openToast', {
+                type: 'toast--info',
+                text: 'Không thể tạo mã',
               });
             });
         })
         .catch((error) => {
           console.log(error);
-          this.$bus.emit("displayLoader");
-          this.$bus.emit("openToast", {
-            type: "toast--error",
-            text: "Lỗi. Vui lòng liên hệ MISA",
+          this.$bus.emit('displayLoader');
+          this.$bus.emit('openToast', {
+            type: 'toast--error',
+            text: 'Lỗi. Vui lòng liên hệ MISA',
           });
         })
         .finally(() => {
@@ -523,7 +522,7 @@ export default {
      * DVHAI 08/07/2021
      */
     openDialogConfirmStoptyping() {
-      this.$emit("openDialogConfirmStoptyping");
+      this.$emit('openDialogConfirmStoptyping');
     },
 
     /**
@@ -548,7 +547,7 @@ export default {
      * DVHAI 08/07/2021
      */
     invokeOverlay() {
-      this.$bus.emit("invokeOverlay");
+      this.$bus.emit('invokeOverlay');
     },
 
     /**
@@ -583,17 +582,17 @@ export default {
      * DVHAI 08/07/2021
      */
     async getNewEmployeeCode() {
-      let employeeCode = "";
+      let employeeCode = '';
 
       await EmployeeAPI.getNextEmployeeCode()
-        .then(function(response) {
+        .then((response) => {
           employeeCode = response.data;
         })
         .catch((error) => {
           console.log(error);
-          this.$bus.emit("openToast", {
-            type: "toast--info",
-            text: "Không thể tạo mã",
+          this.$bus.emit('openToast', {
+            type: 'toast--info',
+            text: 'Không thể tạo mã',
           });
         });
 
@@ -623,9 +622,9 @@ export default {
         .catch((error) => {
           console.log(error);
           this.closeForm();
-          this.$bus.emit("openToast", {
-            type: "toast--error",
-            text: "Lỗi. Vui lòng liên hệ MISA",
+          this.$bus.emit('openToast', {
+            type: 'toast--error',
+            text: 'Lỗi. Vui lòng liên hệ MISA',
           });
         });
 
@@ -656,24 +655,22 @@ export default {
           this.formMode == Enumeration.FormMode.Add ||
           this.formMode == Enumeration.FormMode.Duplicate
         ) {
-          this.$bus.emit("displayLoader");
+          this.$bus.emit('displayLoader');
           EmployeeAPI.insert(this.employeeModel)
             .then((response) => {
-              console.log("save");
-              console.log(response);
-              this.$bus.emit("displayLoader");
+              this.$bus.emit('displayLoader');
               this.refreshGrid();
-              this.$bus.emit("openToast", {
-                type: "toast--success",
-                text: "Thêm nhân viên thành công",
+              this.$bus.emit('openToast', {
+                type: 'toast--success',
+                text: 'Thêm nhân viên thành công',
               });
             })
             .catch((error) => {
               console.log(error);
-              this.$bus.emit("displayLoader");
-              this.$bus.emit("openToast", {
-                type: "toast--error",
-                text: "Lỗi. Vui lòng liên hệ MISA",
+              this.$bus.emit('displayLoader');
+              this.$bus.emit('openToast', {
+                type: 'toast--error',
+                text: 'Lỗi. Vui lòng liên hệ MISA',
               });
             })
             .finally(() => {
@@ -681,23 +678,22 @@ export default {
             });
         } else if (this.formMode == Enumeration.FormMode.Edit) {
           //Là form sửa
-          this.$bus.emit("displayLoader");
+          this.$bus.emit('displayLoader');
           EmployeeAPI.update(this.employeeModel.employeeId, this.employeeModel)
             .then((response) => {
-              console.log(response);
-              this.$bus.emit("displayLoader");
+              this.$bus.emit('displayLoader');
               this.refreshGrid();
-              this.$bus.emit("openToast", {
-                type: "toast--success",
-                text: "Sửa nhân viên thành công",
+              this.$bus.emit('openToast', {
+                type: 'toast--success',
+                text: 'Sửa nhân viên thành công',
               });
             })
             .catch((error) => {
               console.log(error);
-              this.$bus.emit("displayLoader");
-              this.$bus.emit("openToast", {
-                type: "toast--error",
-                text: "Lỗi. Vui lòng liên hệ MISA",
+              this.$bus.emit('displayLoader');
+              this.$bus.emit('openToast', {
+                type: 'toast--error',
+                text: 'Lỗi. Vui lòng liên hệ MISA',
               });
 
               // this.$bus.emit("displayLoader");
@@ -712,7 +708,7 @@ export default {
      * DVHAI 08/07/2021
      */
     refreshGrid() {
-      this.$emit("refreshGrid");
+      this.$emit('refreshGrid');
     },
 
     /**
@@ -730,11 +726,11 @@ export default {
      */
     validateAll() {
       this.allInputValid = true;
-      var elValidate = this.$refs.formGroup.querySelectorAll("[MustValidate]");
+      var elValidate = this.$refs.formGroup.querySelectorAll('[MustValidate]');
 
       for (const el of elValidate) {
-        el.querySelector(".focus").focus();
-        el.querySelector(".focus").blur();
+        el.querySelector('.focus').focus();
+        el.querySelector('.focus').blur();
       }
     },
 
@@ -743,9 +739,9 @@ export default {
      * DVHAI 08/07/2021
      */
     async checkUnique(key, value) {
+      let isUnique = true;
       console.log(key, value);
-      // let isUnique = true;
-      // //api
+      //api
       // await EmployeeAPI.getEmployeeBycode(1, 0, value)
       //   .then((response) => {
       //     if (
@@ -759,7 +755,7 @@ export default {
       //     console.log(error);
       //     isUnique = true;
       //   });
-      // this.$refs[key].changeUniqueState(isUnique);
+      this.$refs[key].changeUniqueState(isUnique);
     },
   },
   computed: {
@@ -777,5 +773,5 @@ export default {
   width: 100%;
   border-top: 1px solid #e0e0e0;
 }
-@import url("../../../assets/css/views/employee/EmployeeDetail.css");
+@import url('../../../assets/css/views/employee/EmployeeDetail.css');
 </style>

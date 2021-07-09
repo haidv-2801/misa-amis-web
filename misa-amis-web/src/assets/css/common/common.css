@@ -134,11 +134,12 @@ html {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0,0,0,.4);;
   align-items: center;
   justify-content: center;
   overflow: auto;
   z-index: var(--z-index-mid);
+  transform: all .25s ease;
 }
 
 .d-flex {
@@ -176,7 +177,7 @@ html {
   right: 0;
   bottom: 0;
   margin: auto;
-  z-index: 200000;
+  z-index: 4000;
 }
 
 .hide {
@@ -214,12 +215,17 @@ html {
 }
 
 /* button */
-button.btn {
+.btn {
+  transition: all .2s ease;
   outline: none;
   border: none;
-  border-radius: 4px;
+  font-family: NotosanRegular;
+  height: 36;
+  border-radius: 3px;
   white-space: nowrap;
+  font-weight: 600;
   cursor: pointer;
+  font-size: 13px;
 }
 
 .padding-left-10 {
