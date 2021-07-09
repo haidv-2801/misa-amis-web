@@ -1,19 +1,15 @@
 <template>
-  <BaseDialog v-if="isShow">
+  <BaseDialog 
+  v-if="isShow">
     <template #alert__icon>
       <div class="icon-error icon-48 icon-src"></div>
     </template>
     <template #alert__text>
-      <span
-        >{{ propertyValue }} không được để trống</span
-      >
+      <span>{{ message }}</span>
     </template>
     <template #alert__foot>
       <div class="group__button">
-        <button
-          @click="cancel()"
-          class="btn btn-h-36 btn-green btn-save-add"
-        >
+        <button @click="cancel()" class="btn btn-h-36 btn-green btn-save-add">
           Đóng
         </button>
       </div>
@@ -22,15 +18,15 @@
 </template>
 
 <script>
-import BaseDialog from './BaseDialog.vue';
+import BaseDialog from "./BaseDialog.vue";
 
 export default {
-  name: 'DialogError',
+  name: "DialogError",
   props: {
     data: {
       type: Object,
       default: () => {
-        return { propertyName: 'Mã nhân viên', propertyValue: 'NV-0001' };
+        return { propertyName: "Mã nhân viên", propertyValue: "NV-0001" };
       },
     },
   },
@@ -39,6 +35,7 @@ export default {
   },
   data() {
     return {
+      dataReceive: null,
       //Trạng thái của popup
       isShow: false,
     };
@@ -48,10 +45,10 @@ export default {
      * Mở popup
      * DVHAI 07/07/2021
      */
-    openPopup(code) {
-      let me = code;
+    openPopup(data) {
+      this.dataReceive = data;
       this.isShow = true;
-      this.invokeOverlay();
+      document.querySelector("#overlay").style.zIndex = "3001";
     },
 
     /**
@@ -60,7 +57,7 @@ export default {
      */
     closePopup() {
       this.isShow = false;
-      this.invokeOverlay();
+      document.querySelector("#overlay").style.zIndex = "1000";
     },
 
     /**
@@ -71,23 +68,11 @@ export default {
       this.closePopup();
       //alert success
     },
-
-    /**
-     * Gọi lớp phủ
-     * DVHAI 07/07/2021
-     */
-    invokeOverlay() {
-      this.$bus.emit('invokeOverlay');
-    },
   },
 
   computed: {
-    propertyName() {
-      return this.data.propertyValue;
-    },
-
-    propertyValue() {
-      return this.data.propertyName;
+    message() {
+      return this.dataReceive.error;
     },
   },
 };
@@ -95,7 +80,7 @@ export default {
 
 <style scoped>
 .icon-error {
-    background-position: -24px -954px;
+  background-position: -24px -954px;
 }
 
 .group__button {
@@ -106,5 +91,4 @@ export default {
 .icon-warning {
   background-position: -592px -456px;
 }
-
 </style>

@@ -7,10 +7,10 @@
       @deleteRecord="deleteRecord"
     />
     <!-- warning popup -->
-    <DialogWarning />
+    <DialogWarning ref="formWarning" />
 
     <!-- Error popup -->
-    <DialogError />
+    <DialogError ref="formError" />
 
     <DialogConfirmStopTyping
       :data="entity"
@@ -21,6 +21,8 @@
     <!-- form employee -->
     <EmployeeDetail
       @openDialogConfirmStoptyping="openDialogConfirmStoptyping"
+      @openFormError="openFormError"
+      @openFormWarning="openFormWarning"
       @refreshGrid="refreshGrid"
       ref="formEmployeeDetail"
     />
@@ -50,19 +52,19 @@
 </template>
 
 <script>
-import EmployeeDetail from './EmployeeDetail.vue';
-import EmployeeToolBar from './EmployeeToolBar.vue';
-import EmployeeFilterBar from './EmployeeFilterBar.vue';
-import Grid from '../../common/Grid.vue';
-import DialogConfirmDel from '../../common/vdialog/DialogConfirmDel.vue';
-import DialogWarning from '../../common/vdialog/DialogWarning.vue';
-import DialogError from '../../common/vdialog/DialogError.vue';
-import DialogConfirmStopTyping from '../../common/vdialog/DialogConfirmStopTyping.vue';
-import EmployeeAPI from '../../../api/coponents/EmployeeAPI';
+import EmployeeDetail from "./EmployeeDetail.vue";
+import EmployeeToolBar from "./EmployeeToolBar.vue";
+import EmployeeFilterBar from "./EmployeeFilterBar.vue";
+import Grid from "../../common/Grid.vue";
+import DialogConfirmDel from "../../common/vdialog/DialogConfirmDel.vue";
+import DialogWarning from "../../common/vdialog/DialogWarning.vue";
+import DialogError from "../../common/vdialog/DialogError.vue";
+import DialogConfirmStopTyping from "../../common/vdialog/DialogConfirmStopTyping.vue";
+import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
 // import employee from "../../../store/employeeData";
 
 export default {
-  name: 'EmployeeIndex',
+  name: "EmployeeIndex",
   components: {
     EmployeeDetail,
     EmployeeToolBar,
@@ -80,71 +82,71 @@ export default {
 
       //use form cofirm log
       entity: {
-        entityName: 'Nhân Viên',
+        entityName: "Nhân Viên",
       },
 
       //use for grid
       gridDataTable: {
         column: [
           {
-            fieldName: 'employeeCode',
-            displayName: 'Mã nhân viên',
-            dataType: '',
-            displayType: '',
+            fieldName: "employeeCode",
+            displayName: "Mã nhân viên",
+            dataType: "",
+            displayType: "",
           },
           {
-            fieldName: 'employeeName',
-            displayName: 'Tên nhân viên',
-            dataType: '',
-            displayType: '',
+            fieldName: "employeeName",
+            displayName: "Tên nhân viên",
+            dataType: "",
+            displayType: "",
           },
           {
-            fieldName: 'gender',
-            displayName: 'Giới tính',
-            dataType: 'Enum',
-            displayType: 'Gender',
+            fieldName: "gender",
+            displayName: "Giới tính",
+            dataType: "Enum",
+            displayType: "Gender",
           },
           {
-            fieldName: 'dateOfBirth',
-            displayName: 'Ngày sinh',
-            dataType: 'Date',
-            displayType: '',
+            fieldName: "dateOfBirth",
+            displayName: "Ngày sinh",
+            dataType: "Date",
+            displayType: "",
           },
           {
-            fieldName: 'identityNumber',
-            displayName: 'Số cmnd',
-            dataType: '',
-            displayType: '',
+            fieldName: "identityNumber",
+            displayName: "Số cmnd",
+            dataType: "",
+            displayType: "",
           },
           {
-            fieldName: 'employeePosition',
-            displayName: 'Chức danh',
-            dataType: '',
-            displayType: '',
+            fieldName: "employeePosition",
+            displayName: "Chức danh",
+            dataType: "",
+            displayType: "",
           },
           {
-            fieldName: 'departmentName',
-            displayName: 'Tên đơn vị',
-            dataType: '',
-            displayType: '',
+            fieldName: "departmentName",
+            displayName: "Tên đơn vị",
+            dataType: "",
+            displayType: "",
           },
           {
-            fieldName: 'bankAccountNumber',
-            displayName: 'Số tài khoản',
-            dataType: '',
-            displayType: '',
+            fieldName: "bankAccountNumber",
+            displayName: "Số tài khoản",
+            dataType: "",
+            displayType: "",
           },
           {
-            fieldName: 'bankName',
-            displayName: 'Tên ngân hàng',
-            dataType: '',
-            displayType: '',
+            fieldName: "bankName",
+            displayName: "Tên ngân hàng",
+            dataType: "",
+            displayType: "",
           },
           {
-            fieldName: 'bankBranchName',
-            displayName: 'Chi nhánh tk ngân hàng',
-            dataType: '',
-            displayType: '',
+            fieldName: "bankBranchName",
+            displayName: "Chi nhánh tk ngân hàng",
+            dataType: "",
+            displayType: "",
           },
         ],
         data: [],
@@ -158,7 +160,7 @@ export default {
       },
 
       //use for filterbar
-      filterString: '',
+      filterString: "",
     };
   },
   created() {
@@ -174,6 +176,12 @@ export default {
   watch: {},
 
   methods: {
+    openFormError(data) {
+      this.$refs.formError.openPopup(data);
+    },
+    openFormWarning(data) {
+      this.$refs.formWarning.openPopup(data);
+    },
     /**
      * Thay đổi pagenumber
      * DVHAI 07/07/2021
@@ -223,13 +231,12 @@ export default {
      * DVHAI 13/06/2021
      */
     getDataGrid() {
-      this.$bus.emit("displayLoader");
+      this.$store.commit("SET_LOADER", true);
       EmployeeAPI.getAll()
         .then((response) => {
           this.gridDataTable.data = response.data;
         })
         .catch((error) => {
-          his.$bus.emit("displayLoader");
           console.log(error);
           this.$bus.emit("openToast", {
             type: "toast--error",
@@ -237,7 +244,7 @@ export default {
           });
         })
         .finally(() => {
-          this.$bus.emit("displayLoader");
+          this.$store.commit("SET_LOADER", false);
         });
     },
 
@@ -319,21 +326,21 @@ export default {
         EmployeeAPI.delete(id)
           .then((response) => {
             console.log(response);
-            this.$bus.emit('openToast', {
-              type: 'toast--success',
-              text: 'Xóa thành công Nhân Viên',
+            this.$bus.emit("openToast", {
+              type: "toast--success",
+              text: "Xóa thành công Nhân Viên",
             });
 
             //Gán lại thực thể trong store bằng null
-            this.$store.commit('SET_ENTITY', null);
+            this.$store.commit("SET_ENTITY", null);
 
             this.refreshGrid();
           })
           .catch((error) => {
             console.log(error);
-            this.$bus.emit('openToast', {
-              type: 'toast--error',
-              text: 'Lỗi. Vui lòng liên hệ MISA',
+            this.$bus.emit("openToast", {
+              type: "toast--error",
+              text: "Lỗi. Vui lòng liên hệ MISA",
             });
           });
       }
@@ -351,5 +358,5 @@ export default {
 </script>
 
 <style scoped>
-@import url('../../../assets/css/common/main.css');
+@import url("../../../assets/css/common/main.css");
 </style>

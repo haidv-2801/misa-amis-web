@@ -42,11 +42,6 @@ export default {
       this.displayOverlay = !this.displayOverlay;
     });
 
-    //lắng nghe sự kiện bật loader
-    this.$bus.on("displayLoader", () => {
-      this.displayLoader = !this.displayLoader;
-    });
-
     //lắng nghe sự kiện bật toast
     this.$bus.on("openToast", (value) => {
       this.$refs.Toast.openToast({ ...value });
@@ -72,7 +67,7 @@ export default {
         { icon: "icon-stock", link:"/setting", text: "Phân tích tài chính" },
       ],
       displayOverlay: false,
-      displayLoader: false,
+      // displayLoader: false,
     };
   },
   components: {
@@ -83,6 +78,11 @@ export default {
     Loader
   },
   methods: {},
+  computed:{
+    displayLoader() {
+      return this.$store.state.loaderEngine;
+    }
+  }
 };
 </script>
 

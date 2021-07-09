@@ -46,12 +46,14 @@
           <div class="body-row">
             <div class="row__item flex-1">
               <label for="">Đơn vị <span class="color-red">*</span> </label>
-              <DropdownMaster
-                Mustvalidate="true"
-                @changeValueInput="changeValueInput"
-                :data="dropdownDepartment"
-                :model="employeeModel.departmentName"
-              />
+              <div Mustvalidate="true">
+                <DropdownMaster
+                  @changeValueInput="changeValueInput"
+                  :data="dropdownDepartment"
+                  :model="employeeModel.departmentName"
+                  tabindex="0"
+                />
+              </div>
             </div>
           </div>
 
@@ -226,210 +228,199 @@
 </template>
 
 <script>
-import InputLabel from '../../common/vinput/InputLabel.vue';
-import DropdownMaster from '../../common/vcombobox/DropdownMaster';
-import EmployeeAPI from '../../../api/coponents/EmployeeAPI';
-import DepartmentAPI from '../../../api/coponents/DepartmentAPI';
-import RadioButtonMaster from '../../common/vradiobutton/RadioButtonMaster.vue';
-import Enumeration from '../../../scripts/common/enumeration';
+import InputLabel from "../../common/vinput/InputLabel.vue";
+import DropdownMaster from "../../common/vcombobox/DropdownMaster";
+import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
+import DepartmentAPI from "../../../api/coponents/DepartmentAPI";
+import RadioButtonMaster from "../../common/vradiobutton/RadioButtonMaster.vue";
+import Enumeration from "../../../scripts/common/enumeration";
 function initState() {
   return {
-    departmentDropdownKeyRefresh: 0,
+    //Dữ liệu sao chép từ employee model để so sánh thay đổi
+    employeeOrigin: null,
+
     //trạng thái của form
     isOpen: false,
 
     // data form
     dropdownDepartment: {
       data: {
-        inputId: 'departmentId',
-        placeHolder: '',
+        inputId: "departmentId",
+        placeHolder: "",
+        labelText: "Vị trí",
         key: [],
         value: [],
       },
-      validation: ['required'],
+      validation: ["required"],
       style: {
-        width: '100%',
-        height: '32px',
+        width: "100%",
+        height: "32px",
       },
     },
 
     dropdownPosition: {
       data: {
-        inputId: 'EmployeePosition',
-        placeHolder: '',
-        items: ['Giám đốc', 'Fresher Web', 'DepOops', 'BA'],
+        inputId: "EmployeePosition",
+        placeHolder: "",
+        items: ["Giám đốc", "Fresher Web", "DepOops", "BA"],
         // dataType: "Enum",
         // enumName: "Gender",
       },
       style: {
-        width: '100%',
-        height: '32',
-      },
-    },
-
-    dropdownWorkStatus: {
-      data: {
-        inputId: 'WorkStatus',
-        placeHolder: '',
-        items: ['Đang làm việc', 'Đang thử việc', 'Đã nghỉ việc'],
-        // dataType: "Enum",
-        // enumName: "Gender",
-      },
-      style: {
-        width: '100%',
-        height: '40px',
+        width: "100%",
+        height: "32",
       },
     },
 
     radioButtonGender: {
       data: {
-        inputId: 'gender',
-        placeHolder: '',
-        items: ['Nam', 'Nữ', 'Khác'],
-        dataType: 'Enum',
-        enumName: 'Gender',
+        inputId: "gender",
+        placeHolder: "",
+        items: ["Nam", "Nữ", "Khác"],
+        dataType: "Enum",
+        enumName: "Gender",
       },
       style: {
-        width: '100%',
-        height: '32px',
+        width: "100%",
+        height: "32px",
       },
     },
 
     //input
     employeeCodeInput: {
-      inputId: 'employeeCode',
-      labelText: 'Mã',
+      inputId: "employeeCode",
+      labelText: "Mã",
       isRequired: true,
-      inputType: 'text',
-      validation: ['required', 'minLength:3'],
-      mask: '',
+      inputType: "text",
+      validation: ["required"],
+      mask: "",
       isUnique: true,
     },
 
     employeeNameInput: {
-      inputId: 'employeeName',
-      labelText: 'Tên',
+      inputId: "employeeName",
+      labelText: "Tên",
       isRequired: true,
-      inputType: 'text',
-      validation: ['required'],
-      mask: '',
+      inputType: "text",
+      validation: ["required"],
+      mask: "",
     },
 
     addressInput: {
-      inputId: 'address',
-      labelText: 'Địa chỉ',
+      inputId: "address",
+      labelText: "Địa chỉ",
       isRequired: false,
-      inputType: 'text',
+      inputType: "text",
       validation: [],
-      mask: '',
+      mask: "",
     },
 
     dateOfBirthInput: {
-      inputId: 'dateOfBirth',
-      labelText: 'Ngày sinh',
-      inputType: 'date',
-      dataType: 'Date',
+      inputId: "dateOfBirth",
+      labelText: "Ngày sinh",
+      inputType: "date",
+      dataType: "Date",
       validation: [],
-      mask: '',
+      mask: "",
     },
 
     identityNumberInput: {
-      inputId: 'identityNumber',
-      labelText: 'Số CMND',
+      inputId: "identityNumber",
+      labelText: "Số CMND",
       isRequired: false,
-      inputType: 'text',
-      validation: [],
-      mask: '',
+      inputType: "text",
+      validation: ["number", "minLength:10", "maxLength:15"],
+      mask: "",
     },
 
     identityDateInput: {
-      inputId: 'identityDate',
-      labelText: 'Ngày cấp',
-      inputType: 'date',
-      dataType: 'Date',
+      inputId: "identityDate",
+      labelText: "Ngày cấp",
+      inputType: "date",
+      dataType: "Date",
       validation: [],
-      mask: '',
+      mask: "",
     },
 
     identityPlaceInput: {
-      inputId: 'identityPlace',
-      labelText: 'Nơi cấp',
-      inputType: 'text',
+      inputId: "identityPlace",
+      labelText: "Nơi cấp",
+      inputType: "text",
       validation: [],
-      mask: '',
+      mask: "",
     },
 
     employeePositionInput: {
-      inputId: 'employeePosition',
-      labelText: 'Chức danh',
+      inputId: "employeePosition",
+      labelText: "Chức danh",
       isRequired: false,
-      inputType: 'text',
+      inputType: "text",
       validation: [],
-      mask: '',
+      mask: "",
     },
 
     emailInput: {
-      inputId: 'email',
-      labelText: 'Email',
+      inputId: "email",
+      labelText: "Email",
       isRequired: false,
-      inputType: 'text',
-      validation: [],
-      mask: '',
-      dataType: 'Email',
+      inputType: "text",
+      validation: ["email"],
+      mask: "",
+      dataType: "Email",
     },
 
     phoneNumberInput: {
-      inputId: 'phoneNumber',
-      labelText: 'DT di động',
+      inputId: "phoneNumber",
+      labelText: "Điện thoại di động",
       isRequired: false,
-      inputType: 'text',
-      validation: [],
-      mask: '',
+      inputType: "text",
+      validation: ["number", "minLength:8", "maxLength:15"],
+      mask: "",
     },
 
     telephoneNumberInput: {
-      inputId: 'pelephoneNumber',
-      labelText: 'DT cố định',
+      inputId: "pelephoneNumber",
+      labelText: "Điện thoại cố định",
       isRequired: false,
-      inputType: 'text',
-      validation: [],
-      mask: '',
+      inputType: "text",
+      validation: ["number", "minLength:8", "maxLength:15"],
+      mask: "",
     },
 
     bankAccountNumberInput: {
-      inputId: 'bankAccountNumber',
-      labelText: 'Tài khoản ngân hàng',
+      inputId: "bankAccountNumber",
+      labelText: "Tài khoản ngân hàng",
       isRequired: false,
-      inputType: 'text',
-      validation: [],
-      mask: '',
+      inputType: "text",
+      validation: ["number"],
+      mask: "",
     },
 
     bankNameInput: {
-      inputId: 'bankName',
-      labelText: 'Tên ngân hàng',
+      inputId: "bankName",
+      labelText: "Tên ngân hàng",
       isRequired: false,
-      inputType: 'text',
+      inputType: "text",
       validation: [],
-      mask: '',
+      mask: "",
     },
 
     bankBranchNameInput: {
-      inputId: 'bankBranchName',
-      labelText: 'Chi nhánh',
+      inputId: "bankBranchName",
+      labelText: "Chi nhánh",
       isRequired: false,
-      inputType: 'text',
+      inputType: "text",
       validation: [],
-      mask: '',
+      mask: "",
     },
 
     employeeModel: {},
-    allInputValid: true,
+    validateResult: [],
   };
 }
 
 export default {
-  name: 'EmployeeDetail',
+  name: "EmployeeDetail",
   components: {
     InputLabel,
     DropdownMaster,
@@ -441,8 +432,8 @@ export default {
   },
   created() {
     //Lắng nghe sự kiện xem tất cả các trường validate thế nào
-    this.$bus.on('allInputValid', (value) => {
-      this.allInputValid = value;
+    this.$bus.on("validateResult", (value) => {
+      this.validateResult.push(value);
     });
   },
   methods: {
@@ -451,44 +442,11 @@ export default {
      * DVHAI 08/07/2021
      */
     async saveAndClear() {
-      await this.$bus.emit('displayLoader');
-      EmployeeAPI.insert(this.employeeModel)
-        .then((response) => {
-          console.log(response);
-          this.$bus.emit('displayLoader');
-          this.refreshGrid();
-          this.$bus.emit('openToast', {
-            type: 'toast--success',
-            text: 'Thêm nhân viên thành công',
-          });
-
-          this.employeeModel = {};
-          this.$store.commit('SET_FORMMODE', Enumeration.FormMode.Add);
-
-          EmployeeAPI.getNextEmployeeCode()
-            .then((response) => {
-              this.employeeModel.employeeCode = response;
-              // debugger// eslint-disable-next-line
-            })
-            .catch((error) => {
-              console.log(error);
-              this.$bus.emit('openToast', {
-                type: 'toast--info',
-                text: 'Không thể tạo mã',
-              });
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-          this.$bus.emit('displayLoader');
-          this.$bus.emit('openToast', {
-            type: 'toast--error',
-            text: 'Lỗi. Vui lòng liên hệ MISA',
-          });
-        })
-        .finally(() => {
-          // this.$bus.emit("displayLoader");
-        });
+      await this.save();
+      if (this.validateResult.length == 0) {
+        this.employeeModel = {};
+        this.employeeModel.employeeCode = await this.getNewEmployeeCode();
+      }
     },
 
     /**
@@ -522,7 +480,7 @@ export default {
      * DVHAI 08/07/2021
      */
     openDialogConfirmStoptyping() {
-      this.$emit('openDialogConfirmStoptyping');
+      this.$emit("openDialogConfirmStoptyping");
     },
 
     /**
@@ -547,7 +505,7 @@ export default {
      * DVHAI 08/07/2021
      */
     invokeOverlay() {
-      this.$bus.emit('invokeOverlay');
+      this.$bus.emit("invokeOverlay");
     },
 
     /**
@@ -563,7 +521,7 @@ export default {
       this.getAllDepartments();
 
       if (this.formMode == Enumeration.FormMode.Edit) {
-        this.bindDataForm(cloneItem);
+        await this.bindDataForm(cloneItem);
       } else if (this.formMode == Enumeration.FormMode.Add) {
         this.employeeModel.employeeCode = await this.getNewEmployeeCode();
       } else if (this.formMode == Enumeration.FormMode.Duplicate) {
@@ -572,6 +530,13 @@ export default {
       } else {
         //
       }
+
+      //Tạo bản sao dữ liệu để so sánh thay đổi
+      this.employeeOrigin = await JSON.parse(
+        JSON.stringify(this.employeeModel)
+      );
+
+      console.log(this.employeeOrigin);
 
       this.isOpen = true;
       this.invokeOverlay();
@@ -582,7 +547,7 @@ export default {
      * DVHAI 08/07/2021
      */
     async getNewEmployeeCode() {
-      let employeeCode = '';
+      let employeeCode = "";
 
       await EmployeeAPI.getNextEmployeeCode()
         .then((response) => {
@@ -590,9 +555,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.$bus.emit('openToast', {
-            type: 'toast--info',
-            text: 'Không thể tạo mã',
+          this.$bus.emit("openToast", {
+            type: "toast--info",
+            text: "Không thể tạo mã",
           });
         });
 
@@ -622,9 +587,9 @@ export default {
         .catch((error) => {
           console.log(error);
           this.closeForm();
-          this.$bus.emit('openToast', {
-            type: 'toast--error',
-            text: 'Lỗi. Vui lòng liên hệ MISA',
+          this.$bus.emit("openToast", {
+            type: "toast--error",
+            text: "Lỗi. Vui lòng liên hệ MISA",
           });
         });
 
@@ -635,9 +600,9 @@ export default {
      * Lưu dữ liệu
      * DVHAI 08/07/2021
      */
-    saveAndClose() {
-      this.save();
-      this.closeForm();
+    async saveAndClose() {
+      await this.save();
+      if (this.validateResult.length == 0) this.closeForm();
     },
 
     /**
@@ -649,58 +614,85 @@ export default {
       await this.validateAll();
 
       //hợp lệ
-      if (this.allInputValid) {
+      if (this.validateResult.length == 0) {
         //Là form thêm hoặc tạo bản sao
         if (
           this.formMode == Enumeration.FormMode.Add ||
           this.formMode == Enumeration.FormMode.Duplicate
         ) {
-          this.$bus.emit('displayLoader');
-          EmployeeAPI.insert(this.employeeModel)
+          this.$store.commit("SET_LOADER", true);
+          await EmployeeAPI.insert(this.employeeModel)
             .then((response) => {
-              this.$bus.emit('displayLoader');
+              console.log(response);
               this.refreshGrid();
-              this.$bus.emit('openToast', {
-                type: 'toast--success',
-                text: 'Thêm nhân viên thành công',
+              this.$bus.emit("openToast", {
+                type: "toast--success",
+                text: "Thêm nhân viên thành công",
               });
             })
             .catch((error) => {
               console.log(error);
-              this.$bus.emit('displayLoader');
-              this.$bus.emit('openToast', {
-                type: 'toast--error',
-                text: 'Lỗi. Vui lòng liên hệ MISA',
+              this.$bus.emit("openToast", {
+                type: "toast--error",
+                text: "Lỗi. Vui lòng liên hệ MISA",
               });
             })
             .finally(() => {
-              // this.$bus.emit("displayLoader");
+              this.$store.commit("SET_LOADER", false);
+              this.$store.commit("SET_HASVALIDATE", false);
             });
         } else if (this.formMode == Enumeration.FormMode.Edit) {
           //Là form sửa
-          this.$bus.emit('displayLoader');
+          this.$store.commit("SET_LOADER", true);
           EmployeeAPI.update(this.employeeModel.employeeId, this.employeeModel)
             .then((response) => {
-              this.$bus.emit('displayLoader');
+              console.log(response);
               this.refreshGrid();
-              this.$bus.emit('openToast', {
-                type: 'toast--success',
-                text: 'Sửa nhân viên thành công',
+              this.$bus.emit("openToast", {
+                type: "toast--success",
+                text: "Sửa nhân viên thành công",
               });
             })
             .catch((error) => {
               console.log(error);
-              this.$bus.emit('displayLoader');
-              this.$bus.emit('openToast', {
-                type: 'toast--error',
-                text: 'Lỗi. Vui lòng liên hệ MISA',
+              this.$bus.emit("openToast", {
+                type: "toast--error",
+                text: "Lỗi. Vui lòng liên hệ MISA",
               });
-
-              // this.$bus.emit("displayLoader");
             })
-            .finally(() => {});
+            .finally(() => {
+              this.$store.commit("SET_LOADER", false);
+              this.$store.commit("SET_HASVALIDATE", false);
+            });
+        }
+      } else {
+        let err = this.validateResult[0];
+        if (err.errCode == Enumeration.ErrorCode.Empty) {
+          this.openFormError(err);
+        } else if (err.errCode == Enumeration.ErrorCode.IncorrectFormat) {
+          this.openFormWarning(err);
+        } else if (err.errCode == Enumeration.ErrorCode.InValid) {
+          this.openFormWarning(err);
+        } else {
+          //
         }
       }
+    },
+
+    /**
+     * Mở form lỗi
+     * DVHAI 08/07/2021
+     */
+    openFormError(data) {
+      this.$emit("openFormError", data);
+    },
+
+    /**
+     * Mở form cảnh báo
+     * DVHAI 08/07/2021
+     */
+    openFormWarning(data) {
+      this.$emit("openFormWarning", data);
     },
 
     /**
@@ -708,7 +700,7 @@ export default {
      * DVHAI 08/07/2021
      */
     refreshGrid() {
-      this.$emit('refreshGrid');
+      this.$emit("refreshGrid");
     },
 
     /**
@@ -725,12 +717,13 @@ export default {
      * DVHAI 08/07/2021
      */
     validateAll() {
-      this.allInputValid = true;
-      var elValidate = this.$refs.formGroup.querySelectorAll('[MustValidate]');
+      this.$store.commit("SET_HASVALIDATE", true)
+      this.validateResult = [];
+      var elValidate = this.$refs.formGroup.querySelectorAll("[MustValidate]");
 
       for (const el of elValidate) {
-        el.querySelector('.focus').focus();
-        el.querySelector('.focus').blur();
+        el.querySelector(".focus").focus();
+        el.querySelector(".focus").blur();
       }
     },
 
@@ -741,21 +734,44 @@ export default {
     async checkUnique(key, value) {
       let isUnique = true;
       console.log(key, value);
-      //api
-      // await EmployeeAPI.getEmployeeBycode(1, 0, value)
-      //   .then((response) => {
-      //     if (
-      //       response.status != 204 &&
-      //       this.employeeModel.employeeId != response.data.Data[0].employeeId
-      //     ) {
-      //       isUnique = false;
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     isUnique = true;
-      //   });
+      await EmployeeAPI.getEmployeeBycode(1, 0, value)
+        .then((response) => {
+          if (
+            response.status != 204 &&
+            this.employeeModel.employeeId != response.data.Data[0].employeeId
+          ) {
+            isUnique = false;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          isUnique = true;
+        });
       this.$refs[key].changeUniqueState(isUnique);
+    },
+
+    /**
+     * Kiểm tra giá trị model bên form đã thay đổi chưa để đưa ra cảnh
+     * báo đóng form (employeeOrigin, employeeModel)
+     * DVHAI 08/07/2021
+     */
+    checkValueChange() {
+      let isDiff = false;
+
+      for (const property in this.employeeOrigin) {
+        let origin = { ...this.employeeOrigin[property] };
+        let model = { ...this.employeeModel[property] };
+
+        if (typeof origin == "string") origin = origin.trim();
+        if (typeof model == "string") origin = origin.trim();
+        if (origin == null) origin = "";
+        if (model == null) origin = "";
+        console.log("origin" + origin, "model" + model);
+
+        if (origin != model) isDiff = true;
+      }
+
+      return isDiff;
     },
   },
   computed: {
@@ -773,5 +789,5 @@ export default {
   width: 100%;
   border-top: 1px solid #e0e0e0;
 }
-@import url('../../../assets/css/views/employee/EmployeeDetail.css');
+@import url("../../../assets/css/views/employee/EmployeeDetail.css");
 </style>

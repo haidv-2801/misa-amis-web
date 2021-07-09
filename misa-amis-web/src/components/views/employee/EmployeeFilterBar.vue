@@ -202,7 +202,7 @@ export default {
 
 .filter__right {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .filter__right input::placeholder {

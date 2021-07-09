@@ -32,5 +32,14 @@ Enumeration.Keyboard = {
     ArrawDown: 40
 };
 
+//Mã lỗi
+Enumeration.ErrorCode = {
+    Valid: 3,
+    InValid: 0,
+    IncorrectFormat: 1,
+    Empty: 2,
+};
+
+
 export default Enumeration
 

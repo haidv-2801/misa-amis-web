@@ -5,16 +5,12 @@
     </template>
     <template #alert__text>
       <span
-        >{{ propertyName }} {{ propertyValue }} đã tồn tại trong hệ thống, vui
-        lòng kiểm tra lại.</span
+        >{{ propertyName }}</span
       >
     </template>
     <template #alert__foot>
       <div class="group__button">
-        <button
-          @click="cancel()"
-          class="btn btn-h-36 btn-green btn-save-add"
-        >
+        <button @click="cancel()" class="btn btn-h-36 btn-green btn-save-add">
           Đồng ý
         </button>
       </div>
@@ -23,15 +19,15 @@
 </template>
 
 <script>
-import BaseDialog from './BaseDialog.vue';
+import BaseDialog from "./BaseDialog.vue";
 
 export default {
-  name: 'DialogWarning',
+  name: "DialogWarning",
   props: {
     data: {
       type: Object,
       default: () => {
-        return { propertyName: 'Mã nhân viên', propertyValue: 'NV-0001' };
+        return { propertyName: "Mã nhân viên", propertyValue: "NV-0001" };
       },
     },
   },
@@ -40,7 +36,7 @@ export default {
   },
   data() {
     return {
-      //Trạng thái của popup
+      dataReceive: null,
       isShow: false,
     };
   },
@@ -49,9 +45,10 @@ export default {
      * Mở popup
      * DVHAI 07/07/2021
      */
-    openPopup(code) {
+    openPopup(data) {
+      this.dataReceive = data;
+      document.querySelector("#overlay").style.zIndex = "3001";
       this.isShow = true;
-      this.invokeOverlay();
     },
 
     /**
@@ -60,7 +57,7 @@ export default {
      */
     closePopup() {
       this.isShow = false;
-      this.invokeOverlay();
+      document.querySelector("#overlay").style.zIndex = "1000";
     },
 
     /**
@@ -71,23 +68,15 @@ export default {
       this.closePopup();
       //alert success
     },
-
-    /**
-     * Gọi lớp phủ
-     * DVHAI 07/07/2021
-     */
-    invokeOverlay() {
-      this.$bus.emit('invokeOverlay');
-    },
   },
 
   computed: {
     propertyName() {
-      return this.data.propertyValue;
+      return this.dataReceive.error;
     },
 
     propertyValue() {
-      return '<' + this.data.propertyName + '>';
+      return "<" + this.data.propertyName + ">";
     },
   },
 };

@@ -31,9 +31,6 @@ Resource.WorkStatus = {
     Retired: "Đã nghỉ việc",   //Nghi viec
 };
 
-
-
-
 //Các comandtype của toolbar
 Resource.CommandType = {
     Add: "Add",

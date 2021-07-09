@@ -1,12 +1,7 @@
 <template>
-  <div
-    class="tooltip"
-    :style="{ '--scale': tooltipScale, '--tooltip-message': validation.error }"
-    @mouseover="raiseErrorMsg()"
-    @mouseleave="hideErrorMsg()"
-  >
     <DxSelectBox
       class="m-select-box focus"
+      :style="[!this.validation.isValid?{'--color-border-input': 'red'}:{}]"
       :placeholder="cloneDataSource.placeHolder"
       :noDataText="'Không tìm thấy'"
       :searchEnabled="true"
@@ -14,16 +9,16 @@
       :width="cloneDataSource.style.width"
       :height="cloneDataSource.style.height"
       :data-source="cloneDataSource.data.value"
-      v-model="cloneModel"
       :onFocusIn="focus"
       :onFocusOut="blur"
-    />
-  </div>
+      v-model="cloneModel"
+      />
 </template>
 
 <script>
 import DxSelectBox from "devextreme-vue/select-box";
 import validate from "../../../scripts/common/validator.js";
+import Enumeration from "../../../scripts/common/enumeration";
 export default {
   name: "DropdownMaster",
   components: {
@@ -56,37 +51,17 @@ export default {
       validation: {
         isValid: true,
         error: "",
+        errCode: Enumeration.ErrorCode.Valid
       },
 
-      //(1-hiển thị lỗi, 0-ẩn lỗi)
-      tooltipScale: 0,
     };
   },
 
   methods: {
     /**
-     * Hiển thị lỗi khi hover
-     * DVHAI 06/07/2021
-     */
-    raiseErrorMsg() {
-      if (!this.validation.isValid) {
-        this.tooltipScale = 1;
-      }
-    },
-
-    /**
-     * Ẩn lỗi khi mất hover
-     * DVHAI 06/07/2021
-     */
-    hideErrorMsg() {
-      this.tooltipScale = 0;
-    },
-
-    /**
      * DVHAI 06/07/2021
      */
     focus() {
-      this.tooltipScale = 0;
       this.validation.isValid = true;
     },
 
@@ -96,7 +71,7 @@ export default {
      */
     blur() {
       //validate tùy chỉnh
-      // this.validate();
+       this.validate();
     },
 
     /**
@@ -111,27 +86,29 @@ export default {
               ? validate[cons[0]](this.cloneModel)(cons[1])
               : validate[x](this.cloneModel);
 
-        let errMsg = '"' + this.data.labelText + " " + validateResult.msg + '"';
+        let errMsg = this.data.data.labelText + " " + validateResult.msg;
 
         //raise error
-        this.setValidateError(validateResult.isValid, errMsg);
+        this.setValidateError(validateResult.isValid, errMsg, validateResult.errCode);
 
         //error fire
         if (!validateResult.isValid) {
-          this.$bus.emit("allInputValid", validateResult.isValid);
+          this.$bus.emit("validateResult", this.validation);
           break;
         }
       }
     },
 
-    /**
+     /**
      * Cài đặt lỗi validate
      * DVHAI 06/07/2021
      */
-    setValidateError(isValid, errorMsg) {
+    setValidateError(isValid, errorMsg, errCode) {
       this.validation.isValid = isValid;
       this.validation.error = errorMsg;
+      this.validation.errCode = errCode;
     },
+
   },
 
   watch: {
@@ -205,6 +182,7 @@ export default {
 
 .m-select-box.dx-texteditor.dx-editor-outlined {
   border: 1px solid var(--color-border-input);
+   /* border: 1px solid red; */
 }
 
 /* toan */

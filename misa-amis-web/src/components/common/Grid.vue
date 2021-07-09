@@ -15,6 +15,7 @@
             </td>
             <!-- Các cột còn lại -->
             <td
+              :style="{ 'z-index': data.data.length + 1 }"
               v-for="(item, index) in data.column"
               :key="index"
               :class="{
@@ -57,7 +58,8 @@
               <div
                 @click="checkRow(index)"
                 :class="{
-                  'icon-checkbox-active': curChecked == -1 || curChecked == index,
+                  'icon-checkbox-active':
+                    curChecked == -1 || curChecked == index,
                 }"
                 class="tick-box icon-18 icon"
               ></div>
@@ -94,9 +96,10 @@
               }"
               class="utility tickbox-background"
             >
-              <div 
-              @click="openFormDetail(item, Enumeration.FormMode.Edit)"
-              class="utility-text">
+              <div
+                @click="openFormDetail(item, Enumeration.FormMode.Edit)"
+                class="utility-text"
+              >
                 <span>Sửa</span>
               </div>
               <div tabindex="0" @blur="closeDropdown()" class="u-option-wrap">
@@ -115,9 +118,14 @@
                     class="u-options"
                     :style="[utilityFlow ? { top: uOptionsHeight } : {}]"
                   >
-                    <div 
-                    @click="openFormDetail(item, Enumeration.FormMode.Duplicate)"
-                    class="u-option-item">Nhân bản</div>
+                    <div
+                      @click="
+                        openFormDetail(item, Enumeration.FormMode.Duplicate)
+                      "
+                      class="u-option-item"
+                    >
+                      Nhân bản
+                    </div>
                     <div class="u-option-item" @click="openConfirmDelete(item)">
                       Xóa
                     </div>
@@ -130,13 +138,14 @@
         </tbody>
       </table>
     </div>
-
     <!-- Phân trang -->
-    <Paging
-      :data="gridData.pagination"
-      @changePageNumber="changePageNumber"
-      @changePageSize="changePageSize"
-    />
+    <div class="grid__paging">
+      <Paging
+        :data="gridData.pagination"
+        @changePageNumber="changePageNumber"
+        @changePageSize="changePageSize"
+      />
+    </div>
   </div>
 </template>
 
@@ -195,7 +204,7 @@ export default {
   },
   computed: {},
   methods: {
-     /**
+    /**
      * Xóa bản ghi
      * DVHAI 06/07/2021
      */
@@ -263,15 +272,13 @@ export default {
       }, 0.2);
     },
 
-
     /**
      * Thực hiện tích ô trong bảng
      * DVHAI 09/07/2021
      */
     checkRow(index) {
-      if(this.curChecked != index)
-          this.curChecked = index;
-          else this.curChecked = null;
+      if (this.curChecked != index) this.curChecked = index;
+      else this.curChecked = null;
     },
 
     /**
@@ -361,6 +368,14 @@ export default {
 </script>
 
 <style scoped>
+.grid__paging {
+  position: sticky;
+  position: -webkit-sticky;
+  bottom: 0;
+  top: 0;
+  background-color: #fff;
+}
+
 .u-options {
   outline: none;
 }
@@ -376,7 +391,7 @@ export default {
   position: relative;
   overflow: auto;
   width: 100%;
-  height: calc(100vh - 249px);
+  max-height: calc(100vh - 260px);
 }
 
 .align-right {

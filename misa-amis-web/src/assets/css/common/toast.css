@@ -16,8 +16,8 @@
 }
 
 .toast--success {
-  background-color: rgb(1,176,117);
-  fill: rgb(1,176,117);
+  background-color: var(--color-great);
+  fill: var(--color-great);
 }
 
 .toast--error {

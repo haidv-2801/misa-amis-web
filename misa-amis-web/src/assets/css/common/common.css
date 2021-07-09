@@ -35,6 +35,7 @@
 
   --z-index-low: 0;
   --z-index-mid: 1000;
+  --z-index-overlay: 1000;
   --z-index-high: 2000;
   --z-index-veryhight: 3001;
 }
@@ -123,11 +124,6 @@ html {
   background-position: -316px -37px;
 }
 
-.mid-z-index {
-  --z-index-mid: 3001 !important;
-}
-
-
 #overlay {
   position: fixed;
   top: 0;
@@ -138,7 +134,7 @@ html {
   align-items: center;
   justify-content: center;
   overflow: auto;
-  z-index: var(--z-index-mid);
+  z-index: var(--z-index-overlay);
   transform: all .25s ease;
 }
 
@@ -211,7 +207,7 @@ html {
 /* font size,style */
 
 .focus:focus-visible {
-  border: 1px solid var(--color-great) !important;
+  border: 1px solid var(--color-great);
 }
 
 /* button */
