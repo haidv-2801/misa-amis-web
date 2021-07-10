@@ -99,7 +99,7 @@ export default {
 </script>
 
 <style>
-/* @import url('../../../assets/css/common/tooltip.css'); */
+ /* @import url('../../../assets/css/common/tooltip.css'); */
 .m-select-box .dx-texteditor-input {
   padding: 6px 10px;
 }
@@ -134,11 +134,11 @@ export default {
 
 .m-select-box.dx-texteditor.dx-editor-outlined {
   border: 1px solid var(--color-border-input);
-  /* border: 1px solid red; */
-}
+   /* border: 1px solid red;  */
+ }
 
 /* toan */
-.dx-selectbox-popup-wrapper
+ .dx-selectbox-popup-wrapper
   .dx-item.dx-list-item.dx-state-active
   .dx-item-content.dx-list-item-content,
 .dx-selectbox-popup-wrapper
@@ -160,5 +160,5 @@ export default {
   outline: none !important;
   background-color: #ebedf0 !important;
   color: inherit !important;
-}
+} 
 </style>

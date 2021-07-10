@@ -75,6 +75,10 @@ html {
   margin-right: 10px;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .tick-box {
   background-color: #fff;
   cursor: pointer;

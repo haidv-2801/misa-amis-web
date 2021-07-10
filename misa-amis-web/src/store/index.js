@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import Enumeration from "../scripts/common/enumeration"
+import Enumeration from "../scripts/common/enumeration";
 
 Vue.use(Vuex);
 
@@ -19,7 +19,16 @@ const storeData = {
     loaderEngine: false,
 
     //Nếu true cho phép validate
-    hasValidate: false
+    hasValidate: false,
+
+    //Số bản ghi trên 1 trang
+    pageSize: 5,
+
+    //Số trang hiện tại
+    pageNumber: 1,
+
+    //Giá trị filter
+    filterValue: "",
   },
   getters: {},
   mutations: {
@@ -43,9 +52,24 @@ const storeData = {
       state.loaderEngine = value;
     },
 
-     //Set trạng thái loading
+    //Set trạng thái loading
     SET_HASVALIDATE(state, value) {
       state.hasValidate = value;
+    },
+
+    //Set pagesize
+    SET_PAGESIZE(state, value) {
+      state.pageSize = value;
+    },
+
+    //Set pagenumber
+    SET_PAGENUMBER(state, value) {
+      state.pageNumber = value;
+    },
+
+    //Set pagenumber
+    SET_FILTER_VALUE(state, value) {
+      state.filterValue = value;
     },
   },
 };

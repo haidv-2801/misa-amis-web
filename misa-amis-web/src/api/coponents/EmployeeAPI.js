@@ -20,10 +20,10 @@ class EmployeeAPI extends BaseAPI {
    * Lọc
    * DVHAI 07/07/2021
    */
-  filter(pageSize, pageNumber, employeeFilter) {
+  getEmployeesFilterPaging(pageSize, pageNumber, employeeFilter) {
     let urlFull =
       this.controler +
-      `/employeeFilter?pageSize=${pageSize}&pageNumber=${pageNumber}&employeeFilter=${employeeFilter}`;
+      `/EmployeesFilterPaging?filterValue=${employeeFilter}&limit=${pageSize}&offset=${pageNumber}`;
     return BaseAPIConfig.get(urlFull);
   }
 

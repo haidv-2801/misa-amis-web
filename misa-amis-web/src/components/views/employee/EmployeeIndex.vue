@@ -151,7 +151,7 @@ export default {
         ],
         data: [],
         pagination: {
-          pageSize: 7,
+          pageSize: 10,
           pageNumber: 1,
           totalPage: null,
           totalRecord: null,
@@ -164,21 +164,31 @@ export default {
     };
   },
   created() {
+
+     this.refreshGrid();
+
     /**
      * Lấy dữ liệu từ sever
      * DVHAI 07/07/2021
      */
-    // this.filterTable();
-
-    this.getDataGrid();
+    // this.getDataGrid();
   },
 
   watch: {},
 
   methods: {
+    /**
+     * Thay mở form lỗi
+     * DVHAI 07/07/2021
+     */
     openFormError(data) {
       this.$refs.formError.openPopup(data);
     },
+
+    /**
+     * Thay mở form cảnh báo
+     * DVHAI 07/07/2021
+     */
     openFormWarning(data) {
       this.$refs.formWarning.openPopup(data);
     },
@@ -246,6 +256,11 @@ export default {
         .finally(() => {
           this.$store.commit("SET_LOADER", false);
         });
+
+      EmployeeAPI.getEmployeesFilterPaging(
+        this.gridDataTable.pagination.pageSize,
+        this.gridDataTable.pagination.pageNumber
+      );
     },
 
     /**
@@ -253,32 +268,29 @@ export default {
      * DVHAI 21/06/2021
      */
     filterTable() {
-      // if (this.filterString.toString().length <= 0) {
-      //   //get all
-      //   this.filterString = "n";
-      // }
-      // //params: pagesize, pagenumber, filterString
-      // this.$bus.emit("displayLoader");
-      // EmployeeAPI.filter(
-      //   this.gridDataTable.pagination.pageSize,
-      //   this.gridDataTable.pagination.pageNumber - 1,
-      //   this.filterString
-      // )
-      //   .then((response) => {
-      //
-      //     this.gridDataTable.pagination.totalRecord = response.data.TotalRecord;
-      //     this.gridDataTable.pagination.totalPage = response.data.TotalPage;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     this.$bus.emit("openToast", {
-      //       type: "toast--error",
-      //       text: "Lỗi. Vui lòng liên hệ MISA",
-      //     });
-      //   })
-      //   .finally(() => {
-      //     this.$bus.emit("displayLoader");
-      //   });
+      //params: pagesize, pagenumber, filterString
+
+      //Lấy danh sách lọc + phân trang
+      EmployeeAPI.getEmployeesFilterPaging(
+        this.gridDataTable.pagination.pageSize,
+        this.gridDataTable.pagination.pageNumber,
+        this.filterString
+      )
+        .then((response) => {
+          this.gridDataTable.data = response.data.data.data;
+          this.gridDataTable.pagination.totalRecord = response.data.data.totalRecord;
+          this.gridDataTable.pagination.totalPage = response.data.data.totalPage;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$bus.emit("openToast", {
+            type: "toast--error",
+            text: "Lỗi. Vui lòng liên hệ MISA",
+          });
+        })
+        .finally(() => {
+          this.$store.commit("SET_LOADER", false);
+        });
     },
 
     /**
@@ -303,8 +315,8 @@ export default {
      * DVHAI 07/07/2021
      */
     refreshGrid() {
-      this.getDataGrid();
-      // this.filterTable();
+        // this.getDataGrid();
+      this.filterTable();
     },
 
     /**
@@ -355,6 +367,20 @@ export default {
      */
     openDialogConfirmStoptyping() {
       this.$refs.confirmDialogStop.openPopup();
+    },
+  },
+
+  computed: {
+    pageSize() {
+      return this.$store.state.pageSize;
+    },
+
+    pageNumber() {
+      return this.$store.state.pageNumber;
+    },
+
+    filterValue() {
+      return this.$store.state.filterValue;
     },
   },
 };

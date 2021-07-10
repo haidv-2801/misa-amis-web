@@ -8,16 +8,26 @@
         <DropdownNormal tabindex="0" />
       </div>
       <div class="page-number">
-        Trước 1 2 3 ... 11 Sau
+        <div class="page-first">
+          Trước
+        </div>
+        <div class="btn-page-index cursor-pointer">1</div>
+        <div class="btn-page-index pageSelected">2</div>
+        <div class="btn-page-index">3</div>
+        <div class="btn-page-separate">...</div>
+        <div class="btn-page-index">5</div>
+        <div class="page-last">
+          Sau
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import DropdownNormal from '../common/vcombobox/DropdownNormal.vue';
+import DropdownNormal from "../common/vcombobox/DropdownNormal.vue";
 export default {
-  name: 'Paging',
+  name: "Paging",
   components: {
     DropdownNormal,
   },
@@ -121,12 +131,12 @@ export default {
     fromNumber() {
       let from =
         this.pagination.pageSize * (this.pagination.pageNumber - 1) + 1;
-      return from.toString().padStart(2, '0');
+      return from.toString().padStart(2, "0");
     },
 
     toNumber() {
       let to = this.pagination.pageSize * this.pagination.pageNumber;
-      return to.toString().padStart(2, '0');
+      return to.toString().padStart(2, "0");
     },
 
     //list page number
@@ -164,12 +174,12 @@ export default {
   watch: {
     //tracking current pagenumber
     currentPageNumber: function(value) {
-      this.$emit('changePageNumber', value);
+      this.$emit("changePageNumber", value);
     },
 
     //tracking current pagesize
     currentPageSize: function(value) {
-      this.$emit('changePageSize', value);
+      this.$emit("changePageSize", value);
     },
 
     //tracking props data and clone to a new one
@@ -212,6 +222,20 @@ export default {
 }
 
 .page-number {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-page-index {
+  min-width: 23px;
+  height: 20px;
+  text-align: center;
+  align-content: center;
+}
+
+.pageSelected {
+    border: 1px solid #e0e0e0;
+    font-weight: 700;
 }
 </style>

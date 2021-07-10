@@ -162,6 +162,9 @@ export default {
 
 <style>
 /* @import url('../../../assets/css/common/tooltip.css'); */
+.dx-widget {
+  font-size: 13px;
+} 
 .m-select-box .dx-texteditor-input {
   padding: 6px 10px;
 }
