@@ -1,18 +1,25 @@
 <template>
-  <DxSelectBox
-    class="m-select-box focus"
-    :style="[!this.validation.isValid ? { '--color-border-input': 'red' } : {}]"
-    :placeholder="cloneDataSource.placeHolder"
-    :noDataText="'Không tìm thấy'"
-    :searchEnabled="true"
-    :showClearButton="false"
-    :width="cloneDataSource.style.width"
-    :height="cloneDataSource.style.height"
-    :data-source="cloneDataSource.data.value"
-    :onFocusIn="focus"
-    :onFocusOut="blur"
-    v-model="cloneModel"
-  />
+  <div
+    class="row__item tooltip"
+    :style="{ '--scale': tooltipScale, '--tooltip-message': validation.error }"
+  >
+    <DxSelectBox
+      class="m-select-box focus"
+      :style="[
+        !this.validation.isValid ? { '--color-border-input': 'red' } : {},
+      ]"
+      :placeholder="cloneDataSource.placeHolder"
+      :noDataText="'Không tìm thấy'"
+      :searchEnabled="true"
+      :showClearButton="false"
+      :width="cloneDataSource.style.width"
+      :height="cloneDataSource.style.height"
+      :data-source="cloneDataSource.data.value"
+      :onFocusIn="focus"
+      :onFocusOut="blur"
+      v-model="cloneModel"
+    />
+  </div>
 </template>
 
 <script>
@@ -53,6 +60,8 @@ export default {
         error: '',
         errCode: Enumeration.ErrorCode.Valid,
       },
+
+      tooltipScale: 0
     };
   },
 
@@ -164,7 +173,7 @@ export default {
 /* @import url('../../../assets/css/common/tooltip.css'); */
 .dx-widget {
   font-size: 13px;
-} 
+}
 .m-select-box .dx-texteditor-input {
   padding: 6px 10px;
 }

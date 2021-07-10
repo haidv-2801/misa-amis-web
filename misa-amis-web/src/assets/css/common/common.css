@@ -94,6 +94,11 @@ html {
   z-index: 0;
 }
 
+
+.icon-arrow-down {
+  background-position: -1123px -357px;
+}
+
 .icon-18 {
   width: 18px;
   height: 18px;
@@ -275,7 +280,7 @@ html {
 }
 
 .slide-fade-enter-active {
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
 }
 .slide-fade-leave-active {
   transition: transform 0s cubic-bezier(1, 0.5, 0.8, 1);

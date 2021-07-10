@@ -3,7 +3,6 @@
     class="m-select-box focus"
      placeholder=""
     :height="32"
-    :width="200"
     :showClearButton="false"
     :data-source="cloneDataSource"
     v-model="cloneModel"

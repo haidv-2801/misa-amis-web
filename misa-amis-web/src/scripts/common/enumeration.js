@@ -11,8 +11,8 @@ Enumeration.FormMode = {
 
 //Giới tính
 Enumeration.Gender = {
-    Female: 0, //Nữ
-    Male: 1,    //Nam
+    Female: 1, //Nữ
+    Male: 0,    //Nam
     Other: 2,   //Khác
 };
 

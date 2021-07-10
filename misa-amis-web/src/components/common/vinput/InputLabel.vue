@@ -1,5 +1,7 @@
 <template>
-  <div class="row__item">
+  <div class="row__item tooltip"
+   :style="{ '--scale': tooltipScale, '--tooltip-message': validation.error }"
+  >
     <label :for="data.inputId" v-if="data.isRequired"
       >{{ data.labelText }}<span class="color-red"> *</span></label
     >
@@ -70,6 +72,9 @@ export default {
   },
   data() {
     return {
+      //(1-hiển thị lỗi tooltip, 0-hiển thị lỗi tooltip)
+      tooltipScale: 0,
+
       //Trạng thái validate
       validation: {
         isValid: true,

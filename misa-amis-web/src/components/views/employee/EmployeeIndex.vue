@@ -61,7 +61,6 @@ import DialogWarning from "../../common/vdialog/DialogWarning.vue";
 import DialogError from "../../common/vdialog/DialogError.vue";
 import DialogConfirmStopTyping from "../../common/vdialog/DialogConfirmStopTyping.vue";
 import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
-// import employee from "../../../store/employeeData";
 
 export default {
   name: "EmployeeIndex",
@@ -269,7 +268,6 @@ export default {
      */
     filterTable() {
       //params: pagesize, pagenumber, filterString
-
       //Lấy danh sách lọc + phân trang
       EmployeeAPI.getEmployeesFilterPaging(
         this.gridDataTable.pagination.pageSize,
