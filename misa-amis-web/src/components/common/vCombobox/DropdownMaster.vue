@@ -1,25 +1,18 @@
 <template>
-  <div
-    class="row__item tooltip"
-    :style="{ '--scale': tooltipScale, '--tooltip-message': validation.error }"
-  >
-    <DxSelectBox
-      class="m-select-box focus"
-      :style="[
-        !this.validation.isValid ? { '--color-border-input': 'red' } : {},
-      ]"
-      :placeholder="cloneDataSource.placeHolder"
-      :noDataText="'Không tìm thấy'"
-      :searchEnabled="true"
-      :showClearButton="false"
-      :width="cloneDataSource.style.width"
-      :height="cloneDataSource.style.height"
-      :data-source="cloneDataSource.data.value"
-      :onFocusIn="focus"
-      :onFocusOut="blur"
-      v-model="cloneModel"
-    />
-  </div>
+  <DxSelectBox
+    class="m-select-box focus"
+    :style="[!this.validation.isValid ? { '--color-border-input': 'red' } : {}]"
+    :placeholder="cloneDataSource.placeHolder"
+    :noDataText="'Không tìm thấy'"
+    :searchEnabled="true"
+    :showClearButton="false"
+    :width="cloneDataSource.style.width"
+    :height="cloneDataSource.style.height"
+    :data-source="cloneDataSource.data.value"
+    :onFocusIn="focus"
+    :onFocusOut="blur"
+    v-model="cloneModel"
+  />
 </template>
 
 <script>
@@ -61,7 +54,7 @@ export default {
         errCode: Enumeration.ErrorCode.Valid,
       },
 
-      tooltipScale: 0
+      tooltipScale: 0,
     };
   },
 
@@ -87,6 +80,7 @@ export default {
      * DVHAI 06/07/2021
      */
     validate() {
+      console.log('validate dropdown');
       //Duyệt trên mảng validation có cac thuộc tính validate như required..
       for (const x of this.data.validation) {
         var cons = x.split(':'),

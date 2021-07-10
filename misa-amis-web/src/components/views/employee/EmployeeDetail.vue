@@ -49,7 +49,8 @@
             <div class="body-row">
               <div class="row__item flex-1">
                 <label for="">Đơn vị <span class="color-red">*</span> </label>
-                <div Mustvalidate="true">
+                <div 
+                Mustvalidate="true">
                   <DropdownMaster
                     @changeValueInput="changeValueInput"
                     :data="dropdownDepartment"
