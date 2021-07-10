@@ -1,21 +1,20 @@
 <template>
-  <div class="alert">
-    <div class="alert__content">
-      <slot name="content">
-        <div class="content__icon">
-          <slot name="alert__icon"></slot>
-        </div>
-        <div class="content__text">
-          <slot name="alert__text"></slot>
-        </div>
-      </slot>
+    <div class="alert">
+      <div class="alert__content">
+        <slot name="content">
+          <div class="content__icon">
+            <slot name="alert__icon"></slot>
+          </div>
+          <div class="content__text">
+            <slot name="alert__text"></slot>
+          </div>
+        </slot>
+      </div>
+      <div class="alert__line"></div>
+      <div class="alert__foot">
+        <slot name="alert__foot"> </slot>
+      </div>
     </div>
-    <div class="alert__line"></div>
-    <div class="alert__foot">
-      <slot name="alert__foot">
-      </slot>
-    </div>
-  </div>
 </template>
 
 <script></script>

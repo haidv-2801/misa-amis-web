@@ -8,7 +8,7 @@
           tabindex="2"
           class="search-box focus left__item"
           type="text"
-          placeholder="Tìm theo mã, tên hoặc số điện thoại nhân viên"
+          placeholder="Tìm theo mã, tên nhân viên"
           v-debounce:400ms="filterTable"
           v-model="filterData"
         />

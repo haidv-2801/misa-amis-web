@@ -28,11 +28,11 @@ class EmployeeAPI extends BaseAPI {
   }
 
   /**
-   * Lấy mã nhân viên theo mã nhân viên
+   * Lấy nhân viên theo mã nhân viên
    * DVHAI 07/07/2021
    */
-  getEmployeeBycode(pageSize, pageNumber, id) {
-    let urlFull = `${this.controler}/Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&employeeCode=${id}`;
+  getEmployeeBycode(employeeCode) {
+    let urlFull = `${this.controler}/EmployeeByCode/${employeeCode}`;
     return BaseAPIConfig.get(urlFull);
   }
 }

@@ -19,6 +19,7 @@
 
     <!-- no money mask -->
     <input
+    tabindex="0"
       v-else
       class="focus"
       :id="data.inputId"
@@ -30,6 +31,7 @@
       :placeholder="data.mask"
       @focus="focus"
       @blur="blur"
+      @input="canValidate = true"
       v-model="cloneModel"
       v-mask="data.mask"
     />
@@ -37,16 +39,16 @@
 </template>
 
 <script>
-import validate from "../../../scripts/common/validator.js";
-import CommonFn from "../../../scripts/common/common.js";
+import validate from '../../../scripts/common/validator.js';
+import CommonFn from '../../../scripts/common/common.js';
 
 // dx datebox
-import "devextreme/dist/css/dx.light.css";
-import DxDateBox from "devextreme-vue/date-box";
-import Enumeration from "../../../scripts/common/enumeration.js";
+import 'devextreme/dist/css/dx.light.css';
+import DxDateBox from 'devextreme-vue/date-box';
+import Enumeration from '../../../scripts/common/enumeration.js';
 
 export default {
-  name: "InputLabel",
+  name: 'InputLabel',
   components: {
     DxDateBox,
   },
@@ -71,7 +73,7 @@ export default {
       //Trạng thái validate
       validation: {
         isValid: true,
-        error: "",
+        error: '',
         errCode: Enumeration.ErrorCode.Valid,
       },
 
@@ -80,27 +82,19 @@ export default {
 
       //Định dạng tiền
       money: {
-        decimal: "",
-        thousands: ".",
-        prefix: "",
-        suffix: " (VNĐ)",
+        decimal: '',
+        thousands: '.',
+        prefix: '',
+        suffix: ' (VNĐ)',
         precision: 0,
         masked: false,
       },
 
-      //Kiểm tra xem có là giá trị duy nhất
-      isUniqueValue: true,
+      //Có thể validate khôgn
+      canValidate: false,
     };
   },
   methods: {
-    /**
-     * Thay đổi trạng thái unique ở bên component cha
-     * DVHAI 06/07/2021
-     */
-    changeUniqueState(isUnique) {
-      this.isUniqueValue = isUnique;
-    },
-
     /**
      * DVHAI 06/07/2021
      */
@@ -114,8 +108,7 @@ export default {
      */
     blur() {
       //validate tùy chỉnh
-      if(this.hasValidate)
-        this.validate();
+      if (this.hasValidate) this.validate();
     },
 
     /**
@@ -123,7 +116,7 @@ export default {
      * DVHAI 06/07/2021
      */
     validateUnique(key, value) {
-      this.$emit("checkUnique", key, value);
+       this.$emit('checkUnique', key, value);
     },
 
     /**
@@ -131,14 +124,15 @@ export default {
      * DVHAI 06/07/2021
      */
     validate() {
+      this.canValidate = false;
       for (const x of this.data.validation) {
-        var cons = x.split(":"),
+        var cons = x.split(':'),
           validateResult =
             cons.length > 1
               ? validate[cons[0]](this.cloneModel)(cons[1])
               : validate[x](this.cloneModel);
 
-        let errMsg = this.data.labelText + " " + validateResult.msg;
+        let errMsg = this.data.labelText + ' ' + validateResult.msg;
 
         //raise error
         this.setValidateError(
@@ -149,13 +143,9 @@ export default {
 
         //error fire
         if (!validateResult.isValid) {
-          this.$bus.emit("validateResult", this.validation);
+          this.$bus.emit('validateResult', this.validation);
           break;
         }
-
-        //validate duy nhất
-        // if (this.data.isUnique == true)
-        //   this.validateUnique(this.data.inputId, this.cloneModel);
       }
     },
 
@@ -182,16 +172,16 @@ export default {
      * DVHAI 06/07/2021
      */
     cloneModel() {
-        this.validate();
+      if (this.canValidate) this.validate();
 
       //Nếu là tiền thì format
-      let moneyNumber = this.cloneModel || "";
+      let moneyNumber = this.cloneModel || '';
 
-      if (this.data.dataType == "money")
+      if (this.data.dataType == 'money')
         moneyNumber = CommonFn.onlyNumber(moneyNumber);
 
       //Thay đổi giá trị model thật bên ngoài component
-      this.$emit("changeValueInput", this.data.inputId, moneyNumber);
+      this.$emit('changeValueInput', this.data.inputId, moneyNumber);
     },
 
     /**
@@ -205,21 +195,12 @@ export default {
         this.cloneModel = JSON.parse(JSON.stringify(value));
       },
     },
-
-    /**
-     * Lỗi tồn tại
-     * DVHAI 07/07/2021
-     */
-    isUniqueValue: function(val) {
-      let errMsg = "'" + this.data.labelText + " đã tồn tại" + "'";
-      this.setValidateError(val, errMsg);
-    },
   },
 };
 </script>
 
 <style scoped>
-@import url("../../../assets/css/common/tooltip.css");
+@import url('../../../assets/css/common/tooltip.css');
 
 input {
   width: 100%;

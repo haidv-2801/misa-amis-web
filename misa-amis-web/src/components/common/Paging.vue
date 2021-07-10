@@ -1,12 +1,12 @@
 <template>
   <div id="pagination" class="main__pagination">
     <div class="pagi__left">
-      <span class="total-page">
-        Tổng số: <b>1043</b> bản ghi
-      </span>
+      <span class="total-page"> Tổng số: <b>1043</b> bản ghi </span>
     </div>
     <div class="pagi__right">
-      <div class="page-size"></div>
+      <div class="page-size">
+        <DropdownNormal tabindex="0" />
+      </div>
       <div class="page-number">
         Trước 1 2 3 ... 11 Sau
       </div>
@@ -15,8 +15,12 @@
 </template>
 
 <script>
+import DropdownNormal from '../common/vcombobox/DropdownNormal.vue';
 export default {
-  name: "Paging",
+  name: 'Paging',
+  components: {
+    DropdownNormal,
+  },
   props: {
     data: {
       type: Object,
@@ -117,12 +121,12 @@ export default {
     fromNumber() {
       let from =
         this.pagination.pageSize * (this.pagination.pageNumber - 1) + 1;
-      return from.toString().padStart(2, "0");
+      return from.toString().padStart(2, '0');
     },
 
     toNumber() {
       let to = this.pagination.pageSize * this.pagination.pageNumber;
-      return to.toString().padStart(2, "0");
+      return to.toString().padStart(2, '0');
     },
 
     //list page number
@@ -160,12 +164,12 @@ export default {
   watch: {
     //tracking current pagenumber
     currentPageNumber: function(value) {
-      this.$emit("changePageNumber", value);
+      this.$emit('changePageNumber', value);
     },
 
     //tracking current pagesize
     currentPageSize: function(value) {
-      this.$emit("changePageSize", value);
+      this.$emit('changePageSize', value);
     },
 
     //tracking props data and clone to a new one
@@ -193,7 +197,7 @@ export default {
 }
 
 .total-page {
-display: block;
+  display: block;
 }
 
 .pagi__right {
@@ -203,10 +207,11 @@ display: block;
 }
 
 .page-size {
-display: block;
+  margin: 0px 16px;
+  display: block;
 }
 
 .page-number {
-display: block;
+  display: block;
 }
 </style>

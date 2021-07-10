@@ -259,16 +259,16 @@ html {
 
 /* transition */
 /* slide */
-/* .slide-leave-active,
+.slide-leave-active,
 .slide-enter-active {
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .slide-enter,
 .slide-leave-to {
   transform: translateY(-50%);
   opacity: 0; 
-} */
+}
 
 .slide-fade-enter-active {
   transition: transform 0.2s ease;

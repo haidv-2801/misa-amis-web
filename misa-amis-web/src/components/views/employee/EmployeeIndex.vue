@@ -320,9 +320,13 @@ export default {
      * DVHAI 07/07/2021
      */
     deleteRecord() {
+      //Lấy thực thể cần xóa từ store
       let entity = this.$store.state.entity;
+
+      //Nếu khác null chứng tỏ tồn tại cần xóa
       if (entity != null) {
         let id = entity.employeeId;
+        this.$store.commit("SET_LOADER", true);
         EmployeeAPI.delete(id)
           .then((response) => {
             console.log(response);
@@ -333,7 +337,6 @@ export default {
 
             //Gán lại thực thể trong store bằng null
             this.$store.commit("SET_ENTITY", null);
-
             this.refreshGrid();
           })
           .catch((error) => {

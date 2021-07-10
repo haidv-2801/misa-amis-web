@@ -57,7 +57,7 @@ export default {
      */
     openPopup(code) {
       this.isShow = true;
-      this.entityCode = code;
+      this.entityCode = `<${code}>`;
       this.invokeOverlay();
     },
 
