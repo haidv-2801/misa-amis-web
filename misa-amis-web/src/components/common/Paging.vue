@@ -1,7 +1,7 @@
 <template>
   <div id="pagination" class="main__pagination">
     <div class="pagi__left">
-      <span class="total-page"> Tổng số: <b>1043</b> bản ghi </span>
+      <span class="total-page"> Tổng số: <b>{{this.pagination.totalRecord}}</b> bản ghi </span>
     </div>
     <div class="pagi__right">
       <div class="page-size">
@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import DropdownNormal from "../common/vcombobox/DropdownNormal.vue";
+import DropdownNormal from '../common/vcombobox/DropdownNormal.vue';
 export default {
-  name: "Paging",
+  name: 'Paging',
   components: {
     DropdownNormal,
   },
@@ -131,12 +131,12 @@ export default {
     fromNumber() {
       let from =
         this.pagination.pageSize * (this.pagination.pageNumber - 1) + 1;
-      return from.toString().padStart(2, "0");
+      return from.toString().padStart(2, '0');
     },
 
     toNumber() {
       let to = this.pagination.pageSize * this.pagination.pageNumber;
-      return to.toString().padStart(2, "0");
+      return to.toString().padStart(2, '0');
     },
 
     //list page number
@@ -174,12 +174,12 @@ export default {
   watch: {
     //tracking current pagenumber
     currentPageNumber: function(value) {
-      this.$emit("changePageNumber", value);
+      this.$emit('changePageNumber', value);
     },
 
     //tracking current pagesize
     currentPageSize: function(value) {
-      this.$emit("changePageSize", value);
+      this.$emit('changePageSize', value);
     },
 
     //tracking props data and clone to a new one
@@ -207,6 +207,7 @@ export default {
 }
 
 .total-page {
+  font-weight: 400;
   display: block;
 }
 
@@ -228,14 +229,15 @@ export default {
 }
 
 .btn-page-index {
+  justify-content: center;
+  display: flex;
   min-width: 23px;
   height: 20px;
-  text-align: center;
-  align-content: center;
+  align-items: center;
 }
 
 .pageSelected {
-    border: 1px solid #e0e0e0;
-    font-weight: 700;
+  border: 1px solid #e0e0e0;
+  font-weight: 700;
 }
 </style>

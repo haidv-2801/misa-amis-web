@@ -5,16 +5,6 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Overview',
-    component: () => import(/* webpackChunkName: "about" */ '../components/HelloWorld.vue')
-  },
-  {
-    path: '/employee',
-    name: 'Employee',
-    component: () => import('../components/views/employee/EmployeeIndex.vue')
-  },
-  {
     path: '/setting',
     name: 'Setting',
     component: () => import('../components/views/employee/EmployeeIndex.vue')

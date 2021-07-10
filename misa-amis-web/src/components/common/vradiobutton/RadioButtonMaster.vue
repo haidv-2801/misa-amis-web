@@ -66,13 +66,11 @@ export default {
       //Theo dõi giá trị bản sao và thay đổi giá trị thật bên ngoài
       this.$emit("changeValueInput", this.data.data.inputId, this.cloneModel);
     },
-
     /**
      * Tạo bản sao model mới
      * DVHAI 06/07/2021
      */
     model() {
-       console.log("model:"+this.cloneModel)
       this.cloneModel = JSON.parse(JSON.stringify(this.model));
     },
   },
@@ -85,28 +83,23 @@ export default {
   display: flex;
   align-items: center;
 }
-
 .radio {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background-color: transparent;
 }
-
 .gender-item {
   display: flex;
   align-items: center;
   margin-right: 20px;
 }
-
 .gender-item:last-child {
   margin-right: 0;
 }
-
 .item-text {
   padding-left: 10px;
 }
-
 .item-radio {
   cursor: pointer;
   width: 18px;
@@ -117,11 +110,9 @@ export default {
   align-items: center;
   border: 1px solid #babec5;
 }
-
 .radio-active {
   background-color: #2ca01c;
 }
-
 .radio-border-active {
   border: 1px solid #2ca01c;
 }

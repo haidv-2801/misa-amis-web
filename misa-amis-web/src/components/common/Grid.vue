@@ -6,7 +6,7 @@
         <thead>
           <tr>
             <!-- checkbox -->
-            <td class="tickbox-40" style="z-index: 1;">
+            <td class="tickbox-40"  :style="{ 'z-index': data.data.length + 2 }">
               <div
                 @click="checkRow(-1)"
                 :class="{ 'icon-checkbox-active': curChecked == -1 }"
@@ -36,7 +36,12 @@
           </tr>
         </thead>
         <!-- vc -->
-        <tbody>
+        <tbody :class="{ 'no-data': data.data.length == 0 }">
+          <!-- Ảnh không có dữ liệu -->
+          <div v-if="data.data.length == 0" class="no-data-wrapper">
+            <img src="../../assets/img/nodata.svg" alt="Không có dữ liệu" />
+            <span>Không có dữ liệu</span>
+          </div>
           <tr
             v-for="(item, index) in data.data"
             :key="index"
@@ -68,6 +73,7 @@
             <!-- Các cột còn lại -->
             <td
               v-for="(column, index) in data.column"
+              @dblclick="openFormDetail(item, Enumeration.FormMode.Edit)"
               :key="index"
               :class="{
                 'align-right':
@@ -150,13 +156,13 @@
 </template>
 
 <script>
-import Resource from "../../scripts/common/resource.js";
-import Enumeration from "../../scripts/common/enumeration.js";
-import CommonFn from "../../scripts/common/common.js";
-import Paging from "../../components/common/Paging.vue";
+import Resource from '../../scripts/common/resource.js';
+import Enumeration from '../../scripts/common/enumeration.js';
+import CommonFn from '../../scripts/common/common.js';
+import Paging from '../../components/common/Paging.vue';
 
 export default {
-  name: "Grid",
+  name: 'Grid',
   props: {
     gridData: {
       type: Object,
@@ -195,7 +201,7 @@ export default {
       utilityFlow: false,
 
       //Chiều cao của dropdown
-      uOptionsHeight: "20px",
+      uOptionsHeight: '20px',
     };
   },
 
@@ -210,9 +216,9 @@ export default {
      */
     openFormDetail(item, formMode) {
       //Thể loại form
-      this.$store.commit("SET_FORMMODE", formMode);
+      this.$store.commit('SET_FORMMODE', formMode);
 
-      this.$emit("openFormDetail", item);
+      this.$emit('openFormDetail', item);
     },
 
     /**
@@ -220,8 +226,8 @@ export default {
      * DVHAI 06/07/2021
      */
     openConfirmDelete(item) {
-      this.$store.commit("SET_ENTITY", item);
-      this.$emit("openConfirmDelete", item);
+      this.$store.commit('SET_ENTITY', item);
+      this.$emit('openConfirmDelete', item);
     },
 
     /**
@@ -253,20 +259,20 @@ export default {
     handleOverlowUtility(event) {
       // điểm check tràn
       var bottomCheckPoint = document
-        .getElementById("pagination")
+        .getElementById('pagination')
         .getBoundingClientRect().top;
-
-      var parent = event.target.closest(".u-option-wrap");
+      // var bottomCheckPoint = window.screen.height;
+      var parent = event.target.closest('.u-option-wrap');
       setTimeout(() => {
         parent.focus();
         var childrenBounding = parent
-            .querySelector(".u-options")
+            .querySelector('.u-options')
             .getBoundingClientRect(),
           childHeight = childrenBounding.height,
           childTop = childrenBounding.top,
           bottom = childTop + childHeight;
         if (bottom >= bottomCheckPoint) {
-          this.uOptionsHeight = -(childHeight + 7) + "px";
+          this.uOptionsHeight = -(childHeight + 7) + 'px';
           this.utilityFlow = true;
         }
       }, 0.2);
@@ -322,20 +328,20 @@ export default {
       if (dataType) {
         switch (dataType) {
           case this.Resource.DataTypeColumn.Number:
-            if (dataDisplayType == "Money")
+            if (dataDisplayType == 'Money')
               formattedData = this.CommonFn.formatMoney(formattedData);
             break;
           case this.Resource.DataTypeColumn.Date:
             formattedData = this.CommonFn.formatDate(formattedData);
             break;
           case this.Resource.DataTypeColumn.Enum:
-            if (dataDisplayType == "Gender")
+            if (dataDisplayType == 'Gender')
               formattedData = this.CommonFn.getValueEnum(
                 formattedData,
                 dataDisplayType
               );
 
-            if (dataDisplayType == "WorkStatus")
+            if (dataDisplayType == 'WorkStatus')
               formattedData = this.CommonFn.getValueEnum(
                 formattedData,
                 dataDisplayType
@@ -352,7 +358,7 @@ export default {
      * DVHAI 05/07/2021
      */
     changePageNumber(value) {
-      this.$emit("changePageNumber", value);
+      this.$emit('changePageNumber', value);
     },
 
     /**
@@ -360,7 +366,7 @@ export default {
      * DVHAI 05/07/2021
      */
     changePageSize(value) {
-      this.$emit("changePageSize", value);
+      this.$emit('changePageSize', value);
     },
   },
   watch: {},
@@ -368,6 +374,28 @@ export default {
 </script>
 
 <style scoped>
+.no-data-wrapper {
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  position: absolute;
+  align-items: center;
+}
+
+.no-data {
+  height: 200px;
+  position: relative;
+}
+
+table img {
+  width: 132px;
+  margin-bottom: 20px;
+}
+
 .grid__paging {
   position: sticky;
   position: -webkit-sticky;
@@ -377,6 +405,9 @@ export default {
 }
 
 .u-options {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
   outline: none;
 }
 .active {

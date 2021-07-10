@@ -77,14 +77,15 @@ export default {
      * DVHAI 05/07/2021
      */
     refreshGrid() {
-      this.$emit("refreshGrid");
+      this.$store.commit("SET_LOADER", true);
+      this.$emit("filterTable");
     },
 
     /**
      * Gọi hàm lọc dữ liệu
      * DVHAI 05/07/2021
      */
-    filterTable() {
+    async filterTable() {
       this.$emit("filterTable");
     },
 
