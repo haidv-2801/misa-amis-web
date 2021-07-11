@@ -1,31 +1,26 @@
 <template>
-  <div
-    class="row__item tooltip"
-    :style="{ '--scale': tooltipScale, '--tooltip-message': validation.error }"
-  >
-    <DxSelectBox
-      class="m-select-box focus"
-      :style="[
-        !this.validation.isValid ? { '--color-border-input': 'red' } : {},
-      ]"
-      :placeholder="cloneDataSource.placeHolder"
-      :noDataText="'Không tìm thấy'"
-      :searchEnabled="true"
-      :showClearButton="false"
-      :width="cloneDataSource.style.width"
-      :height="cloneDataSource.style.height"
-      :data-source="cloneDataSource.data.value"
-      :onFocusIn="focus"
-      :onFocusOut="blur"
-      v-model="cloneModel"
-    />
-  </div>
+  <DxSelectBox
+    :tooltiptext="validation.error"
+    class="m-select-box focus tooltip"
+    :style="[!validation.isValid ? { '--color-border-input': 'red' } : {}]"
+    :placeholder="cloneDataSource.placeHolder"
+    :noDataText="'Không tìm thấy'"
+    :searchEnabled="true"
+    :showClearButton="false"
+    :width="cloneDataSource.style.width"
+    :height="cloneDataSource.style.height"
+    :data-source="cloneDataSource.data.value"
+    :onFocusIn="focus"
+    :onFocusOut="blur"
+    v-model="cloneModel"
+  />
 </template>
 
 <script>
 import DxSelectBox from 'devextreme-vue/select-box';
 import validate from '../../../scripts/common/validator.js';
 import Enumeration from '../../../scripts/common/enumeration';
+import CommonFn from '../../../scripts/common/common.js';
 export default {
   name: 'DropdownMaster',
   components: {
@@ -49,6 +44,8 @@ export default {
   },
   data() {
     return {
+      visited: false,
+
       //Sao chép model sang một biến mới
       cloneModel: JSON.parse(JSON.stringify(this.model)),
       //Sao chép datasource sang một biến mới
@@ -61,7 +58,7 @@ export default {
         errCode: Enumeration.ErrorCode.Valid,
       },
 
-      tooltipScale: 0
+      tooltipScale: 0,
     };
   },
 
@@ -70,6 +67,20 @@ export default {
      * DVHAI 06/07/2021
      */
     focus() {
+      //Khi focus lần đầu sẽ lấy giá trị ban đầu ra ngoài để check thay đổi dữ liệu
+      if (this.visited == false) {
+        this.visited = true;
+
+        //Chuyển sang kiểu hiển thị
+        let index = this.cloneDataSource.data.value.indexOf(this.cloneModel),
+          value = this.cloneDataSource.data.key[index];
+
+        this.$bus.emit(
+          'updateOriginModel',
+          this.data.inputId,
+          CommonFn.hash(value)
+        );
+      }
       this.validation.isValid = true;
     },
 
@@ -133,7 +144,6 @@ export default {
         value = this.cloneDataSource.data.key[index];
 
       this.$emit('changeValueInput', this.cloneDataSource.data.inputId, value);
-      // console.log(this.cloneModel, this.cloneDataSource.data.value)
     },
 
     /**

@@ -17,16 +17,16 @@
       </div>
       <div
         @click="refreshGrid()"
-        class="filterbar-icon icon icon-refresh"
+        class="filterbar-icon icon icon-refresh tooltip"
         tabindex="3"
-        title="Làm mới"
+        tooltiptext="Làm mới"
       ></div>
 
       <div
         @click="exportExcel()"
-        class="filterbar-icon icon icon-excel"
+        class="filterbar-icon icon icon-excel tooltip"
         tabindex="3"
-        title="Xuất khẩu"
+        tooltiptext="Xuất khẩu"
       ></div>
     </div>
   </div>
@@ -85,18 +85,10 @@ export default {
      * Gọi hàm lọc dữ liệu
      * DVHAI 05/07/2021
      */
-    async filterTable() {
+    filterTable() {
+      //Nếu lọc dữ liệu thì reset lại pagenumber
+      this.$store.commit("SET_PAGENUMBER", 1);
       this.$emit("filterTable");
-    },
-
-    /**
-     * Xóa trắng 
-     * DVHAI 05/07/2021
-     */
-    async resetText() {
-      this.filterData = "";
-      await this.$emit("changeValueFilterString", this.filterData);
-      await this.refreshGrid();
     },
   },
 
@@ -113,7 +105,6 @@ export default {
       } else {
         this.visibleClearIcon = false;
       }
-
       this.$emit("changeValueFilterString", this.filterData);
     },
   },
@@ -171,7 +162,7 @@ export default {
 
 /* filter css */
 .main__filter {
-  padding: 16px 21px 10px 16px;
+  padding: 16px 16px 10px 16px;
   height: 72px;
   display: flex;
   justify-content: space-between;

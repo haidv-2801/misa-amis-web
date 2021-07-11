@@ -1,6 +1,6 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import Enumeration from "../scripts/common/enumeration";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import Enumeration from '../scripts/common/enumeration';
 
 Vue.use(Vuex);
 
@@ -21,14 +21,25 @@ const storeData = {
     //Nếu true cho phép validate
     hasValidate: false,
 
-    //Số bản ghi trên 1 trang
-    pageSize: 5,
+    pagination: {
+      //Số bản ghi trên 1 trang
+      pageSize: 10,
 
-    //Số trang hiện tại
-    pageNumber: 1,
+      //Số trang hiện tại
+      pageNumber: 1,
 
-    //Giá trị filter
-    filterValue: "",
+      //Tổng số trang
+      totalPage: 0,
+
+      //Tổng số bản ghi
+      totalRecord: 0,
+
+      //Phân đoạn trang tối đa
+      maximumPage: 5,
+
+      //Giá trị filter
+      filterValue: '', //chưa sửa dụng để tạm đây
+    },
   },
   getters: {},
   mutations: {
@@ -57,19 +68,34 @@ const storeData = {
       state.hasValidate = value;
     },
 
-    //Set pagesize
+    //Set pagesize-chưa sửa dụng để tạm đây
     SET_PAGESIZE(state, value) {
-      state.pageSize = value;
+      state.pagination.pageSize = value;
     },
 
     //Set pagenumber
     SET_PAGENUMBER(state, value) {
-      state.pageNumber = value;
+      state.pagination.pageNumber = value;
     },
 
-    //Set pagenumber
+    //Set filter value-chưa sửa dụng để tạm đây
     SET_FILTER_VALUE(state, value) {
-      state.filterValue = value;
+      state.pagination.filterValue = value;
+    },
+
+    //Set total page-chưa sửa dụng để tạm đây
+    SET_TOTALPAGE(state, value) {
+      state.pagination.totalPage = value;
+    },
+
+    //Set tổng số bản ghi
+    SET_TOTALRECORD(state, value) {
+      state.pagination.totalRecord = value;
+    },
+
+    //Set maximum page-chưa sửa dụng để tạm đây
+    SET_MAXIMUM_PAGE(state, value) {
+      state.pagination.maximumPage = value;
     },
   },
 };

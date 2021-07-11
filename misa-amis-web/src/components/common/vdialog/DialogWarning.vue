@@ -27,7 +27,7 @@ export default {
     data: {
       type: Object,
       default: () => {
-        return { propertyName: "Mã nhân viên", propertyValue: "NV-0001" };
+        return { propertyName: "", propertyValue: "" };
       },
     },
   },

@@ -6,7 +6,7 @@
         <thead>
           <tr>
             <!-- checkbox -->
-            <td class="tickbox-40"  :style="{ 'z-index': data.data.length + 2 }">
+            <td class="tickbox-40" :style="{ 'z-index': data.data.length + 2 }">
               <div
                 @click="checkRow(-1)"
                 :class="{ 'icon-checkbox-active': curChecked == -1 }"
@@ -148,6 +148,7 @@
     <div class="grid__paging">
       <Paging
         :data="gridData.pagination"
+        @filterTable="filterTable"
         @changePageNumber="changePageNumber"
         @changePageSize="changePageSize"
       />
@@ -210,6 +211,13 @@ export default {
   },
   computed: {},
   methods: {
+    /**
+     * Lọc dữ liêu
+     * DVHAI 06/07/2021
+     */
+    filterTable() {
+      this.$emit('filterTable');
+    },
     /**
      * Xóa bản ghi
      * DVHAI 06/07/2021
@@ -422,7 +430,7 @@ table img {
   position: relative;
   overflow: auto;
   width: 100%;
-  max-height: calc(100vh - 260px);
+  max-height: calc(100vh - 242px);
 }
 
 .align-right {
@@ -546,7 +554,7 @@ tbody td.utility {
 }
 
 .grid {
-  padding: 0px 28px 0px 16px;
+  padding: 0px 16px 0px 16px;
 }
 
 .icon-checkbox-active {

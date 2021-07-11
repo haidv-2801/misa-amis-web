@@ -4,7 +4,9 @@
       <div class="icon-warning icon-48 icon-src"></div>
     </template>
     <template #alert__text>
-      <span>Bạn có thực sự muốn xóa Nhân viên {{ entityCode }} không?</span>
+      <span>
+        {{ message }}
+      </span>
     </template>
     <template #alert__foot>
       <div class="group__button">
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+import Resource from '../../../scripts/common/resource';
 import BaseDialog from './BaseDialog.vue';
 
 export default {
@@ -34,7 +37,7 @@ export default {
     data: {
       type: Object,
       default: () => {
-        return { entityName: 'bản ghi' };
+        return {};
       },
     },
   },
@@ -48,6 +51,9 @@ export default {
 
       //Mã bản ghi
       entityCode: '',
+
+      //Tên bản ghi
+      entityName: '',
     };
   },
   methods: {
@@ -55,9 +61,10 @@ export default {
      * Mở popup
      * DVHAI 07/07/2021
      */
-    openPopup(code) {
+    openPopup(entityName, value) {
       this.isShow = true;
-      this.entityCode = `<${code}>`;
+      this.entityCode = `<${value}>`;
+      this.entityName = entityName;
       this.invokeOverlay();
     },
 
@@ -98,7 +105,15 @@ export default {
     },
   },
 
-  computed: {},
+  computed: {
+    //Thông báo hiện thị
+    message() {
+      return Resource.MsgQuestion.MsgConfirmDelete.format(
+        this.entityName,
+        this.entityCode
+      );
+    },
+  },
 };
 </script>
 

@@ -26,7 +26,8 @@
 
   overflow: hidden;
   white-space: nowrap;
-  font-weight: 600;
+  /* font-weight: 600; */
+  font-family: NotosanSemibold;
   max-width: 800px;
   text-overflow: ellipsis;
   transition: all 0.2s ease;

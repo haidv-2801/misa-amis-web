@@ -12,7 +12,7 @@
     <!--app logo -->
     <div v-show="!isCollapsed" class="sidebar__logo">
       <!-- logo -->
-      <div title="Thu/Phóng" class="nav__toggle nav__iconapp">
+      <div tooltiptext="Ứng dụng" class="nav__toggle nav__iconapp tooltip">
         <!-- background here -->
       </div>
       <div class="nav__logo">
@@ -34,8 +34,8 @@
         @mouseover="evtMouseOver(index)"
         @mouseout="evtMouseOut()"
       >
-        <router-link class="nav__item" :title="item.text" :to="item.link">
-          <div class="item__icon">
+        <router-link class="nav__item" :to="item.link">
+          <div class="item__icon tooltip" :tooltiptext="item.text">
             <div
               v-if="curSelectedItem == index"
               class="icon"
