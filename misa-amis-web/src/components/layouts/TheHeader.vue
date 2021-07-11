@@ -4,7 +4,8 @@
       <div
         v-if="isCollapsedSidebar == false"
         @click="changeSidebarState()"
-        class="region__icon--toggle icon-toggle"
+        tooltiptext="Thu/Phóng"
+        class="region__icon--toggle icon-toggle tooltip"
       ></div>
       <div class="region__dropdown">
         <div class="dropdown__title">
@@ -17,9 +18,9 @@
     <!-- header right -->
     <div class="header__right">
       <!-- icon bell -->
-      <div class="icon icon-bell"></div>
-      <div class="icon icon-user"></div>
-      <div title="Người dùng" class="right__item header_username">
+      <div tooltiptext="Thông báo" class="icon icon-bell tooltip"></div>
+      <div tooltiptext="Người dùng" class="icon icon-user  tooltip"></div>
+      <div class="right__item header_username">
         Đỗ Văn Hải
       </div>
       <!-- icon arrow down -->
@@ -30,14 +31,14 @@
 
 <script>
 export default {
-  name: "Header",
+  name: 'Header',
   methods: {
     /**
      * Hàm thay đổi trạng thái của sidebar
      * DVHAI 05/07/2021
      */
     changeSidebarState() {
-      this.$store.commit("TOGGLE_SIDEBAR");
+      this.$store.commit('TOGGLE_SIDEBAR');
     },
   },
   computed: {
@@ -53,5 +54,5 @@ export default {
 </script>
 
 <style scoped>
-@import url("../../assets/css/common/header.css");
+@import url('../../assets/css/common/header.css');
 </style>

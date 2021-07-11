@@ -1,22 +1,82 @@
 <template>
   <div id="pagination" class="main__pagination">
     <div class="pagi__left">
-      <span class="total-page"> Tổng số: <b>{{this.pagination.totalRecord}}</b> bản ghi </span>
+      <span class="total-page">
+        Tổng số: <b>{{ currentTotalRecord }}</b> bản ghi
+      </span>
     </div>
     <div class="pagi__right">
       <div class="page-size">
-        <DropdownNormal tabindex="0" />
+        <DropdownNormal @filterTable="filterTable" tabindex="0" />
       </div>
       <div class="page-number">
-        <div class="page-first">
+        <!-- Chọn trang trước -->
+        <div
+          :class="{
+            disable: currentPageNumber == 1 || currentTotalRecord == 0,
+          }"
+          @click="prePage()"
+          class="page-first cursor-pointer"
+        >
           Trước
         </div>
-        <div class="btn-page-index cursor-pointer">1</div>
-        <div class="btn-page-index pageSelected">2</div>
-        <div class="btn-page-index">3</div>
-        <div class="btn-page-separate">...</div>
-        <div class="btn-page-index">5</div>
-        <div class="page-last">
+
+        <!-- Trang đầu -->
+        <div
+          v-if="currentTotalPage > currentMaximumPage"
+          class="btn-page-index cursor-pointer"
+          @click="btnClick(lowerBoundPage)"
+          :class="{ pageSelected: currentPageNumber == lowerBoundPage }"
+        >
+          {{ lowerBoundPage }}
+        </div>
+
+        <!-- Dấu 3 chấm -->
+        <div
+          v-if="currentPageNumber - (currentMaximumPage - 1) > 0 && currentTotalPage > currentMaximumPage"
+          class="btn-page-index cursor-default"
+        >
+          ...
+        </div>
+
+        <!-- Các trang trong phân đoạn -->
+        <div
+          v-for="(item, index) in listPages"
+          :key="index"
+          class="btn-page-index cursor-pointer"
+          :class="{ pageSelected: currentPageNumber == item }"
+          @click="btnClick(item)"
+        >
+          {{ item }}
+        </div>
+
+        <!-- Dấu 3 chấm -->
+        <div
+          v-if="currentPageNumber + listPages.length < currentTotalPage"
+          class="btn-page-index cursor-default"
+        >
+          ...
+        </div>
+
+        <!-- Trang cuối -->
+        <div
+          v-if="currentTotalPage > currentMaximumPage"
+          class="btn-page-index cursor-pointer"
+          @click="btnClick(upperBoundPage)"
+          :class="{ pageSelected: currentPageNumber == upperBoundPage }"
+        >
+          {{ upperBoundPage }}
+        </div>
+
+        <!-- Chọn trang sau -->
+        <div
+          :class="{
+            disable:
+              currentPageNumber == currentTotalPage || currentTotalRecord == 0,
+          }"
+          @click="nextPage()"
+          class="page-last cursor-pointer"
+        >
           Sau
         </div>
       </div>
@@ -37,150 +97,170 @@ export default {
       default: () => {},
     },
   },
-  created() {
-    this.pagination = JSON.parse(JSON.stringify(this.data));
-  },
+  created() {},
   data() {
-    return {
-      //clone model to new one
-      pagination: JSON.parse(JSON.stringify(this.data)),
-
-      //to calculate page segment
-      pageStep: 0,
-    };
+    return {};
   },
   methods: {
     /**
-     * Select page number
-     * DVHAI 13/06/2021
+     * Lọc lại dữ liêu
+     * DVHAI 10/07/2021
      */
-    increPagesize() {
-      if (this.pagination.pageSize < this.pagination.totalRecord) {
-        this.pagination.pageSize++;
-        this.pageStep = 0;
-        this.pagination.pageNumber = 1;
-      }
+    filterTable() {
+      this.$emit('filterTable');
     },
 
     /**
-     * Select page number
-     * DVHAI 13/06/2021
-     */
-    descPagesize() {
-      if (this.pagination.pageSize > 1) {
-        this.pagination.pageSize--;
-        this.pageStep = 0;
-        this.pagination.pageNumber = 1;
-      }
-    },
-
-    /**
-     * Select page number
-     * DVHAI 13/06/2021
+     * Chọn số trang
+     * DVHAI 10/07/2021
      */
     btnClick(index) {
-      this.pagination.pageNumber = index;
+      if (this.currentPageNumber != index) {
+        this.$store.commit('SET_LOADER', true);
+        this.$store.commit('SET_PAGENUMBER', index);
+        this.filterTable();
+      }
     },
 
     /**
-     * Select previus page
-     * DVHAI 13/06/2021
+     * Chọn trang trước
+     * DVHAI 10/07/2021
      */
     prePage() {
-      if (this.pagination.pageNumber > 1) {
-        if (this.pagination.pageNumber == this.lowerBoundPage) {
-          this.pageStep--;
-        }
-        this.pagination.pageNumber--;
+      if (this.currentPageNumber > 1) {
+        this.$store.commit('SET_PAGENUMBER', this.currentPageNumber - 1);
+        this.filterTable();
       }
     },
 
     /**
-     * Select first page
-     * DVHAI 13/06/2021
-     */
-    firstPage() {
-      this.pageStep = 0;
-      this.pagination.pageNumber = 1;
-    },
-
-    /**
-     * Select last page
-     * DVHAI 13/06/2021
-     */
-    lastPage() {
-      this.pageStep = this.pagination.totalPage - this.pagination.maximumPage;
-      this.pagination.pageNumber = this.pagination.totalPage;
-    },
-
-    /**
-     * Select page number
-     * DVHAI 13/06/2021
+     * Chọn trang tiếp theo
+     * DVHAI 10/07/2021
      */
     nextPage() {
-      if (this.pagination.pageNumber < this.pagination.totalPage) {
-        if (this.pagination.pageNumber == this.upperBoundPage) {
-          this.pageStep++;
-        }
-        this.pagination.pageNumber++;
+      if (this.currentPageNumber < this.currentTotalPage) {
+        this.$store.commit('SET_PAGENUMBER', this.currentPageNumber + 1);
+        this.filterTable();
       }
+    },
+
+    /**
+     * Tạo một mảng từ l đến r
+     * DVHAI 10/07/2021
+     */
+    makeArray(l, r) {
+      let arr = [];
+      for (let i = l; i <= r; i++) {
+        arr.push(i);
+      }
+      return arr;
     },
   },
   computed: {
-    //page segment
-    fromNumber() {
-      let from =
-        this.pagination.pageSize * (this.pagination.pageNumber - 1) + 1;
-      return from.toString().padStart(2, '0');
+    //Trang hiện tại
+    currentTotalRecord() {
+      return this.$store.state.pagination.totalRecord;
     },
 
-    toNumber() {
-      let to = this.pagination.pageSize * this.pagination.pageNumber;
-      return to.toString().padStart(2, '0');
+    //Trang hiện tại
+    currentPageNumber() {
+      return this.$store.state.pagination.pageNumber;
     },
+
+    //Số bản ghi trên 1 trang
+    currentPageSize() {
+      return this.$store.state.pagination.pageSize;
+    },
+
+    //Tổng số trang hiện có
+    currentTotalPage() {
+      // return this.$store.state.pagination.totalPage;
+      return this.$store.state.pagination.totalPage;
+    },
+
+    //Tổng số trang hiện có
+    currentMaximumPage() {
+      return this.$store.state.pagination.maximumPage;
+    },
+    //end
 
     //list page number
     listPages() {
-      let lPage = [];
-      for (let i = this.lowerBoundPage; i <= this.upperBoundPage; i++) {
-        lPage.push(i);
+      let lPage = [],
+        totalPage = this.currentTotalPage;
+
+      //Nếu tổng số trang nhở hơn max5
+      if (totalPage <= this.currentMaximumPage) {
+        lPage = this.makeArray(this.lowerBoundPage, this.upperBoundPage);
+      } //Ngược lại
+      else {
+        if (this.currentPageNumber < this.currentMaximumPage) {
+          lPage = this.makeArray(2, this.currentMaximumPage - 1);
+        } else if (
+          this.currentPageNumber <= this.currentTotalPage &&
+          this.currentPageNumber >=
+            this.currentTotalPage - this.currentMaximumPage + 2
+        ) {
+          lPage = this.makeArray(
+            this.currentTotalPage - (this.currentMaximumPage - 2),
+            this.currentTotalPage - 1
+          );
+        } else {
+          lPage = this.makeArray(
+            this.currentPageNumber - 1,
+            this.currentPageNumber + 1
+          );
+        }
       }
       return lPage;
     },
 
-    //currentPageNumber
-    currentPageNumber() {
-      return this.pagination.pageNumber;
-    },
-
-    //currentPageSize
-    currentPageSize() {
-      return this.pagination.pageSize;
-    },
-
-    //lowerBoundPage
+    //Giá trị chặn đưới của phân đoạn trang
     lowerBoundPage() {
-      return Math.max(1, 1 + this.pageStep);
+      // let lbDefault = 1,
+      //   totalPage = this.currentTotalPage;
+
+      // //Nếu tổng số tran nhở hơn max5
+      // if (totalPage <= this.currentMaximumPage) {
+      //   lbDefault = Math.min(1, totalPage);
+      // } else {
+      //   //Ngược lại
+      //   lbDefault = 1;
+      // }
+
+      // // return lbDefault;
+      // return lbDefault;
+      return 1;
     },
 
-    //upperBoundPage
+    //Giá trị chặn trên của phân đoạn trang
     upperBoundPage() {
-      return Math.min(
-        this.pagination.maximumPage + this.pageStep,
-        this.pagination.totalPage
-      );
+      let ubDefault = 0,
+        totalPage = this.currentTotalPage,
+        maxmimum = this.currentMaximumPage;
+
+      //Nếu tổng số tran nhở hơn max5
+      if (totalPage <= maxmimum) {
+        ubDefault = Math.min(totalPage, maxmimum);
+      } else {
+        //Ngược lại
+        ubDefault = totalPage;
+      }
+
+      return ubDefault;
     },
   },
   watch: {
-    //tracking current pagenumber
-    currentPageNumber: function(value) {
-      this.$emit('changePageNumber', value);
-    },
+    //Theo dõi trang hiện tại thay đổi
+    // currentPageNumber: function(value) {
+    //   this.$store.commit('SET_LOADER', true);
+    //   this.$store.commit('SET_PAGENUMBER', value);
+    // },
 
-    //tracking current pagesize
-    currentPageSize: function(value) {
-      this.$emit('changePageSize', value);
-    },
+    //Theo dõi số bản ghi trên 1 trang thay đổi
+    // currentPageSize: function(value) {
+    //   this.$store.commit('SET_PAGESIZE', value);
+    // },
 
     //tracking props data and clone to a new one
     data: {
@@ -239,5 +319,18 @@ export default {
 .pageSelected {
   border: 1px solid #e0e0e0;
   font-weight: 700;
+}
+
+.page-last {
+  margin-left: 13px;
+}
+
+.page-first {
+  margin-right: 13px;
+}
+
+.disable {
+  pointer-events: none;
+  color: #9e9e9e;
 }
 </style>

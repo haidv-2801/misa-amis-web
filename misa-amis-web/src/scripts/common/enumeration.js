@@ -1,6 +1,13 @@
 //các eum dùng chung
 var Enumeration = Enumeration || {};
 
+//Status code
+Enumeration.HttpStatusCode = {
+    NoContent: 204,
+    NotFound: 404,
+};
+
+
 //Các mode formdetail
 Enumeration.FormMode = {
     Add: 1,

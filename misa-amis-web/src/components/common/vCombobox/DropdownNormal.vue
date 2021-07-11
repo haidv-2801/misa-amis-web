@@ -1,7 +1,7 @@
 <template>
   <DxSelectBox
     class="m-select-box focus"
-     placeholder=""
+    placeholder=""
     :height="32"
     :width="200"
     :showClearButton="false"
@@ -37,21 +37,20 @@ export default {
     return {
       //Sao chép datasource sang một biến mới
       cloneDataSource: [
-        "10 bản ghi trên 1 trang",
-        "20 bản ghi trên 1 trang",
-        "30 bản ghi trên 1 trang",
-        "50 bản ghi trên 1 trang",
-        "100 bản ghi trên 1 trang",
+        '10 bản ghi trên 1 trang',
+        '20 bản ghi trên 1 trang',
+        '30 bản ghi trên 1 trang',
+        '50 bản ghi trên 1 trang',
+        '100 bản ghi trên 1 trang',
       ],
 
-        //Sao chép model sang một biến mới
-      cloneModel: "10 bản ghi trên 1 trang",
+      clonePageSizeSource: [10, 20, 30, 50, 100],
+      //Sao chép model sang một biến mới
+      cloneModel: '10 bản ghi trên 1 trang',
     };
   },
 
-  methods: {
-    
-  },
+  methods: {},
 
   watch: {
     /**
@@ -59,10 +58,14 @@ export default {
      * DVHAI 07/07/2021
      */
     cloneModel() {
-      // let index = this.cloneDataSource.data.value.indexOf(this.cloneModel),
-      //   value = this.cloneDataSource.data.key[index];
+      let rowSelected = this.cloneDataSource.indexOf(this.cloneModel),
+        pageSize = this.clonePageSizeSource[rowSelected] || this.$store.state.pagination.pageSize;
 
-      // this.$emit('changeValueInput', this.cloneDataSource.data.inputId, value);
+      this.$store.commit('SET_PAGESIZE', pageSize);
+      this.$store.commit('SET_PAGENUMBER', 1);
+      debugger; // eslint-disable-line no-debugger
+      this.$store.commit('SET_LOADER', true);
+      this.$emit('filterTable');
     },
 
     /**
@@ -78,28 +81,27 @@ export default {
      * sang một biến mới
      * DVHAI 07/07/2021
      */
-    data: {
-      deep: true,
-      handler: function(value) {
-        if (value) {
-          // this.cloneDataSource = JSON.parse(JSON.stringify(value));
-
-          // //Lấy vị trí của bên hiển thị và ánh xạ sang mã
-          // let index = value.data.value.indexOf(this.cloneModel),
-          //   val = value.data.key[index];
-
-          // //Thay đổi giá trị model bên component cha
-          // this.$emit('changeValueInput', value.data.inputId, val);
-        }
-      },
-    },
+    // data: {
+    //   deep: true,
+    //   handler: function(value) {
+    //     if (value) {
+    //       this.cloneDataSource = JSON.parse(JSON.stringify(value));
+    //       //Lấy vị trí của bên hiển thị và ánh xạ sang mã
+    //       let index = value.data.value.indexOf(this.cloneModel),
+    //         val = value.data.key[index];
+    //       //Thay đổi giá trị của page size
+    //       this.$store.commit("SET_PAGESIZE", val);
+    //       this.$emit("filterTable");
+    //     }
+    //   },
+    // },
   },
   computed: {},
 };
 </script>
 
 <style>
- /* @import url('../../../assets/css/common/tooltip.css'); */
+/* @import url('../../../assets/css/common/tooltip.css'); */
 .m-select-box .dx-texteditor-input {
   padding: 6px 10px;
 }
@@ -134,11 +136,11 @@ export default {
 
 .m-select-box.dx-texteditor.dx-editor-outlined {
   border: 1px solid var(--color-border-input);
-   /* border: 1px solid red;  */
- }
+  /* border: 1px solid red;  */
+}
 
 /* toan */
- .dx-selectbox-popup-wrapper
+.dx-selectbox-popup-wrapper
   .dx-item.dx-list-item.dx-state-active
   .dx-item-content.dx-list-item-content,
 .dx-selectbox-popup-wrapper
@@ -160,5 +162,5 @@ export default {
   outline: none !important;
   background-color: #ebedf0 !important;
   color: inherit !important;
-} 
+}
 </style>

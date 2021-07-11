@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import CommonFn from '../../../scripts/common/common'
 export default {
   name: "RadioButtonMaster",
   components: {},
@@ -38,6 +39,9 @@ export default {
   },
   data() {
     return {
+      //Lấy giá trị lần đầu
+      visited: false,
+
       //Tạo bảo sao
       cloneModel: JSON.parse(JSON.stringify(this.model)),
     };
@@ -48,6 +52,11 @@ export default {
      * DVHAI 06/07/2021
      */
     checkRadio(index) {
+      if(this.visited == false) {
+        this.visited = true;
+        // console.log(CommonFn.hash(this.cloneModel))
+        this.$bus.emit('updateOriginModel', this.data.inputId, CommonFn.hash(this.cloneModel))
+      }
       this.cloneModel = index;
     },
   },

@@ -4,6 +4,12 @@ import Enumeration from '../../scripts/common/enumeration.js'
 
 var CommonFn = CommonFn || {}; 
 
+//Băm giá trị
+CommonFn.hash = (value) => {
+    value = value || '';
+    return value.toString().hashCode();
+}
+
 // Hàm format số tiền
 CommonFn.formatMoney = money => {
     if(money && !isNaN(money)){
