@@ -77,7 +77,7 @@ export default {
 
         this.$bus.emit(
           'updateOriginModel',
-          this.data.inputId,
+          this.data.data.inputId,
           CommonFn.hash(value)
         );
       }
