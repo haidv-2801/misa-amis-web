@@ -55,7 +55,7 @@ export default {
       if(this.visited == false) {
         this.visited = true;
         // console.log(CommonFn.hash(this.cloneModel))
-        this.$bus.emit('updateOriginModel', this.data.inputId, CommonFn.hash(this.cloneModel))
+        this.$bus.emit('updateOriginModel', this.data.data.inputId, CommonFn.hash(this.cloneModel))
       }
       this.cloneModel = index;
     },
