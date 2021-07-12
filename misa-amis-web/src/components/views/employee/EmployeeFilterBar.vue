@@ -12,30 +12,34 @@
           v-debounce:400ms="filterTable"
           v-model="filterData"
         />
-     
+
         <div class="icon icon-search icon-search-custom"></div>
       </div>
-      <div
-        @click="refreshGrid()"
-        class="filterbar-icon icon icon-refresh tooltip"
-        tabindex="3"
-        tooltiptext="Làm mới"
-      ></div>
-
-      <div
-        @click="exportExcel()"
-        class="filterbar-icon icon icon-excel tooltip"
-        tabindex="3"
-        tooltiptext="Xuất khẩu"
-      ></div>
+      <Tooltip :customData="'Làm mới'">
+        <div
+          @click="refreshGrid()"
+          class="filterbar-icon icon icon-refresh"
+          tabindex="3"
+        ></div>
+      </Tooltip>
+      <Tooltip :customData="'Xuất khẩu'">
+        <div
+          @click="exportExcel(filterData)"
+          class="filterbar-icon icon icon-excel"
+          tabindex="3"
+        ></div>
+      </Tooltip>
     </div>
   </div>
 </template>
 
 <script>
+import EmployeeAPI from "../../../api/coponents/EmployeeAPI";
+import Tooltip from "../../common/vtooltip/Tooltip.vue";
 export default {
   name: "FilterBar",
   components: {
+    Tooltip,
   },
   data() {
     return {
@@ -72,6 +76,29 @@ export default {
   },
 
   methods: {
+    /**
+     * Xuất excel
+     * DVHAI 12/07/2021
+     */
+    exportExcel(filterValue) {
+      EmployeeAPI.exportExcel(filterValue)
+        .then((response) => {
+          if (response) {
+            const blob = new Blob([response.data], {
+              type:
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Danh sách nhân viên";
+            link.click();
+            URL.revokeObjectURL(link.href);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     /**
      * Làm mới bảng
      * DVHAI 05/07/2021

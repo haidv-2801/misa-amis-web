@@ -768,7 +768,6 @@ export default {
      */
     focusErrorField() {
       let errorFields = document.querySelectorAll('.notValidControl');
-      debugger;
       if (errorFields.length > 0) {
         errorFields[0].focus();
       }
@@ -835,7 +834,6 @@ export default {
       await EmployeeAPI.getEmployeeBycode(value.employeeCode).then(
         (response) => {
           console.log(response);
-          debugger;
           if (response.status != Enumeration.HttpStatusCode.NoContent) {
             if (this.formMode == Enumeration.FormMode.Edit) {
               if (response.data.employeeId != value.employeeId) {
@@ -864,7 +862,6 @@ export default {
      */
     checkValueFormChange() {
       let isDiff = false;
-      debugger
       try {
         for (const property in this.employeeOrigin) {
           if (

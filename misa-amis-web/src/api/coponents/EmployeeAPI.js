@@ -35,6 +35,15 @@ class EmployeeAPI extends BaseAPI {
     let urlFull = `${this.controler}/EmployeeByCode/${employeeCode}`;
     return BaseAPIConfig.get(urlFull);
   }
+
+   /**
+   * Xuất excel
+   * DVHAI 12/07/2021
+   */
+    exportExcel(filterValue) {
+      let urlFull = `${this.controler}/Export?filterValue=${filterValue}`;
+      return BaseAPIConfig.get(urlFull, { responseType: 'blob' });
+    }
 }
 
 export default new EmployeeAPI();

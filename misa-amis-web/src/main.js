@@ -50,15 +50,6 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
-  beforeCreate: function() {
-    String.prototype.format = function() {
-      a = this;
-      for (k in arguments) {
-        a = a.replace('{' + k + '}', arguments[k]);
-      }
-      return a;
-    };
-  },
 }).$mount('#app');
 
 //Định nghĩa prototy hashstring
